@@ -3,6 +3,7 @@ window.Wavelineup =
   Collections: {}
   Views: {}
   Routers: {}
+  Templates: {}
   init: ->
     new Wavelineup.Routers.AccountingTransactions()
     # triggers the matching router for what is in the url:
