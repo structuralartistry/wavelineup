@@ -1,4 +1,9 @@
 Wavelineup::Application.routes.draw do
+
+  scope 'api' do
+    resources :accounting_transactions
+  end
+
   root :to => 'main#index'
 
   # The priority is based upon order of creation:
