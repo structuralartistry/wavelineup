@@ -7,7 +7,9 @@ window.Wavelineup =
   init: ->
     new Wavelineup.Routers.AccountingTransactions()
     # triggers the matching router for what is in the url:
-    Backbone.history.start()
-
-$(document).ready ->
-  Wavelineup.init()
+    try
+      Backbone.history.start()
+    catch error
+      # can not figure out how to do this in the jasmine test suite, so doing here
+      Backbone.history.stop()
+      Backbone.history.start()
