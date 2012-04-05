@@ -18,7 +18,7 @@ describe 'accounting transactions', ->
 
     server.respond()
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!')
-    expect($('li')).toHaveText('2012-01-01T13:00:00Z -- 11.11')
+    expect($('li')).toHaveText('2012-01-01T13:00:00Z, 1, 11.11, 1, 1, blah')
     server.restore()
 
   it 'loads the index page with correct content', ->
@@ -33,7 +33,7 @@ describe 'accounting transactions', ->
 
     server.respond()
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!')
-    expect($('li')).toHaveText('2012-01-01T13:00:00Z -- 11.11')
+    expect($('li')).toHaveText('2012-01-01T13:00:00Z, 1, 11.11, 1, 1, blah')
     server.restore()
 
   it 'loads the index page with correct content', ->
@@ -48,5 +48,5 @@ describe 'accounting transactions', ->
 
     server.respond()
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!')
-    expect($('li')).toHaveText('2012-01-01T13:00:00Z -- 11.11')
+    expect($('li')).toHaveText('2012-01-01T13:00:00Z, 1, 11.11, 1, 1, blah')
     server.restore()

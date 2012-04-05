@@ -1,2 +1,17 @@
 <h1>Hello World Index View from Backbone!!!</h1>
-<ul>{{#each accounting_transactions}}<li>{{t_datetime}} -- {{amount}}{{/each}}</ul>
+
+<form id='new_accounting_transaction'>
+  <input type='text' name='t_datetime' id='new_accounting_transaction_t_datetime'>
+  <input type='text' name='t_type_id' id='new_accounting_transaction_t_type_id'>
+  <input type='text' name='amount' id='new_accounting_transaction_amount'>
+  <input type='text' name='category_id' id='new_accounting_transaction_category_id'>
+  <input type='text' name='account_id' id='new_accounting_transaction_account_id'>
+  <input type='text' name='note' id='new_accounting_transaction_note'>
+  <input type='submit' value='Add'>
+</form>
+
+<ul>
+  {{#each accounting_transactions}}
+    <li>{{t_datetime}}, {{t_type_id}}, {{amount}}, {{category_id}}, {{account_id}}, {{note}}</li>
+  {{/each}}
+</ul>
