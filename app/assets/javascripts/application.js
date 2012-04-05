@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require underscore-1.3.1
 //= require backbone-0.9.2
-//= require handlebars-1.0.0.beta.6
+//= require handlebars.runtime
 //= require wavelineup.js
+//= require_tree ../templates
 //= require_tree .
