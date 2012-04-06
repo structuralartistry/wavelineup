@@ -17,4 +17,5 @@ $.extend($.expr[':'],{
    reg = regreg.exec(m[3]);
   return reg ? RegExp(reg[1], reg[2]).test($.trim(a.innerHTML)) : false;
  }
+
 });
