@@ -23,12 +23,25 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
 
   create_accounting_transaction: (event) ->
     event.preventDefault()
-    @collection.create(
+    attributes =
       t_datetime: $('#new_accounting_transaction_t_datetime').val(),
-      t_type: $('#new_accounting_transaction_t_type').val(),
+      t_type_id: $('#new_accounting_transaction_t_type_id').val(),
       amount: $('#new_accounting_transaction_amount').val(),
       category_id: $('#new_accounting_transaction_category_id').val(),
       account_id: $('#new_accounting_transaction_account_id').val(),
-      note: $('#new_accounting_transaction_note').val() )
-    # need to clear form???
-    #$('#new_accounting_transaction')[0].reset()
+      note: $('#new_accounting_transaction_note').val()
+    @collection.create(attributes,
+      success: ->
+        $('#notices').html('Accounting Transaction accepted by server!')
+        @Wavelineup.reset_form('new_accounting_transaction')
+      error: @handle_error
+    )
+
+  handle_error: (accounting_transaction, response) ->
+    if response.status == 422
+      $('#notices').html('')
+      errors = $.parseJSON(response.responseText).errors
+      for attribute, messages of errors
+        for message in messages
+          $('#notices').append("#{attribute} #{message}<br>" )
+

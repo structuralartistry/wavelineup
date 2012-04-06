@@ -13,3 +13,10 @@ window.Wavelineup =
       # can not figure out how to do this in the jasmine test suite, so doing here
       Backbone.history.stop()
       Backbone.history.start()
+
+  reset_form: (id) ->
+    $form = $('#' + id)
+    $form.find('input:text, input:password, input:file, select').val('')
+    $form.find('input:radio, input:checkbox')
+         .removeAttr('checked').removeAttr('selected')
+
