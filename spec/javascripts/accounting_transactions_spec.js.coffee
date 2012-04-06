@@ -40,10 +40,17 @@ describe 'accounting transactions', ->
     $('#new_accounting_transaction_account_id').val('4')
     $('#new_accounting_transaction_note').val('ben wa balls')
 
-#    $('#new_accounting_transaction_add').click()
 
-    expect($('li:contains(2012-04-05T13:14:00Z, 2, 99.99, 3, 4, ben wa balls)')).length.toEqual(1)
+    sinon.spy(jQuery, 'ajax')
+    $('#new_accounting_transaction_add').click()
 
+    # sends request to server
+    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"t_datetime":"2012-04-05 13:14","amount":"99.99","category_id":"3","account_id":"4","note":"ben wa balls"}')
+
+    # updates list
+    expect($('li:contains(ben wa balls)').length).toEqual(1)
+
+    jQuery.ajax.restore()
     server.restore()
 
 

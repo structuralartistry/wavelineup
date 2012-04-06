@@ -9,15 +9,14 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
 
   initialize: ->
     @collection.on('reset', @render, this)
+    @collection.on('add', @render, this)
 
   render: ->
     template = @template
     data = { accounting_transactions: @collection.toJSON() }
     $(@el).html(template(data))
-    #$('#container').html(template(data))
 
   create_entry: (event) ->
-    alert event
     event.preventDefault()
     @collection.create(
       t_datetime: $('#new_accounting_transaction_t_datetime').val(),

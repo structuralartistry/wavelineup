@@ -6,7 +6,7 @@ class AccountingTransactionsController < ApplicationController
   end
 
   def create
-    respond_with AccountingTransaction.create(params[:entry])
+    respond_with AccountingTransaction.create(params[:accounting_transaction])
   end
 
   def show
@@ -14,7 +14,7 @@ class AccountingTransactionsController < ApplicationController
   end
 
   def update
-    respond_with AccountingTransaction.update(params[:id], params[:entry])
+    respond_with AccountingTransaction.update(params[:id], params[:accounting_transaction])
   end
 
   def destroy
