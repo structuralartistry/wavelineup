@@ -15,6 +15,12 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
     template = @template
     data = { accounting_transactions: @collection.toJSON() }
     $(@el).html(template(data))
+    @collection.each(@append_transaction)
+    @el
+
+  append_transaction: (accounting_transaction) ->
+    alert accounting_transaction
+    $('#accounting_transactions').append(accounting_transaction)
 
   create_entry: (event) ->
     event.preventDefault()
