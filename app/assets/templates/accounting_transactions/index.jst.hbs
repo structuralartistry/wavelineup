@@ -10,8 +10,5 @@
   <input id='new_accounting_transaction_add' type='submit' value='Add'>
 </form>
 
-<ul>
-  {{#each accounting_transactions}}
-    <li>{{t_datetime}}, {{t_type_id}}, {{amount}}, {{category_id}}, {{account_id}}, {{note}}</li>
-  {{/each}}
+<ul id='accounting_transactions'>
 </ul>
