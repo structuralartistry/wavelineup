@@ -2,7 +2,7 @@ class AccountingTransactionsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with AccountingTransaction.all
+    respond_with AccountingTransaction.order('created_at DESC').all
   end
 
   def create
