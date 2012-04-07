@@ -1,3 +1,9 @@
+# todo improvements
+# - some sort of factory system for models/json to avoid entering hard data in respond with and forms, etc
+# - abstration to fill in forms? (maybe later once implement selectors)
+# - abstract groups of checks so that tests are more readable and understanding what getting at to an outsider
+#     for example: expect(h.accounting_transactions.index_page_loaded()).toBeTruthy()
+#                  see if can hold in same test suite perhaps???
 describe 'accounting transactions', ->
 
   beforeEach ->
