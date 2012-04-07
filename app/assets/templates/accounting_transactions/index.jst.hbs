@@ -2,15 +2,7 @@
 
 <h1>Hello World Index View from Backbone!!!</h1>
 
-<form id='new_accounting_transaction'>
-  <input type='text' name='t_datetime' id='new_accounting_transaction_t_datetime' value='2012-03-01 14:01'>
-  <input type='text' name='t_type_id' id='new_accounting_transaction_t_type_id' value='111'>
-  <input type='text' name='amount' id='new_accounting_transaction_amount' value='222.22'>
-  <input type='text' name='category_id' id='new_accounting_transaction_category_id' value='333'>
-  <input type='text' name='account_id' id='new_accounting_transaction_account_id' value='444'>
-  <input type='text' name='note' id='new_accounting_transaction_note' value='note is here'>
-  <input id='new_accounting_transaction_add' type='submit' value='Add'>
-</form>
+{{>new_accounting_transaction_form}}
 
 <ul id='accounting_transactions'>
 </ul>
