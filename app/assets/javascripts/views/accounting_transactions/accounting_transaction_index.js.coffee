@@ -24,12 +24,12 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
   create_accounting_transaction: (event) ->
     event.preventDefault()
     attributes =
-      t_datetime: $('#new_accounting_transaction_t_datetime').val(),
-      t_type_id: $('#new_accounting_transaction_t_type_id').val(),
-      amount: $('#new_accounting_transaction_amount').val(),
-      category_id: $('#new_accounting_transaction_category_id').val(),
-      account_id: $('#new_accounting_transaction_account_id').val(),
-      note: $('#new_accounting_transaction_note').val()
+      t_datetime: $('#accounting_transaction_t_datetime').val(),
+      t_type_id: $('#accounting_transaction_t_type_id').val(),
+      amount: $('#accounting_transaction_amount').val(),
+      category_id: $('#accounting_transaction_category_id').val(),
+      account_id: $('#accounting_transaction_account_id').val(),
+      note: $('#accounting_transaction_note').val()
     @collection.create(attributes,
       wait: true,
       success: ->
