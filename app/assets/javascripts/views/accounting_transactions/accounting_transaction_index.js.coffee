@@ -31,6 +31,7 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
       account_id: $('#new_accounting_transaction_account_id').val(),
       note: $('#new_accounting_transaction_note').val()
     @collection.create(attributes,
+      wait: true,
       success: ->
         $('#notices').html('Accounting Transaction accepted by server!')
         @Wavelineup.reset_form('new_accounting_transaction')
