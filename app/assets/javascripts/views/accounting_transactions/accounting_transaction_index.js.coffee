@@ -6,6 +6,7 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
 
   events:
     'submit #new_accounting_transaction': 'create_accounting_transaction'
+    #'submit #edit_accounting_transaction': 'update_accounting_transaction'
 
   initialize: ->
     @collection.on('reset', @render, this)
