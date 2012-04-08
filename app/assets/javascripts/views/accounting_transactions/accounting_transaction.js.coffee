@@ -5,7 +5,7 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
 
   events:
     'click .edit': 'edit'
-    'submit .accounting_transaction_item .edit': 'update_accounting_transaction'
+    'submit .accounting_transaction_wrapper .edit': 'update_accounting_transaction'
 
   initialize: ->
     _.bindAll(this, 'render')
@@ -20,12 +20,12 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
 
   edit: (event) ->
     $('#new_accounting_transaction').hide()
-    $(".accounting_transaction_item[data-id='#{@model.get('id')}'] .detail").hide()
-    $(".accounting_transaction_item[data-id='#{@model.get('id')}'] .edit").show()
+    $(".accounting_transaction_wrapper[data-id='#{@model.get('id')}'] .detail").hide()
+    $(".accounting_transaction_wrapper[data-id='#{@model.get('id')}'] .edit").show()
 
   update_accounting_transaction: ->
     event.preventDefault()
-    accounting_transaction_wrapper = ".accounting_transaction_item[data-id='#{@model.get('id')}']"
+    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='#{@model.get('id')}']"
     attributes =
       t_datetime: $("#{accounting_transaction_wrapper} .edit #accounting_transaction_t_datetime").val(),
       t_type_id: $("#{accounting_transaction_wrapper} .edit #accounting_transaction_t_type_id").val(),

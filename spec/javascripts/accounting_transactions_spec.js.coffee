@@ -62,7 +62,7 @@ describe 'accounting transactions', ->
     jQuery.ajax.restore()
 
   it 'can edit an existing accounting transaction', ->
-    accounting_transaction_wrapper = ".accounting_transaction_item[data-id='1']"
+    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='1']"
     expect($(accounting_transaction_wrapper + ' li:contains(this is an updated note)')).not.toExist()
     expect($(accounting_transaction_wrapper + ' .detail')).toBeVisible()
     expect($(accounting_transaction_wrapper + ' div.edit form')).not.toBeVisible()
