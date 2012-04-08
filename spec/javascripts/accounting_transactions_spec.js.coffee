@@ -62,41 +62,43 @@ describe 'accounting transactions', ->
     jQuery.ajax.restore()
 
   it 'can edit an existing accounting transaction', ->
-    expect($('li:contains(this is an updated note)')).not.toExist()
-    expect($(".accounting_transaction_item[data-id='1']")).toBeVisible()
+    accounting_transaction_wrapper = ".accounting_transaction_item[data-id='1']"
+    expect($(accounting_transaction_wrapper + ' li:contains(this is an updated note)')).not.toExist()
+    expect($(accounting_transaction_wrapper + ' .detail')).toBeVisible()
+    expect($(accounting_transaction_wrapper + ' div.edit form')).not.toBeVisible()
     expect($('#new_accounting_transaction')).toBeVisible()
 
-    $('.edit').click()
+    $(accounting_transaction_wrapper + ' .detail .edit').click()
 
     # hides new transaction
     expect($('#new_accounting_transaction')).not.toBeVisible()
 
-    # shows edit form in place of the
-    expect($(".accounting_transaction_item[data-id='1']")).not.toBeVisible()
-    expect($('#edit_accounting_transaction')).toBeVisible()
+    # shows edit form in place of the detail
+    expect($(accounting_transaction_wrapper + ' .detail')).not.toBeVisible()
+    expect($(accounting_transaction_wrapper + ' .edit')).toBeVisible()
 
-    expect($('#edit_accounting_transaction #accounting_transaction_t_datetime').val()).toEqual('2012-01-01T13:00:00Z')
-    expect($('#edit_accounting_transaction #accounting_transaction_t_type_id').val()).toEqual('1')
-    expect($('#edit_accounting_transaction #accounting_transaction_amount').val()).toEqual('11.11')
-    expect($('#edit_accounting_transaction #accounting_transaction_category_id').val()).toEqual('1')
-    expect($('#edit_accounting_transaction #accounting_transaction_account_id').val()).toEqual('1')
-    expect($('#edit_accounting_transaction #accounting_transaction_note').val()).toEqual('blah')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_t_datetime').val()).toEqual('2012-01-01T13:00:00Z')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_t_type_id').val()).toEqual('1')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_amount').val()).toEqual('11.11')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_category_id').val()).toEqual('1')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_account_id').val()).toEqual('1')
+    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val()).toEqual('blah')
 
     # update a field
-    $('#edit_accounting_transaction #accounting_transaction_note').val('this is an updated note')
+    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val('this is an updated note')
 
     # submit and verify data sent to server
     @server.respondWith("PUT", "/api/accounting_transactions/1",
                                     [204, { "Content-Type": "application/json" },
                                      '[{}]'])
     sinon.spy(jQuery, 'ajax')
-    $('#edit_accounting_transaction #accounting_transaction_save').click()
+    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_save').click()
 
     @server.respond()
     expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}')
 
     # section turns back to a line item with updated data correctly there
-    expect($('li:contains(this is an updated note)').length).toEqual(1)
+    expect($(accounting_transaction_wrapper + ' .detail :contains(this is an updated note)').length).toEqual(1)
 
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!')
 

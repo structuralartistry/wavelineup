@@ -17,7 +17,7 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
     @el
 
   append_accounting_transaction: (accounting_transaction) ->
-    view = new Wavelineup.Views.AccountingTransactionLineItem(model: accounting_transaction)
+    view = new Wavelineup.Views.AccountingTransaction(model: accounting_transaction)
     $('#accounting_transactions').append(view.render().el)
 
   create_accounting_transaction: (event) ->
