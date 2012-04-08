@@ -117,3 +117,29 @@ describe 'accounting transactions', ->
 
     expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!')
 
+    jQuery.ajax.restore()
+
+
+  it 'should handle error responses', ->
+    # send an empty create which will cause validation errors
+    @server.respondWith("POST", "/api/accounting_transactions",
+                                    [422, { "Content-Type": "application/json" },
+                                     '[{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}]'])
+    sinon.spy(jQuery, 'ajax')
+    $('#accounting_transaction_save').click()
+
+    # sends request to server
+    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"t_datetime":"","t_type_id":"","amount":"","category_id":"","account_id":"","note":""}')
+
+    # updates list
+    @server.respond()
+
+    #expect($("#notices:contains(t_datetime can't be blankk)")).toBeTruthy()
+#    alert $('#notices').html()
+    expect($('#notices').html()).toEqual("t_datetime can't be blank<br>t_type_id can't be blank<br>amount can't be blank<br>category_id can't be blank<br>account_id can't be blank<br>")
+    #expect($('li:contains(ben wa balls)').length).toEqual(1)
+
+
+    jQuery.ajax.restore()
+
+
