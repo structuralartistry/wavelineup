@@ -4,6 +4,7 @@
 # - abstract groups of checks so that tests are more readable and understanding what getting at to an outsider
 #     for example: expect(h.accounting_transactions.index_page_loaded()).toBeTruthy()
 #                  see if can hold in same test suite perhaps???
+# - dont use literal string for testing - create/parse json back and forth
 describe 'accounting transactions', ->
 
   beforeEach ->
@@ -61,6 +62,7 @@ describe 'accounting transactions', ->
     jQuery.ajax.restore()
 
   it 'can edit an existing accounting transaction', ->
+    expect($('li:contains(this is an updated note)')).not.toExist()
     expect($(".accounting_transaction_item[data-id='1']")).toBeVisible()
     expect($('#new_accounting_transaction')).toBeVisible()
 
@@ -68,9 +70,6 @@ describe 'accounting transactions', ->
 
     # hides new transaction
     expect($('#new_accounting_transaction')).not.toBeVisible()
-
-    # navigates to edit url
-    expect(window.location.href.indexOf('accounting_transactions/edit/1')).toBeGreaterThan(0)
 
     # shows edit form in place of the
     expect($(".accounting_transaction_item[data-id='1']")).not.toBeVisible()
@@ -87,11 +86,17 @@ describe 'accounting transactions', ->
     $('#edit_accounting_transaction #accounting_transaction_note').val('this is an updated note')
 
     # submit and verify data sent to server
-#    $('#edit_accounting_transaction #accounting_transaction_save').click()
+    @server.respondWith("PUT", "/api/accounting_transactions/1",
+                                    [204, { "Content-Type": "application/json" },
+                                     '[{}]'])
+    sinon.spy(jQuery, 'ajax')
+    $('#edit_accounting_transaction #accounting_transaction_save').click()
 
+    @server.respond()
+    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}')
 
     # section turns back to a line item with updated data correctly there
+    expect($('li:contains(this is an updated note)').length).toEqual(1)
 
-
-
+    expect($('#notices').html()).toEqual('Accounting Transaction updated by server!')
 
