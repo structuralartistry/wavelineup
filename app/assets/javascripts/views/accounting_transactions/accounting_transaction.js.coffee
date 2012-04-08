@@ -4,8 +4,8 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
   template: JST['accounting_transactions/accounting_transaction']
 
   events:
-    'click .edit': 'edit'
-    'click .delete': 'delete'
+    'click .accounting_transaction_wrapper .detail .edit': 'edit'
+    'click .accounting_transaction_wrapper .detail .delete': 'delete'
     'submit .accounting_transaction_wrapper .edit': 'update_accounting_transaction'
 
   initialize: ->
@@ -15,9 +15,6 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
 
   delete_accounting_transaction_wrapper: ->
     $(@el).remove()
-    #$("li div.accounting_transaction_wrapper[data-id='#{@model.get('id')}'] .detail").remove()
-
-    console.log 'called'
 
   render: ->
     $(@el).html(@template(accounting_transaction: @model.toJSON()))
