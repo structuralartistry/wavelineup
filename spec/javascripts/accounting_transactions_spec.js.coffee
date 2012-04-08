@@ -98,7 +98,7 @@ describe 'accounting transactions', ->
     expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}')
 
     # section turns back to a line item with updated data correctly there
-    expect($(accounting_transaction_wrapper + ' .detail :contains(this is an updated note)').length).toEqual(1)
+    expect($(accounting_transaction_wrapper + ' .detail:contains(this is an updated note)').length).toEqual(1)
 
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!')
 

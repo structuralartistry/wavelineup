@@ -7,8 +7,12 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
     'click .edit': 'edit'
     'submit .accounting_transaction_item .edit': 'update_accounting_transaction'
 
-  initialize:
-    @model.bind('save', @render, this)
+  initialize: ->
+    _.bindAll(this, 'render')
+    @model.bind('change', @render, this)
+
+  temp: ->
+    console.log 'called'
 
   render: ->
     $(@el).html(@template(accounting_transaction: @model.toJSON()))
@@ -39,13 +43,8 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
     @model.save(attributes,
       wait: true,
       success: ->
-        #alert 'success'
         $('#notices').html('Accounting Transaction updated by server!')
         $('#new_accounting_transaction').show()
-        #$(@el).replaceWith(view.render().el)
-        #$("#{accounting_transaction_wrapper} .detail").hide()
-        #$("#{accounting_transaction_wrapper} .edit").show()
-      error:
-        #alert 'error'
+      error: ->
         @handle_error
     )
