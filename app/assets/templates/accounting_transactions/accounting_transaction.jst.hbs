@@ -1,7 +1,9 @@
 {{#accounting_transaction}}
   <div class='accounting_transaction_wrapper' data-id='{{id}}'>
     <div class='detail'>
-      {{t_datetime}}, {{t_type_id}}, {{amount}}, {{category_id}}, {{account_id}}, {{note}} <input class='edit' type='submit' value='Edit'>
+      {{t_datetime}}, {{t_type_id}}, {{amount}}, {{category_id}}, {{account_id}}, {{note}} 
+      <button class='edit'>Edit</button>
+      <button class='delete'>Delete</button>
     </div>
     <div class='edit' style='display:none'>
       <form>
