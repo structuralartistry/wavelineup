@@ -43,12 +43,12 @@ describe 'accounting transactions', ->
                                      '[{"t_datetime":"2012-04-05 13:14","t_type_id":"2","amount":"99.99","category_id":"3","account_id":"4","note":"ben wa balls"}]'])
     sinon.spy(jQuery, 'ajax')
     $('#accounting_transaction_save').click()
-
     # sends request to server
     expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"t_datetime":"2012-04-05 13:14","t_type_id":"2","amount":"99.99","category_id":"3","account_id":"4","note":"ben wa balls"}')
 
     # updates list
     @server.respond()
+
     expect($('li:contains(ben wa balls)').length).toEqual(1)
 
     # clears the entry form upon success
@@ -95,6 +95,7 @@ describe 'accounting transactions', ->
     $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_save').click()
 
     @server.respond()
+
     expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}')
 
     # section turns back to a line item with updated data correctly there
@@ -134,10 +135,7 @@ describe 'accounting transactions', ->
     # updates list
     @server.respond()
 
-    #expect($("#notices:contains(t_datetime can't be blankk)")).toBeTruthy()
-#    alert $('#notices').html()
     expect($('#notices').html()).toEqual("t_datetime can't be blank<br>t_type_id can't be blank<br>amount can't be blank<br>category_id can't be blank<br>account_id can't be blank<br>")
-    #expect($('li:contains(ben wa balls)').length).toEqual(1)
 
     jQuery.ajax.restore()
 
