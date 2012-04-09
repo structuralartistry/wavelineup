@@ -20,11 +20,3 @@ window.Wavelineup =
     $form.find('input:radio, input:checkbox')
          .removeAttr('checked').removeAttr('selected')
 
-  handle_error: (model, response) ->
-    if response.status == 422
-      $('#notices').html('')
-      errors = $.parseJSON(response.responseText).errors
-      for attribute, messages of errors
-        for message in messages
-          $('#notices').append("#{attribute} #{message}<br>" )
-

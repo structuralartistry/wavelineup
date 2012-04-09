@@ -51,3 +51,11 @@ class Wavelineup.Views.AccountingTransaction extends Backbone.View
         $('#new_accounting_transaction').show()
       error: @handle_error
     )
+
+  handle_error: (model, response) ->
+    if response.status == 422
+      $('#notices').html('')
+      errors = $.parseJSON(response.responseText).errors
+      for attribute, messages of errors
+        for message in messages
+          $('#notices').append("#{attribute} #{message}<br>" )
