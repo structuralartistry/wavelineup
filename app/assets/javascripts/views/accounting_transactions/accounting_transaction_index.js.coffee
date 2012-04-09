@@ -37,7 +37,7 @@ class Wavelineup.Views.AccountingTransactionsIndex extends Backbone.View
       error: @handle_error
     )
 
-  handle_error: (accounting_transaction, response) ->
+  handle_error: (model, response) ->
     if response.status == 422
       $('#notices').html('')
       errors = $.parseJSON(response.responseText).errors

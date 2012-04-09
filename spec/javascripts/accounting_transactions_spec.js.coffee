@@ -124,7 +124,7 @@ describe 'accounting transactions', ->
     # send an empty create which will cause validation errors
     @server.respondWith("POST", "/api/accounting_transactions",
                                     [422, { "Content-Type": "application/json" },
-                                     '[{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}]'])
+                                     '{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}'])
     sinon.spy(jQuery, 'ajax')
     $('#accounting_transaction_save').click()
 
@@ -138,7 +138,6 @@ describe 'accounting transactions', ->
 #    alert $('#notices').html()
     expect($('#notices').html()).toEqual("t_datetime can't be blank<br>t_type_id can't be blank<br>amount can't be blank<br>category_id can't be blank<br>account_id can't be blank<br>")
     #expect($('li:contains(ben wa balls)').length).toEqual(1)
-
 
     jQuery.ajax.restore()
 
