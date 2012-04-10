@@ -45,7 +45,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
         if (response.status === 422) {
           $('#notices').html('');
           errors = $.parseJSON(response.responseText).errors;
-          Wavelineup.write_model_errors(errors);
+          Wavelineup.write_model_errors_to_screen(errors);
         }
       }
     })
