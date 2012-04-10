@@ -71,13 +71,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     if (response.status === 422) {
       $('#notices').html('');
       errors = $.parseJSON(response.responseText).errors;
-      for (attribute in errors) {
-        messages = errors[attribute];
-        for (_i = 0, _len = messages.length; _i < _len; _i++) {
-          message = messages[_i];
-          $('#notices').append("" + attribute + " " + message + "<br>");
-        }
-      }
+      Wavelineup.write_model_errors(errors);
     }
   }
 

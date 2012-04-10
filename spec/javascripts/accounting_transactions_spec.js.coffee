@@ -138,5 +138,3 @@ describe 'accounting transactions', ->
     expect($('#notices').html()).toEqual("t_datetime can't be blank<br>t_type_id can't be blank<br>amount can't be blank<br>category_id can't be blank<br>account_id can't be blank<br>")
 
     jQuery.ajax.restore()
-
-
