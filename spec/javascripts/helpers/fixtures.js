@@ -1,7 +1,7 @@
 window.fixtures = {
   accounting_transactions: {
-    "attributes": ['t_datetime','t_type_id','amount','category_id','account_id','note'],
-    "errors": '{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}',
+    attributes: ['t_datetime','t_type_id','amount','category_id','account_id','note'],
+    errors: '{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}',
     one: { "account_id":1,
             "amount":"1.11",
             "category_id":11,

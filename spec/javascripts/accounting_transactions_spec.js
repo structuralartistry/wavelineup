@@ -23,15 +23,18 @@ describe('accounting transactions', function() {
     this.server.respond();
   }),
 
+
   afterEach(function() {
     this.server.restore();
   }),
+
 
   it('loads the index page with correct content', function() {
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!');
     expect($('li:contains(' + fixtures.accounting_transactions.one['note'] + ')')).toExist();
     expect($('form')).toExist();
   }),
+
 
   it('sends new Accounting Transaction entry to server', function() {
     accounting_transaction = fixtures.accounting_transactions.two;
@@ -68,6 +71,7 @@ describe('accounting transactions', function() {
 
     jQuery.ajax.restore();
   }),
+
 
   it('can edit and delete an existing accounting transaction', function() {
     accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='" + this.accounting_transaction_initial_seed.id + "']";
@@ -135,6 +139,7 @@ describe('accounting transactions', function() {
 
     jQuery.ajax.restore();
   }),
+
 
   it('should handle error responses', function() {
     // send an empty create which will cause validation errors
