@@ -13,9 +13,11 @@ describe('accounting transactions', function() {
     expect($('form')).not.toExist();
     this.server = sinon.fakeServer.create();
 
+    this.accounting_transaction_initial_seed = fixtures.accounting_transactions.one;
     this.server.respondWith("GET", "/api/accounting_transactions",
                                     [200, { "Content-Type": "application/json" },
-                                     '[{ "account_id":1,"amount":"11.11","category_id":1,"created_at":"2012-04-04T21:14:57Z","id":1,"note":"blah","t_datetime":"2012-01-01T13:00:00Z","t_type_id":1,"updated_at":"2012-04-04T21:14:57Z" }]']);
+                                    JSON.stringify(this.accounting_transaction_initial_seed)]);
+
     Wavelineup.init();
 
     this.server.respond();
@@ -27,47 +29,50 @@ describe('accounting transactions', function() {
 
   it('loads the index page with correct content', function() {
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!');
-    expect($('li:contains(2012-01-01T13:00:00Z, 1, 11.11, 1, 1, blah)')).toBeTruthy();
+    expect($('li:contains(' + fixtures.accounting_transactions.one['note'] + ')')).toExist();
     expect($('form')).toExist();
   }),
 
   it('sends new Accounting Transaction entry to server', function() {
-    expect($('li:contains(ben wa balls)')).not.toExist();
+    accounting_transaction = fixtures.accounting_transactions.two;
 
-    $('#accounting_transaction_t_datetime').val('2012-04-05 13:14');
-    $('#accounting_transaction_t_type_id').val('2');
-    $('#accounting_transaction_amount').val('99.99');
-    $('#accounting_transaction_category_id').val('3');
-    $('#accounting_transaction_account_id').val('4');
-    $('#accounting_transaction_note').val('ben wa balls');
+    expect($('li:contains(' + fixtures.accounting_transactions.two['note'] + ')')).not.toExist();
+
+    // verify form values
+    _.each(fixtures.accounting_transactions.two, function(value,key) {
+      $('#accounting_transaction_' + key).val(value);
+    });
 
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
-                                     '[{"t_datetime":"2012-04-05 13:14","t_type_id":"2","amount":"99.99","category_id":"3","account_id":"4","note":"ben wa balls"}]']);
+                                    JSON.stringify(fixtures.accounting_transactions.two)]);
+
     sinon.spy(jQuery, 'ajax');
     $('#accounting_transaction_save').click();
+
     // sends request to server
-    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"t_datetime":"2012-04-05 13:14","t_type_id":"2","amount":"99.99","category_id":"3","account_id":"4","note":"ben wa balls"}');
+    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+    _.each(result, function(value,key) {
+      expect(value).toEqual(accounting_transaction[key].toString());
+    })
 
     // updates list
     this.server.respond();
 
-    expect($('li:contains(ben wa balls)').length).toEqual(1);
+    expect($('li:contains(' + fixtures.accounting_transactions.two['note'] + ')')).toExist();
 
     // clears the entry form upon success
-    expect($('#accounting_transaction_t_datetime').val()).toEqual('');
-    expect($('#accounting_transaction_t_type_id').val()).toEqual('');
-    expect($('#accounting_transaction_amount').val()).toEqual('');
-    expect($('#accounting_transaction_category_id').val()).toEqual('');
-    expect($('#accounting_transaction_account_id').val()).toEqual('');
-    expect($('#accounting_transaction_note').val()).toEqual('');
+    _.each(fixtures.accounting_transactions.attributes, function(attribute) {
+      expect($('#accounting_transaction_' + attribute).val()).toEqual('');
+    });
 
     jQuery.ajax.restore();
   }),
 
   it('can edit and delete an existing accounting transaction', function() {
-    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='1']";
+    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='" + this.accounting_transaction_initial_seed.id + "']";
     expect($(accounting_transaction_wrapper + ' li:contains(this is an updated note)')).not.toExist();
+
     expect($(accounting_transaction_wrapper + ' .detail')).toBeVisible();
     expect($(accounting_transaction_wrapper + ' div.edit form')).not.toBeVisible();
     expect($('#new_accounting_transaction')).toBeVisible();
@@ -81,26 +86,29 @@ describe('accounting transactions', function() {
     expect($(accounting_transaction_wrapper + ' .detail')).not.toBeVisible();
     expect($(accounting_transaction_wrapper + ' .edit')).toBeVisible();
 
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_t_datetime').val()).toEqual('2012-01-01T13:00:00Z');
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_t_type_id').val()).toEqual('1');
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_amount').val()).toEqual('11.11');
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_category_id').val()).toEqual('1');
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_account_id').val()).toEqual('1');
-    expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val()).toEqual('blah');
+    // verify initial form values
+    _.each(this.accounting_transaction_initial_seed, function(value,key) {
+      if(fixtures.accounting_transactions.attributes.indexOf(key) != -1) {
+        expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_' + key).val()).toEqual(value.toString());
+      }
+    });
 
     // update a field
-    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val('this is an updated note');
+    this.accounting_transaction_initial_seed.note = 'this is an updated note';
+    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val(this.accounting_transaction_initial_seed.note);
 
     // submit and verify data sent to server
-    this.server.respondWith("PUT", "/api/accounting_transactions/1",
+    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction_initial_seed.id,
                                     [204, { "Content-Type": "application/json" },
-                                     '[{}]']);
+                                     '{}']);
     sinon.spy(jQuery, 'ajax');
     $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_save').click();
 
-    this.server.respond();
 
-    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}');
+    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+    expect(result.note).toEqual(this.accounting_transaction_initial_seed.note);
+
+    this.server.respond();
 
     // section turns back to a line item with updated data correctly there
     expect($(accounting_transaction_wrapper + ' .detail:contains(this is an updated note)').length).toEqual(1);
@@ -109,13 +117,16 @@ describe('accounting transactions', function() {
 
 
     // can delete the transaction
-    this.server.respondWith("DELETE", "/api/accounting_transactions/1",
+    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.accounting_transaction_initial_seed.id,
                                     [204, { "Content-Type": "application/json" },
-                                     '[{}]']);
+                                     '{}']);
     $(accounting_transaction_wrapper + ' .delete').click();
 
     this.server.respond();
-    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"account_id":"1","amount":"11.11","category_id":"1","created_at":"2012-04-04T21:14:57Z","id":1,"note":"this is an updated note","t_datetime":"2012-01-01T13:00:00Z","t_type_id":"1","updated_at":"2012-04-04T21:14:57Z"}');
+
+    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+    expect(result.id).toEqual(this.accounting_transaction_initial_seed.id);
+    expect(result.note).toEqual(this.accounting_transaction_initial_seed.note);
 
     // section turns back to a line item with updated data correctly there
     expect($(accounting_transaction_wrapper)).not.toExist();
@@ -129,17 +140,26 @@ describe('accounting transactions', function() {
     // send an empty create which will cause validation errors
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [422, { "Content-Type": "application/json" },
-                                     '{"errors":{"t_datetime":["can\'t be blank"],"t_type_id":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}']);
+                                     fixtures.accounting_transactions.errors]);
     sinon.spy(jQuery, 'ajax');
     $('#accounting_transaction_save').click();
 
     // sends request to server
-    expect(jQuery.ajax.getCall(0).args[0].data).toEqual('{"t_datetime":"","t_type_id":"","amount":"","category_id":"","account_id":"","note":""}');
+    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+    _.each(result, function(value,key) {
+      expect(value).toEqual('');
+    })
 
     // updates list
     this.server.respond();
-
-    expect($('#notices').html()).toEqual("t_datetime can't be blank<br>t_type_id can't be blank<br>amount can't be blank<br>category_id can't be blank<br>account_id can't be blank<br>");
+    errors = JSON.parse(fixtures.accounting_transactions.errors);
+    for (attribute in errors) {
+      messages = errors[attribute];
+      for (_i = 0, _len = messages.length; _i < _len; _i++) {
+        message = messages[_i];
+        expect($('#notices:contains(' + value + ')')).toExist();
+      }
+    }
 
     jQuery.ajax.restore();
   })
