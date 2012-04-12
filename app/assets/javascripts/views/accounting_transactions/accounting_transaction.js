@@ -59,7 +59,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
       wait: true,
       success: function() {
         $('#notices').html('Accounting Transaction updated by server!');
-        $('#new_accounting_transaction').show();
+        $(".accounting_transaction[data-id='new']").show();
       },
       error: function() {
         this.handle_error();
