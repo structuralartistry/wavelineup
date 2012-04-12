@@ -60,7 +60,7 @@ describe('accounting transactions', function() {
     expect($('#new_accounting_transaction #t_type_id').html()).toEqual('1');
 
     $('#new_accounting_transaction #t_type_id').mousedown();
-    expect($('#t_type_selector')).toBeVisible();
+    expect($('#a_selector')).toBeVisible();
     $('#a_selector #button_two').mousedown();
     expect($('#a_selector')).not.toBeVisible();
     expect($('#new_accounting_transaction #t_type_id').html()).toEqual('2');
