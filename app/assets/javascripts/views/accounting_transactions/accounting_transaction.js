@@ -3,9 +3,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
   template: JST['accounting_transactions/accounting_transaction'],
 
   events: {
-    'click .accounting_transaction_wrapper .detail .edit': 'edit',
-    'click .accounting_transaction_wrapper .detail .delete': 'delete',
-    'submit .accounting_transaction_wrapper .edit': 'update_accounting_transaction'
+    'click .accounting_transaction #delete': 'delete',
+    'click .accounting_transaction #save': 'update_accounting_transaction'
   },
 
   initialize: function() {
@@ -27,7 +26,6 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
   },
 
   edit: function(event) {
-    $('#new_accounting_transaction').hide();
     $('.accounting_transaction_wrapper[data-id=' + this.model.get('id') + '] .detail').hide();
     $('.accounting_transaction_wrapper[data-id=' + this.model.get('id') + '] .edit').show();
   },
@@ -45,17 +43,17 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     })
   },
 
-  update_accounting_transaction: function() {
+  update_accounting_transaction: function(event) {
     event.preventDefault();
-    accounting_transaction_wrapper = '.accounting_transaction_wrapper[data-id=' + this.model.get('id') + ']';
-    form = $(accounting_transaction_wrapper + ' .edit form')
+    accounting_transaction_context = ".accounting_transaction[data-id='" + this.model.get('id') + "'] ";
+    debugger
     attributes = {
-      t_datetime: $(form).find('#accounting_transaction_t_datetime').val(),
-      t_type_id: $(form).find('#accounting_transaction_t_type_id').html(),
-      amount: $(form).find('#accounting_transaction_amount').val(),
-      category_id: $(form).find('#accounting_transaction_category_id').val(),
-      account_id: $(form).find('#accounting_transaction_account_id').val(),
-      note: $(form).find('#accounting_transaction_note').val()
+      t_datetime: $(accounting_transaction_context + '#t_datetime').val(),
+      t_type_id: $(accounting_transaction_context + '#t_type_id').html(),
+      amount: $(accounting_transaction_context + '#amount').val(),
+      category_id: $(accounting_transaction_context + '#category_id').val(),
+      account_id: $(accounting_transaction_context + '#account_id').val(),
+      note: $(accounting_transaction_context + '#note').val()
     };
     this.model.save(attributes, {
       wait: true,
