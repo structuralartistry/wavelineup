@@ -5,7 +5,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
 
   events: {
     "click #new_accounting_transaction #save": 'create_accounting_transaction',
-    'mousedown #accounting_transaction_t_type_id': 'show_selector'
+    'mousedown .accounting_transaction #t_type_id': 'show_selector'
   },
 
   show_selector: function(event) {

@@ -33,20 +33,39 @@ describe('accounting transactions', function() {
   }),
 
 
-  it('sends new Accounting Transaction entry to server', function() {
+  it('creates a new Accounting Transaction', function() {
     accounting_transaction = fixtures.accounting_transactions.two;
 
     // new transaction should not already exist on page
     expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).not.toExist();
 
-    // set values
+    // set standard form values (these will go away as implement selectors)
     new_accounting_transaction = fixtures.accounting_transactions.two;
     $('#new_accounting_transaction #t_datetime').val(new_accounting_transaction.t_datetime);
-    $('#new_accounting_transaction #t_type_id').html(new_accounting_transaction.t_type_id);
+    //$('#new_accounting_transaction #t_type_id').html(new_accounting_transaction.t_type_id);
     $('#new_accounting_transaction #amount').val(new_accounting_transaction.amount);
     $('#new_accounting_transaction #category_id').val(new_accounting_transaction.category_id);
     $('#new_accounting_transaction #account_id').val(new_accounting_transaction.account_id);
     $('#new_accounting_transaction #note').val(new_accounting_transaction.note);
+
+    // set the credit/debit type using selector cell
+    // note: running selector through paces... this will be refactored out at some point
+    expect($('#new_accounting_transaction #t_type_id').html()).toEqual('');
+    expect($('#a_selector')).not.toBeVisible();
+
+    $('#new_accounting_transaction #t_type_id').mousedown();
+    expect($('#a_selector')).toBeVisible();
+    $('#a_selector #button_one').mousedown();
+    expect($('#a_selector')).not.toBeVisible();
+    expect($('#new_accounting_transaction #t_type_id').html()).toEqual('1');
+
+    $('#new_accounting_transaction #t_type_id').mousedown();
+    expect($('#t_type_selector')).toBeVisible();
+    $('#a_selector #button_two').mousedown();
+    expect($('#a_selector')).not.toBeVisible();
+    expect($('#new_accounting_transaction #t_type_id').html()).toEqual('2');
+    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
+    new_accounting_transaction.t_type_id = '2'
 
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
@@ -164,5 +183,6 @@ describe('accounting transactions', function() {
 
     jQuery.ajax.restore();
   })
+
 
 });

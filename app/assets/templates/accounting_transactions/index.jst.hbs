@@ -2,7 +2,7 @@
 
 <h1>Hello World Index View from Backbone!!!</h1>
 
-<div id='new_accounting_transaction'>
+<div id='new_accounting_transaction' class='accounting_transaction'>
   {{>accounting_transaction_form_fields}}
 </div>
 
@@ -22,6 +22,6 @@
   }
 </style>
 <ul class='selector' id='a_selector'>
-  <li onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">1</li>
-  <li onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">2</li>
+  <li id='button_one' onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">1</li>
+  <li id='button_two' onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">2</li>
 </ul>
