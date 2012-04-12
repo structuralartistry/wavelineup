@@ -4,8 +4,16 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
   template: JST['accounting_transactions/index'],
 
   events: {
-    'submit #new_accounting_transaction': 'create_accounting_transaction'
+    'submit #new_accounting_transaction': 'create_accounting_transaction',
+    'mousedown #accounting_transaction_t_type_id': 'show_selector'
   },
+
+  show_selector: function(event) {
+    // event.target is the calling object
+    //   also can get coordinates - pageX/Y in this of calling object
+    $('#a_selector').show();
+  },
+
 
   initialize: function() {
     this.collection.on('reset', this.render, this);
@@ -28,7 +36,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
     event.preventDefault();
     attributes = {
       t_datetime: $('#accounting_transaction_t_datetime').val(),
-      t_type_id: $('#accounting_transaction_t_type_id').val(),
+      t_type_id: $('#accounting_transaction_t_type_id').html(),
       amount: $('#accounting_transaction_amount').val(),
       category_id: $('#accounting_transaction_category_id').val(),
       account_id: $('#accounting_transaction_account_id').val(),

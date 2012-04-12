@@ -1,6 +1,25 @@
 <p>t_datetime, t_type_id, amount, category_id, account_id, note</p>
+
+<!--
+thinking aloud:
+  function to generate selector cell from params (attribute name/id, value, selector name/template)
+    adds onclick to 
+      show appropriate selector
+      informs the selector of the target recipient
+      on select, 
+        set the value to target recipient
+        somehow inform backbone to update the model value
+        if backbone update fails, revert
+    
+  BUT
+-->
+
+
+<ul>
+  <li id='accounting_transaction_t_type_id' class='selector_cell'>{{t_type_id}}</li>
+</ul>
+
 <input type='text' name='t_datetime' id='accounting_transaction_t_datetime' value='{{t_datetime}}'>
-<input type='text' name='t_type_id' id='accounting_transaction_t_type_id' value='{{t_type_id}}'>
 <input type='text' name='amount' id='accounting_transaction_amount' value='{{amount}}'>
 <input type='text' name='category_id' id='accounting_transaction_category_id' value='{{category_id}}'>
 <input type='text' name='account_id' id='accounting_transaction_account_id' value='{{account_id}}'>

@@ -48,7 +48,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     form = $(accounting_transaction_wrapper + ' .edit form')
     attributes = {
       t_datetime: $(form).find('#accounting_transaction_t_datetime').val(),
-      t_type_id: $(form).find('#accounting_transaction_t_type_id').val(),
+      t_type_id: $(form).find('#accounting_transaction_t_type_id').html(),
       amount: $(form).find('#accounting_transaction_amount').val(),
       category_id: $(form).find('#accounting_transaction_category_id').val(),
       account_id: $(form).find('#accounting_transaction_account_id').val(),
