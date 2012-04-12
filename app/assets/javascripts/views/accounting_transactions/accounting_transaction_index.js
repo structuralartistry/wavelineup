@@ -4,7 +4,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
   template: JST['accounting_transactions/index'],
 
   events: {
-    "click .accounting_transaction[data-id='new'] #save": 'create_accounting_transaction',
+    "click #new_accounting_transaction #save": 'create_accounting_transaction',
     'mousedown #accounting_transaction_t_type_id': 'show_selector'
   },
 
@@ -13,7 +13,6 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
     //   also can get coordinates - pageX/Y in this of calling object
     $('#a_selector').show();
   },
-
 
   initialize: function() {
     this.collection.on('reset', this.render, this);
@@ -34,27 +33,25 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
 
   create_accounting_transaction: function(event) {
     event.preventDefault();
-    context = ".accounting_transaction[data-id='new'] ";
     attributes = {
-      t_datetime: $(context + '#t_datetime').val(),
-      t_type_id: $(context + '#t_type_id').html(),
-      amount: $(context + '#amount').val(),
-      category_id: $(context + '#category_id').val(),
-      account_id: $(context + '#account_id').val(),
-      note: $(context + '#note').val()
+      t_datetime: $('#new_accounting_transaction #t_datetime').val(),
+      t_type_id: $('#new_accounting_transaction #t_type_id').html(),
+      amount: $('#new_accounting_transaction #amount').val(),
+      category_id: $('#new_accounting_transaction #category_id').val(),
+      account_id: $('#new_accounting_transaction #account_id').val(),
+      note: $('#new_accounting_transaction #note').val()
     };
     this.collection.create(attributes, {
       wait: true,
       success: function() {
         $('#notices').html('Accounting Transaction accepted by server!');
 
-        context = ".accounting_transaction[data-id='new'] ";
-        $(context + '#t_datetime').val('');
-        $(context + '#t_type_id').html('');
-        $(context + '#amount').val('');
-        $(context + '#category_id').val('');
-        $(context + '#account_id').val('');
-        $(context + '#note').val('');
+        $('#new_accounting_transaction #t_datetime').val('');
+        $('#new_accounting_transaction #t_type_id').html('');
+        $('#new_accounting_transaction #amount').val('');
+        $('#new_accounting_transaction #category_id').val('');
+        $('#new_accounting_transaction #account_id').val('');
+        $('#new_accounting_transaction #note').val('');
       },
       error: function(model, response) {
         var attribute, errors, message, messages, _i, _len;

@@ -26,7 +26,7 @@ describe('accounting transactions', function() {
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!');
 
     // has the new accounting transaction form
-    expect($(".accounting_transaction[data-id='new']")).toExist();
+    expect($("#new_accounting_transaction")).toExist();
 
     // shows the single existing accounting transaction
     expect($('li[data-id=' + this.accounting_transaction.id + ']')).toExist();
@@ -41,20 +41,19 @@ describe('accounting transactions', function() {
 
     // set values
     new_accounting_transaction = fixtures.accounting_transactions.two;
-    accounting_transaction_context = ".accounting_transaction[data-id='new'] ";
-    $(accounting_transaction_context + '#t_datetime').val(new_accounting_transaction.t_datetime);
-    $(accounting_transaction_context + '#t_type_id').html(new_accounting_transaction.t_type_id);
-    $(accounting_transaction_context + '#amount').val(new_accounting_transaction.amount);
-    $(accounting_transaction_context + '#category_id').val(new_accounting_transaction.category_id);
-    $(accounting_transaction_context + '#account_id').val(new_accounting_transaction.account_id);
-    $(accounting_transaction_context + '#note').val(new_accounting_transaction.note);
+    $('#new_accounting_transaction #t_datetime').val(new_accounting_transaction.t_datetime);
+    $('#new_accounting_transaction #t_type_id').html(new_accounting_transaction.t_type_id);
+    $('#new_accounting_transaction #amount').val(new_accounting_transaction.amount);
+    $('#new_accounting_transaction #category_id').val(new_accounting_transaction.category_id);
+    $('#new_accounting_transaction #account_id').val(new_accounting_transaction.account_id);
+    $('#new_accounting_transaction #note').val(new_accounting_transaction.note);
 
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
                                     JSON.stringify(fixtures.accounting_transactions.two)]);
 
     sinon.spy(jQuery, 'ajax');
-    $(accounting_transaction_context + '#save').click();
+    $('#new_accounting_transaction #save').click();
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
@@ -69,13 +68,12 @@ describe('accounting transactions', function() {
     expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).toExist();
 
     // clears the entry form upon success
-    accounting_transaction_context = ".accounting_transaction[data-id='new'] ";
-    expect($(accounting_transaction_context + '#t_datetime').val()).toEqual('');
-    expect($(accounting_transaction_context + '#t_type_id').html()).toEqual('');
-    expect($(accounting_transaction_context + '#amount').val()).toEqual('');
-    expect($(accounting_transaction_context + '#category_id').val()).toEqual('');
-    expect($(accounting_transaction_context + '#account_id').val()).toEqual('');
-    expect($(accounting_transaction_context + '#note').val()).toEqual('');
+    expect($('#new_accounting_transaction #t_datetime').val()).toEqual('');
+    expect($('#new_accounting_transaction #t_type_id').html()).toEqual('');
+    expect($('#new_accounting_transaction #amount').val()).toEqual('');
+    expect($('#new_accounting_transaction #category_id').val()).toEqual('');
+    expect($('#new_accounting_transaction #account_id').val()).toEqual('');
+    expect($('#new_accounting_transaction #note').val()).toEqual('');
 
     jQuery.ajax.restore();
   }),
@@ -145,8 +143,7 @@ describe('accounting transactions', function() {
                                      fixtures.accounting_transactions.errors]);
     sinon.spy(jQuery, 'ajax');
 
-    accounting_transaction_context = ".accounting_transaction[data-id='new'] ";
-    $(accounting_transaction_context + '#save').click();
+    $('#new_accounting_transaction #save').click();
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
