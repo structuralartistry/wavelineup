@@ -2,22 +2,26 @@
 
 <h1>Hello World Index View from Backbone!!!</h1>
 
-{{>new_accounting_transaction_form}}
+<div class='accounting_transaction' data-id='new'>
+  {{>accounting_transaction_form_fields}}
+</div>
 
 <ul id='accounting_transactions'>
 </ul>
 
 <style>
-  .selector_cell {
+  ul.selector li {
+    display: inline-block;
     border: solid 1px black; 
-    width: 0.5in; height: 0.5in;
+    width: 1.5in; 
+    height: 0.25in;
     list-style-type: none;
   }
   #a_selector {
     display: none;
   }
 </style>
-<ul id='a_selector'>
-  <li class='selector_cell' onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">1</li>
-  <li class='selector_cell' onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">2</li>
+<ul class='selector' id='a_selector'>
+  <li onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">1</li>
+  <li onmousedown="$('#accounting_transaction_t_type_id').html($(this).html()); $(this).parent().hide()">2</li>
 </ul>

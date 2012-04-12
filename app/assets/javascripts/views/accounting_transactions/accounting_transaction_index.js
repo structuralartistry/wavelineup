@@ -4,7 +4,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
   template: JST['accounting_transactions/index'],
 
   events: {
-    'submit #new_accounting_transaction': 'create_accounting_transaction',
+    "click .accounting_transaction[data-id='new'] #save": 'create_accounting_transaction',
     'mousedown #accounting_transaction_t_type_id': 'show_selector'
   },
 
@@ -34,14 +34,16 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
 
   create_accounting_transaction: function(event) {
     event.preventDefault();
+    context = ".accounting_transaction[data-id='new'] ";
     attributes = {
-      t_datetime: $('#accounting_transaction_t_datetime').val(),
-      t_type_id: $('#accounting_transaction_t_type_id').html(),
-      amount: $('#accounting_transaction_amount').val(),
-      category_id: $('#accounting_transaction_category_id').val(),
-      account_id: $('#accounting_transaction_account_id').val(),
-      note: $('#accounting_transaction_note').val()
+      t_datetime: $(context + '#t_datetime').val(),
+      t_type_id: $(context + '#t_type_id').html(),
+      amount: $(context + '#amount').val(),
+      category_id: $(context + '#category_id').val(),
+      account_id: $(context + '#account_id').val(),
+      note: $(context + '#note').val()
     };
+    debugger;
     this.collection.create(attributes, {
       wait: true,
       success: function() {

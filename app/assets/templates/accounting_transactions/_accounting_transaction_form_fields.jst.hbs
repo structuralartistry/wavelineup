@@ -1,12 +1,11 @@
-<p>t_datetime, t_type_id, amount, category_id, account_id, note</p>
-
-<ul>
-  <li id='accounting_transaction_t_type_id' class='selector_cell'>{{t_type_id}}</li>
+<ul class='selector'>
+  <li><input type='text' id='t_datetime' value='{{t_datetime}}'></li>
+  <li id='t_type_id'>{{t_type_id}}</li>
+  <li><input type='text' id='amount' value='{{amount}}'></li>
+  <li><input type='text' id='category_id' value='{{category_id}}'></li>
+  <li><input type='text' id='account_id' value='{{account_id}}'></li>
+  <li><input type='text' id='note' value='{{note}}'></li>
+  <li><input id='save' type='submit' value='Save'></li>
+  <li><input id='delete' type='submit' value='Delete'></li>
 </ul>
 
-<input type='text' name='t_datetime' id='accounting_transaction_t_datetime' value='{{t_datetime}}'>
-<input type='text' name='amount' id='accounting_transaction_amount' value='{{amount}}'>
-<input type='text' name='category_id' id='accounting_transaction_category_id' value='{{category_id}}'>
-<input type='text' name='account_id' id='accounting_transaction_account_id' value='{{account_id}}'>
-<input type='text' name='note' id='accounting_transaction_note' value='{{note}}'>
-<input id='accounting_transaction_save' type='submit' value='Save'>

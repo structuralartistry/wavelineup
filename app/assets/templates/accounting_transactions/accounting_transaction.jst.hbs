@@ -1,14 +1,3 @@
 {{#accounting_transaction}}
-  <div class='accounting_transaction_wrapper' data-id='{{id}}'>
-    <div class='detail'>
-      {{t_datetime}}, {{t_type_id}}, {{amount}}, {{category_id}}, {{account_id}}, {{note}} 
-      <button class='edit'>Edit</button>
-      <button class='delete'>Delete</button>
-    </div>
-    <div class='edit' style='display:none'>
-      <form>
-        {{>accounting_transaction_form_fields}}
-      </form>
-    </div>
-  </div>
+  {{>accounting_transaction_form_fields}}
 {{/accounting_transaction}}

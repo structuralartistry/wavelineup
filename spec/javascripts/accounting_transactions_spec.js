@@ -1,10 +1,3 @@
-// todo improvements
-// - some sort of factory system for models/json to avoid entering hard data in respond with and forms, etc
-// - abstration to fill in forms? (maybe later once implement selectors)
-// - abstract groups of checks so that tests are more readable and understanding what getting at to an outsider
-//     for example: expect(h.accounting_transactions.index_page_loaded()).toBeTruthy()
-//                  see if can hold in same test suite perhaps???
-// - dont use literal string for testing - create/parse json back and forth
 describe('accounting transactions', function() {
 
   beforeEach(function() {
@@ -13,10 +6,10 @@ describe('accounting transactions', function() {
     expect($('form')).not.toExist();
     this.server = sinon.fakeServer.create();
 
-    this.accounting_transaction_initial_seed = fixtures.accounting_transactions.one;
+    this.accounting_transaction = fixtures.accounting_transactions.one;
     this.server.respondWith("GET", "/api/accounting_transactions",
                                     [200, { "Content-Type": "application/json" },
-                                    JSON.stringify(this.accounting_transaction_initial_seed)]);
+                                    JSON.stringify(this.accounting_transaction)]);
 
     Wavelineup.init();
 
@@ -31,27 +24,36 @@ describe('accounting transactions', function() {
 
   it('loads the index page with correct content', function() {
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!');
-    expect($('li:contains(' + fixtures.accounting_transactions.one['note'] + ')')).toExist();
-    expect($('form')).toExist();
+
+    // has the new accounting transaction form
+    expect($(".accounting_transaction[data-id='new']")).toExist();
+
+    // shows the single existing accounting transaction
+    expect($('li[data-id=' + this.accounting_transaction.id + ']')).toExist();
   }),
 
 
   it('sends new Accounting Transaction entry to server', function() {
     accounting_transaction = fixtures.accounting_transactions.two;
 
-    expect($('li:contains(' + fixtures.accounting_transactions.two['note'] + ')')).not.toExist();
+    // new transaction should not already exist on page
+    expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).not.toExist();
 
-    // verify form values
-    _.each(fixtures.accounting_transactions.two, function(value,key) {
-      $('#accounting_transaction_' + key).val(value);
-    });
-
+    // set values
+    new_accounting_transaction = fixtures.accounting_transactions.two;
+    context = ".accounting_transaction[data-id='new'] ";
+    $(context + '#t_datetime').val(new_accounting_transaction.t_datetime);
+    $(context + '#t_type_id').html(new_accounting_transaction.t_type_id);
+    $(context + '#amount').val(new_accounting_transaction.amount);
+    $(context + '#category_id').val(new_accounting_transaction.category_id);
+    $(context + '#account_id').val(new_accounting_transaction.account_id);
+    $(context + '#note').val(new_accounting_transaction.note);
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
                                     JSON.stringify(fixtures.accounting_transactions.two)]);
 
     sinon.spy(jQuery, 'ajax');
-    $('#accounting_transaction_save').click();
+    $(context + '#save').click();
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
@@ -74,7 +76,7 @@ describe('accounting transactions', function() {
 
 
   it('can edit and delete an existing accounting transaction', function() {
-    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='" + this.accounting_transaction_initial_seed.id + "']";
+    accounting_transaction_wrapper = ".accounting_transaction_wrapper[data-id='" + this.accounting_transaction.id + "']";
     expect($(accounting_transaction_wrapper + ' li:contains(this is an updated note)')).not.toExist();
 
     expect($(accounting_transaction_wrapper + ' .detail')).toBeVisible();
@@ -91,18 +93,18 @@ describe('accounting transactions', function() {
     expect($(accounting_transaction_wrapper + ' .edit')).toBeVisible();
 
     // verify initial form values
-    _.each(this.accounting_transaction_initial_seed, function(value,key) {
+    _.each(this.accounting_transaction, function(value,key) {
       if(fixtures.accounting_transactions.attributes.indexOf(key) != -1) {
         expect($(accounting_transaction_wrapper + ' .edit form #accounting_transaction_' + key).val()).toEqual(value.toString());
       }
     });
 
     // update a field
-    this.accounting_transaction_initial_seed.note = 'this is an updated note';
-    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val(this.accounting_transaction_initial_seed.note);
+    this.accounting_transaction.note = 'this is an updated note';
+    $(accounting_transaction_wrapper + ' .edit form #accounting_transaction_note').val(this.accounting_transaction.note);
 
     // submit and verify data sent to server
-    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction_initial_seed.id,
+    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
     sinon.spy(jQuery, 'ajax');
@@ -110,7 +112,7 @@ describe('accounting transactions', function() {
 
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-    expect(result.note).toEqual(this.accounting_transaction_initial_seed.note);
+    expect(result.note).toEqual(this.accounting_transaction.note);
 
     this.server.respond();
 
@@ -121,7 +123,7 @@ describe('accounting transactions', function() {
 
 
     // can delete the transaction
-    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.accounting_transaction_initial_seed.id,
+    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
     $(accounting_transaction_wrapper + ' .delete').click();
@@ -129,8 +131,8 @@ describe('accounting transactions', function() {
     this.server.respond();
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-    expect(result.id).toEqual(this.accounting_transaction_initial_seed.id);
-    expect(result.note).toEqual(this.accounting_transaction_initial_seed.note);
+    expect(result.id).toEqual(this.accounting_transaction.id);
+    expect(result.note).toEqual(this.accounting_transaction.note);
 
     // section turns back to a line item with updated data correctly there
     expect($(accounting_transaction_wrapper)).not.toExist();

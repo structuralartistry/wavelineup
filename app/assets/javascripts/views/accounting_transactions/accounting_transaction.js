@@ -12,6 +12,9 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     _.bindAll(this, 'render')
     this.model.bind('change', this.render, this)
     this.model.bind('destroy', this.delete_accounting_transaction_wrapper, this)
+
+    $(this.el).attr('class','accounting_transaction');
+    $(this.el).attr('data-id',this.model.get('id'));
   },
 
   render: function() {
