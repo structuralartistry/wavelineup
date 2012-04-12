@@ -14,11 +14,6 @@ window.Wavelineup = {
       Backbone.history.start();
     }
   },
-  reset_form: function(id) {
-    var $form = $('#' + id);
-    $form.find('input:text, input:password, input:file, select').val('');
-    $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
-  },
   write_model_errors_to_screen: function(errors) {
     for (attribute in errors) {
       messages = errors[attribute];

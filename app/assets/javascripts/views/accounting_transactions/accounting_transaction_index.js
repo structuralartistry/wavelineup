@@ -43,12 +43,18 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
       account_id: $(context + '#account_id').val(),
       note: $(context + '#note').val()
     };
-    debugger;
     this.collection.create(attributes, {
       wait: true,
       success: function() {
         $('#notices').html('Accounting Transaction accepted by server!');
-        Wavelineup.reset_form('new_accounting_transaction');
+
+        context = ".accounting_transaction[data-id='new'] ";
+        $(context + '#t_datetime').val('');
+        $(context + '#t_type_id').html('');
+        $(context + '#amount').val('');
+        $(context + '#category_id').val('');
+        $(context + '#account_id').val('');
+        $(context + '#note').val('');
       },
       error: function(model, response) {
         var attribute, errors, message, messages, _i, _len;

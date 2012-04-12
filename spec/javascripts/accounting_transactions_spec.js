@@ -48,6 +48,7 @@ describe('accounting transactions', function() {
     $(context + '#category_id').val(new_accounting_transaction.category_id);
     $(context + '#account_id').val(new_accounting_transaction.account_id);
     $(context + '#note').val(new_accounting_transaction.note);
+
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
                                     JSON.stringify(fixtures.accounting_transactions.two)]);
@@ -64,12 +65,17 @@ describe('accounting transactions', function() {
     // updates list
     this.server.respond();
 
-    expect($('li:contains(' + fixtures.accounting_transactions.two['note'] + ')')).toExist();
+
+    expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).toExist();
 
     // clears the entry form upon success
-    _.each(fixtures.accounting_transactions.attributes, function(attribute) {
-      expect($('#accounting_transaction_' + attribute).val()).toEqual('');
-    });
+    context = ".accounting_transaction[data-id='new'] ";
+    expect($(context + '#t_datetime').val()).toEqual('');
+    expect($(context + '#t_type_id').html()).toEqual('');
+    expect($(context + '#amount').val()).toEqual('');
+    expect($(context + '#category_id').val()).toEqual('');
+    expect($(context + '#account_id').val()).toEqual('');
+    expect($(context + '#note').val()).toEqual('');
 
     jQuery.ajax.restore();
   }),
