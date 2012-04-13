@@ -5,7 +5,7 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
 
   events: {
     "click .accounting_transaction[data-id='new'] #save": 'create_accounting_transaction',
-    'mousedown .accounting_transaction #t_type_id': 'show_selector'
+    'mousedown .accounting_transaction #credit_debit_id': 'show_selector'
   },
 
   show_selector: function(event) {
@@ -34,8 +34,8 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
   create_accounting_transaction: function(event) {
     event.preventDefault();
     attributes = {
-      t_datetime: $(".accounting_transaction[data-id='new'] #t_datetime").val(),
-      t_type_id: $(".accounting_transaction[data-id='new'] #t_type_id").html(),
+      date_time: $(".accounting_transaction[data-id='new'] #date_time").val(),
+      credit_debit_id: $(".accounting_transaction[data-id='new'] #credit_debit_id").html(),
       amount: $(".accounting_transaction[data-id='new'] #amount").val(),
       category_id: $(".accounting_transaction[data-id='new'] #category_id").val(),
       account_id: $(".accounting_transaction[data-id='new'] #account_id").val(),
@@ -46,8 +46,8 @@ Wavelineup.Views.AccountingTransactionsIndex = Backbone.View.extend({
       success: function() {
         $('#notices').html('Accounting Transaction accepted by server!');
 
-        $(".accounting_transaction[data-id='new'] #t_datetime").val('');
-        $(".accounting_transaction[data-id='new'] #t_type_id").html('');
+        $(".accounting_transaction[data-id='new'] #date_time").val('');
+        $(".accounting_transaction[data-id='new'] #credit_debit_id").html('');
         $(".accounting_transaction[data-id='new'] #amount").val('');
         $(".accounting_transaction[data-id='new'] #category_id").val('');
         $(".accounting_transaction[data-id='new'] #account_id").val('');

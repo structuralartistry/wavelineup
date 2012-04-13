@@ -42,8 +42,8 @@ describe('accounting transactions', function() {
     // set standard form values (these will go away as implement selectors)
     new_accounting_transaction = fixtures.accounting_transactions.two;
     new_accounting_transaction_context = ".accounting_transaction[data-id='new'] ";
-    $(new_accounting_transaction_context + ' #t_datetime').val(new_accounting_transaction.t_datetime);
-    //$(new_accounting_transaction_context + ' #t_type_id').html(new_accounting_transaction.t_type_id);
+    $(new_accounting_transaction_context + ' #date_time').val(new_accounting_transaction.date_time);
+    //$(new_accounting_transaction_context + ' #credit_debit_id').html(new_accounting_transaction.credit_debit_id);
     $(new_accounting_transaction_context + ' #amount').val(new_accounting_transaction.amount);
     $(new_accounting_transaction_context + ' #category_id').val(new_accounting_transaction.category_id);
     $(new_accounting_transaction_context + ' #account_id').val(new_accounting_transaction.account_id);
@@ -51,22 +51,22 @@ describe('accounting transactions', function() {
 
     // set the credit/debit type using selector cell
     // note: running selector through paces... this will be refactored out at some point
-    expect($(new_accounting_transaction_context + ' #t_type_id').html()).toEqual('');
+    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('');
     expect($('#a_selector')).not.toBeVisible();
 
-    $(new_accounting_transaction_context + ' #t_type_id').mousedown();
+    $(new_accounting_transaction_context + ' #credit_debit_id').mousedown();
     expect($('#a_selector')).toBeVisible();
     $('#a_selector #button_one').mousedown();
     expect($('#a_selector')).not.toBeVisible();
-    expect($(new_accounting_transaction_context + ' #t_type_id').html()).toEqual('1');
+    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('1');
 
-    $(new_accounting_transaction_context + ' #t_type_id').mousedown();
+    $(new_accounting_transaction_context + ' #credit_debit_id').mousedown();
     expect($('#a_selector')).toBeVisible();
     $('#a_selector #button_two').mousedown();
     expect($('#a_selector')).not.toBeVisible();
-    expect($(new_accounting_transaction_context + ' #t_type_id').html()).toEqual('2');
+    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('2');
     // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
-    new_accounting_transaction.t_type_id = '2'
+    new_accounting_transaction.credit_debit_id = '2'
 
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
@@ -88,8 +88,8 @@ describe('accounting transactions', function() {
     expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).toExist();
 
     // clears the entry form upon success
-    expect($(new_accounting_transaction_context + ' #t_datetime').val()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #t_type_id').html()).toEqual('');
+    expect($(new_accounting_transaction_context + ' #date_time').val()).toEqual('');
+    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('');
     expect($(new_accounting_transaction_context + ' #amount').val()).toEqual('');
     expect($(new_accounting_transaction_context + ' #category_id').val()).toEqual('');
     expect($(new_accounting_transaction_context + ' #account_id').val()).toEqual('');
@@ -109,8 +109,8 @@ describe('accounting transactions', function() {
     expect($(accounting_transaction_context)).toBeVisible();
 
     // verify initial form values
-    expect($(accounting_transaction_context + '#t_datetime').val()).toEqual(this.accounting_transaction.t_datetime.toString());
-    expect($(accounting_transaction_context + '#t_type_id').html()).toEqual(this.accounting_transaction.t_type_id.toString());
+    expect($(accounting_transaction_context + '#date_time').val()).toEqual(this.accounting_transaction.date_time.toString());
+    expect($(accounting_transaction_context + '#credit_debit_id').html()).toEqual(this.accounting_transaction.credit_debit_id.toString());
     expect($(accounting_transaction_context + '#amount').val()).toEqual(this.accounting_transaction.amount.toString());
     expect($(accounting_transaction_context + '#category_id').val()).toEqual(this.accounting_transaction.category_id.toString());
     expect($(accounting_transaction_context + '#account_id').val()).toEqual(this.accounting_transaction.account_id.toString());

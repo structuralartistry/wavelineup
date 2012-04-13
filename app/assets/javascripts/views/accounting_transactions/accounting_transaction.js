@@ -48,8 +48,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     accounting_transaction_context = ".accounting_transaction[data-id='" + this.model.get('id') + "'] ";
     debugger
     attributes = {
-      t_datetime: $(accounting_transaction_context + '#t_datetime').val(),
-      t_type_id: $(accounting_transaction_context + '#t_type_id').html(),
+      date_time: $(accounting_transaction_context + '#date_time').val(),
+      credit_debit_id: $(accounting_transaction_context + '#credit_debit_id').html(),
       amount: $(accounting_transaction_context + '#amount').val(),
       category_id: $(accounting_transaction_context + '#category_id').val(),
       account_id: $(accounting_transaction_context + '#account_id').val(),

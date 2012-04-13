@@ -14,14 +14,14 @@
 ActiveRecord::Schema.define(:version => 20120404202031) do
 
   create_table "accounting_transactions", :force => true do |t|
-    t.datetime "t_datetime"
-    t.integer  "t_type_id"
-    t.decimal  "amount",      :precision => 8, :scale => 2
+    t.datetime "date_time"
+    t.integer  "credit_debit_id"
+    t.decimal  "amount",          :precision => 8, :scale => 2
     t.integer  "category_id"
     t.integer  "account_id"
     t.string   "note"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
 end
