@@ -37,6 +37,7 @@ gem 'jquery-rails'
 
 # To use debugger
 group :development, :test do
-  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'debugger'
+  #gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'jasminerice'
 end
