@@ -1,11 +1,11 @@
 <ul class='selector'>
-  <li><input type='text' id='date_time' value='{{date_time}}'></li>
-  <li id='credit_debit_id'>{{credit_debit_id}}</li>
-  <li><input type='text' id='amount' value='{{amount}}'></li>
-  <li><input type='text' id='category_id' value='{{category_id}}'></li>
-  <li><input type='text' id='account_id' value='{{account_id}}'></li>
-  <li><input type='text' id='note' value='{{note}}'></li>
-  <li><input id='save' type='submit' value='Save'></li>
-  <li><input id='delete' type='submit' value='Delete'></li>
+  <li><input type='text' id='accounting_transaction__date_time__{{id}}' value='{{date_time}}'></li>
+  <li id='accounting_transaction__credit_debit_id__{{id}}' class='show_selector' data-selector_id='a_selector'>{{credit_debit_id}}</li>
+  <li><input type='text' id='accounting_transaction__amount__{{id}}' value='{{amount}}'></li>
+  <li><input type='text' id='accounting_transaction__category_id__{{id}}' value='{{category_id}}'></li>
+  <li><input type='text' id='accounting_transaction__account_id__{{id}}' value='{{account_id}}'></li>
+  <li><input type='text' id='accounting_transaction__note__{{id}}' value='{{note}}'></li>
+  <li><input class='accounting_transaction__save' type='submit' value='Save'></li>
+  <li><input class='accounting_transaction__delete' type='submit' value='Delete'></li>
 </ul>
 

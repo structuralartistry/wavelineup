@@ -26,10 +26,10 @@ describe('accounting transactions', function() {
     expect($('#container h1')).toHaveText('Hello World Index View from Backbone!!!');
 
     // has the new accounting transaction form
-    expect($(".accounting_transaction[data-id='new']")).toExist();
+    expect($('#accounting_transaction__new')).toExist();
 
     // shows the single existing accounting transaction
-    expect($('li[data-id=' + this.accounting_transaction.id + ']')).toExist();
+    expect($('#accounting_transaction__' + this.accounting_transaction.id)).toExist();
   }),
 
 
@@ -37,43 +37,43 @@ describe('accounting transactions', function() {
     accounting_transaction = fixtures.accounting_transactions.two;
 
     // new transaction should not already exist on page
-    expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).not.toExist();
+    expect($('#accounting_transaction__' + fixtures.accounting_transactions.two.id)).not.toExist();
 
     // set standard form values (these will go away as implement selectors)
     new_accounting_transaction = fixtures.accounting_transactions.two;
-    new_accounting_transaction_context = ".accounting_transaction[data-id='new'] ";
-    $(new_accounting_transaction_context + ' #date_time').val(new_accounting_transaction.date_time);
-    //$(new_accounting_transaction_context + ' #credit_debit_id').html(new_accounting_transaction.credit_debit_id);
-    $(new_accounting_transaction_context + ' #amount').val(new_accounting_transaction.amount);
-    $(new_accounting_transaction_context + ' #category_id').val(new_accounting_transaction.category_id);
-    $(new_accounting_transaction_context + ' #account_id').val(new_accounting_transaction.account_id);
-    $(new_accounting_transaction_context + ' #note').val(new_accounting_transaction.note);
+    $('#accounting_transaction__date_time__new').val(new_accounting_transaction.date_time);
+    //$('#accounting_transaction__credit_debit_id__new').html(new_accounting_transaction.credit_debit_id);
+    $('#accounting_transaction__amount__new').val(new_accounting_transaction.amount);
+    $('#accounting_transaction__category_id__new').val(new_accounting_transaction.category_id);
+    $('#accounting_transaction__account_id__new').val(new_accounting_transaction.account_id);
+    $('#accounting_transaction__note__new').val(new_accounting_transaction.note);
 
     // set the credit/debit type using selector cell
     // note: running selector through paces... this will be refactored out at some point
-    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('');
+    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
     expect($('#a_selector')).not.toBeVisible();
 
-    $(new_accounting_transaction_context + ' #credit_debit_id').mousedown();
+    $('#accounting_transaction__credit_debit_id__new').mousedown();
     expect($('#a_selector')).toBeVisible();
     $('#a_selector #button_one').mousedown();
     expect($('#a_selector')).not.toBeVisible();
-    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('1');
+    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('1');
 
-    $(new_accounting_transaction_context + ' #credit_debit_id').mousedown();
+    $('#accounting_transaction__credit_debit_id__new').mousedown();
     expect($('#a_selector')).toBeVisible();
     $('#a_selector #button_two').mousedown();
     expect($('#a_selector')).not.toBeVisible();
-    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('2');
+    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('2');
     // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
     new_accounting_transaction.credit_debit_id = '2'
 
+    created_accounting_transaction = fixtures.accounting_transactions.two;
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
-                                    JSON.stringify(fixtures.accounting_transactions.two)]);
+                                    JSON.stringify(created_accounting_transaction)]);
 
     sinon.spy(jQuery, 'ajax');
-    $(new_accounting_transaction_context + ' #save').click();
+    $('#accounting_transaction__save__new').click();
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
@@ -85,15 +85,15 @@ describe('accounting transactions', function() {
     this.server.respond();
 
 
-    expect($('li[data-id=' + fixtures.accounting_transactions.two.id + ']')).toExist();
+    expect($('#accounting_transaction__' + created_accounting_transaction.id)).toExist();
 
     // clears the entry form upon success
-    expect($(new_accounting_transaction_context + ' #date_time').val()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #credit_debit_id').html()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #amount').val()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #category_id').val()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #account_id').val()).toEqual('');
-    expect($(new_accounting_transaction_context + ' #note').val()).toEqual('');
+    expect($('#accounting_transaction__date_time__new').val()).toEqual('');
+    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
+    expect($('#accounting_transaction__amount__new').val()).toEqual('');
+    expect($('#accounting_transaction__category_id__new').val()).toEqual('');
+    expect($('#accounting_transaction__account_id__new').val()).toEqual('');
+    expect($('#accounting_transaction__note__new').val()).toEqual('');
 
     jQuery.ajax.restore();
   }),
@@ -102,37 +102,56 @@ describe('accounting transactions', function() {
   it('can edit and delete an existing accounting transaction', function() {
     updated_note_value = 'this is an updated note';
 
-    accounting_transaction_context = ".accounting_transaction[data-id='" + this.accounting_transaction.id + "'] ";
+    accounting_transaction_id = this.accounting_transaction.id
 
-    expect($(accounting_transaction_context + "#note[value='" + updated_note_value + "']")).not.toExist();
-
-    expect($(accounting_transaction_context)).toBeVisible();
+    expect($('#accounting_transaction__note__' + accounting_transaction_id).val()).not.toEqual(updated_note_value);
 
     // verify initial form values
-    expect($(accounting_transaction_context + '#date_time').val()).toEqual(this.accounting_transaction.date_time.toString());
-    expect($(accounting_transaction_context + '#credit_debit_id').html()).toEqual(this.accounting_transaction.credit_debit_id.toString());
-    expect($(accounting_transaction_context + '#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    expect($(accounting_transaction_context + '#category_id').val()).toEqual(this.accounting_transaction.category_id.toString());
-    expect($(accounting_transaction_context + '#account_id').val()).toEqual(this.accounting_transaction.account_id.toString());
-    expect($(accounting_transaction_context + '#note').val()).toEqual(this.accounting_transaction.note.toString());
+    expect($('#accounting_transaction__date_time__' + accounting_transaction_id).val()).toEqual(this.accounting_transaction.date_time.toString());
+    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual(this.accounting_transaction.credit_debit_id.toString());
+    expect($('#accounting_transaction__amount__' + accounting_transaction_id).val()).toEqual(this.accounting_transaction.amount.toString());
+    expect($('#accounting_transaction__category_id__' + accounting_transaction_id).val()).toEqual(this.accounting_transaction.category_id.toString());
+    expect($('#accounting_transaction__account_id__' + accounting_transaction_id).val()).toEqual(this.accounting_transaction.account_id.toString());
+    expect($('#accounting_transaction__note__' + accounting_transaction_id).val()).toEqual(this.accounting_transaction.note.toString());
 
     // update a field
-    $(accounting_transaction_context + '#note').val(updated_note_value);
+    $('#accounting_transaction__note__' + accounting_transaction_id).val(updated_note_value);
+
+    // update the credit/debit type using selector cell
+    // note: running selector through paces... this will be refactored out at some point
+    expect($('#a_selector')).not.toBeVisible();
+
+    $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).mousedown();
+    expect($('#a_selector')).toBeVisible();
+    $('#a_selector #button_one').mousedown();
+    expect($('#a_selector')).not.toBeVisible();
+    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual('1');
+
+    $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).mousedown();
+    expect($('#a_selector')).toBeVisible();
+    $('#a_selector #button_two').mousedown();
+    expect($('#a_selector')).not.toBeVisible();
+    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual('2');
+    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
+    this.accounting_transaction.credit_debit_id = '2'
 
     // submit and verify data sent to server
     this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
     sinon.spy(jQuery, 'ajax');
-    $(accounting_transaction_context + '#save').click();
+
+    $('#accounting_transaction__' + accounting_transaction_id + ' .accounting_transaction__save').click();
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+    expect(result.credit_debit_id).toEqual('2');
     expect(result.note).toEqual(updated_note_value);
 
     this.server.respond();
 
     // field shows value
-    expect($(accounting_transaction_context + "e[value='" + updated_note_value + "']")).not.toExist();
+    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual('2');
+    expect($('#accounting_transaction__note__' + accounting_transaction_id)).toExist();
 
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
 
@@ -140,15 +159,14 @@ describe('accounting transactions', function() {
     this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
-    $(accounting_transaction_context + ' #delete').click();
+    $('.accounting_transaction__delete').click();
 
     this.server.respond();
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
     expect(result.id).toEqual(this.accounting_transaction.id);
 
-    // section turns back to a line item with updated data correctly there
-    expect($(accounting_transaction_context)).not.toExist();
+    expect($('#accounting_transaction__' + accounting_transaction_id)).not.toExist();
 
     expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
 
@@ -163,8 +181,7 @@ describe('accounting transactions', function() {
                                      fixtures.accounting_transactions.errors]);
     sinon.spy(jQuery, 'ajax');
 
-    new_accounting_transaction_context = ".accounting_transaction[data-id='new']";
-    $(".accounting_transaction[data-id='new'] #save").click();
+    $('#accounting_transaction__save__new').click();
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);

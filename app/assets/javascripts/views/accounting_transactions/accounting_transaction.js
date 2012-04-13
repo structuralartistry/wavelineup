@@ -3,8 +3,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
   template: JST['accounting_transactions/accounting_transaction'],
 
   events: {
-    'click .accounting_transaction #delete': 'delete',
-    'click .accounting_transaction #save': 'update_accounting_transaction'
+    'click .accounting_transaction__delete': 'delete',
+    'click .accounting_transaction__save': 'update_accounting_transaction'
   },
 
   initialize: function() {
@@ -12,8 +12,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
     this.model.bind('change', this.render, this)
     this.model.bind('destroy', this.delete_accounting_transaction_wrapper, this)
 
-    $(this.el).attr('class','accounting_transaction');
-    $(this.el).attr('data-id',this.model.get('id'));
+    $(this.el).attr('id', 'accounting_transaction__' + this.model.get('id'));
   },
 
   render: function() {
@@ -23,11 +22,6 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
 
   delete_accounting_transaction_wrapper: function() {
     $(this.el).remove();
-  },
-
-  edit: function(event) {
-    $('.accounting_transaction_wrapper[data-id=' + this.model.get('id') + '] .detail').hide();
-    $('.accounting_transaction_wrapper[data-id=' + this.model.get('id') + '] .edit').show();
   },
 
   delete: function(event) {
@@ -45,20 +39,19 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
 
   update_accounting_transaction: function(event) {
     event.preventDefault();
-    accounting_transaction_context = ".accounting_transaction[data-id='" + this.model.get('id') + "'] ";
+    accounting_transaction_id = this.model.get('id');
     attributes = {
-      date_time: $(accounting_transaction_context + '#date_time').val(),
-      credit_debit_id: $(accounting_transaction_context + '#credit_debit_id').html(),
-      amount: $(accounting_transaction_context + '#amount').val(),
-      category_id: $(accounting_transaction_context + '#category_id').val(),
-      account_id: $(accounting_transaction_context + '#account_id').val(),
-      note: $(accounting_transaction_context + '#note').val()
+      date_time: $('#accounting_transaction__date_time__' + accounting_transaction_id).val(),
+      credit_debit_id: $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html(),
+      amount: $('#accounting_transaction__amount__' + accounting_transaction_id).val(),
+      category_id: $('#accounting_transaction__category_id__' + accounting_transaction_id).val(),
+      account_id: $('#accounting_transaction__account_id__' + accounting_transaction_id).val(),
+      note: $('#accounting_transaction__note__' + accounting_transaction_id).val()
     };
     this.model.save(attributes, {
       wait: true,
       success: function() {
         $('#notices').html('Accounting Transaction updated by server!');
-        $(".accounting_transaction[data-id='new']").show();
       },
       error: function() {
         this.handle_error();
