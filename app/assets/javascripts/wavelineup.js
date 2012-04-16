@@ -5,7 +5,7 @@ window.Wavelineup = {
   Routers: {},
   Templates: {},
   init: function() {
-    new Wavelineup.Routers.AccountingTransactions();
+    Wavelineup.Routers.main = new Wavelineup.Routers.Main();
     // triggers the matching router for what is in the url:
     try{ Backbone.history.start(); }
     catch(error){
