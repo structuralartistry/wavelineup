@@ -13,6 +13,7 @@
 //= require json2-2011-10-19
 //= require jquery
 //= require jquery_ujs
+//= require jquery.dataTables
 //= require underscore-1.3.1
 //= require backbone-0.9.2
 //= require handlebars.runtime
