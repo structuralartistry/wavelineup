@@ -1,5 +1,5 @@
 Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
-  tagName: 'li',
+  tagName: 'tr',
   template: JST['accounting_transactions/accounting_transaction'],
 
   events: {
