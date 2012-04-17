@@ -18,7 +18,7 @@ Wavelineup.Routers.Main = Backbone.Router.extend({
 
   new_accounting_transaction: function() {
     this.before(function() {
-      var view = new Wavelineup.Views.AccountingTransactionNew();
+      var view = new Wavelineup.Views.AccountingTransactionNew({model: new Wavelineup.Models.AccountingTransaction()});
       $('#content').html(view.render().el);
     });
   },

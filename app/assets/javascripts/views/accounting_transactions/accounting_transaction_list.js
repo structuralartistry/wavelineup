@@ -40,12 +40,15 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
     data = { accounting_transactions: this.collection.toJSON() };
     $(this.el).html(this.template(data));
     this.collection.each(this.append_accounting_transaction);
+
+    // datatable
     $("#accounting_transactions tbody tr").click( function(event) {
       alert($(this).attr('id'));
     });
     oTable = $('#accounting_transactions').dataTable( {
       "aaSorting": [[ 4, "desc" ]]
     });
+
     return this.el;
   },
 
