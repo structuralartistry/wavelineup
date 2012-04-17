@@ -1,71 +1,96 @@
-Wavelineup.Views.AccountingTransaction = Backbone.View.extend({
-  tagName: 'tr',
-  template: JST['accounting_transactions/accounting_transaction'],
+Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
+  tagName: 'li',
 
-  events: {
-    'click .accounting_transaction__delete': 'delete',
-    'click .accounting_transaction__save': 'update_accounting_transaction'
+  template: function(json) {
+    var t = " \
+      <ul class='selector'> \
+        <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
+        <li><input type='text' id='credit_debit_id' value='<%= credit_debit_id %>'></li> \
+        <li><input type='text' id='amount' value='<%= amount %>'></li> \
+        <li><input type='text' id='category_id' value='<%= category_id %>'></li> \
+        <li><input type='text' id='account_id' value='<%= account_id %>'></li> \
+        <li><input type='text' id='note' value='<%= note %>'></li> \
+        <li><input class='save' type='submit' value='Save'></li> \
+        <li><input class='delete' type='submit' value='Delete'></li> \
+      </ul>"
+    return _.template(t,json);
   },
 
-  initialize: function() {
-    _.bindAll(this, 'render')
-    this.model.bind('change', this.render, this)
-    this.model.bind('destroy', this.delete_accounting_transaction_wrapper, this)
-
-    $(this.el).attr('id', 'accounting_transaction_' + this.model.get('id'));
+  events: {
+    'mousedown .delete': 'delete',
+    'mousedown .save': 'save'
   },
 
   render: function() {
-    $(this.el).html(this.template({accounting_transaction: this.model.toJSON()}));
+    $(this.el).html(this.template(this.model.toJSON()));
+//    $(this.el).html(_.template(this.template(), this.model.toJSON()));
     return this;
   },
 
-  delete_accounting_transaction_wrapper: function() {
-    $(this.el).remove();
-  },
-
-  delete: function(event) {
+  save: function(event) {
     event.preventDefault();
-    this.model.destroy({
-      wait: true,
-      success: function() {
-        $('#notices').html('Accounting Transaction deleted by server!');
-      },
-      error: function() {
-        this.handle_error;
-      }
-    })
-  },
 
-  update_accounting_transaction: function(event) {
-    event.preventDefault();
-    accounting_transaction_id = this.model.get('id');
-    attributes = {
-      date_time: $('#accounting_transaction__date_time__' + accounting_transaction_id).val(),
-      credit_debit_id: $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html(),
-      amount: $('#accounting_transaction__amount__' + accounting_transaction_id).val(),
-      category_id: $('#accounting_transaction__category_id__' + accounting_transaction_id).val(),
-      account_id: $('#accounting_transaction__account_id__' + accounting_transaction_id).val(),
-      note: $('#accounting_transaction__note__' + accounting_transaction_id).val()
-    };
-    this.model.save(attributes, {
-      wait: true,
-      success: function() {
-        $('#notices').html('Accounting Transaction updated by server!');
-      },
-      error: function() {
-        this.handle_error();
-      }
-    })
-  },
+    this.model.set({
+      date_time: $('input#date_time').val(),
+      credit_debit_id: $('input#credit_debit_id').val(),
+      amount: $('input#amount').val(),
+      category_id: $('input#category_id').val(),
+      account_id: $('input#account_id').val(),
+      note: $('input#note').val()
+    });
 
-  handle_error: function(model, response) {
-    var attribute, errors, message, messages, _i, _len;
-    if (response.status === 422) {
-      $('#notices').html('');
-      errors = $.parseJSON(response.responseText).errors;
-      Wavelineup.write_model_errors_to_screen(errors);
+    if(this.model.isNew()) {
+      Wavelineup.Collections.accounting_transactions.create(this.model, {
+        wait: true,
+        success: function() {
+          $('#notices').html('Accounting Transaction accepted by server!');
+          Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
+        },
+        error: function(model, response) {
+          var attribute, errors, message, messages, _i, _len;
+          if (response.status === 422) {
+            $('#notices').html('');
+            errors = $.parseJSON(response.responseText).errors;
+            Wavelineup.write_model_errors_to_screen(errors);
+          }
+        }
+      });
+    } else {
+      this.model.save();
+      Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
     }
-  }
 
+
+
+
+
+//    attributes = {
+//      date_time: $('input#date_time').val(),
+//      credit_debit_id: $('input#credit_debit_id').val(),
+//      amount: $('input#amount').val(),
+//      category_id: $('input#category_id').val(),
+//      account_id: $('input#account_id').val(),
+//      note: $('input#note').val()
+//    };
+//
+//    Wavelineup.Collections.accounting_transactions.create(attributes, {
+//      wait: true,
+//      success: function() {
+//        $('#notices').html('Accounting Transaction accepted by server!');
+//        Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
+//      },
+//      error: function(model, response) {
+//        var attribute, errors, message, messages, _i, _len;
+//        if (response.status === 422) {
+//          $('#notices').html('');
+//          errors = $.parseJSON(response.responseText).errors;
+//          Wavelineup.write_model_errors_to_screen(errors);
+//        }
+//      }
+//    });
+  },
+
+  delete: function() {
+    alert('delete');
+  }
 });

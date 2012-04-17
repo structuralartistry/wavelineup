@@ -43,7 +43,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
 
     // datatable
     $("#accounting_transactions tbody tr").click( function(event) {
-      alert($(this).attr('id'));
+      Wavelineup.Routers.main.navigate('accounting_transactions/' + $(this).attr('id'), {trigger: true});
     });
     oTable = $('#accounting_transactions').dataTable( {
       "aaSorting": [[ 4, "desc" ]]
@@ -53,7 +53,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   append_accounting_transaction: function(accounting_transaction) {
-    view = new Wavelineup.Views.AccountingTransaction({model: accounting_transaction});
+    view = new Wavelineup.Views.AccountingTransactionListItem({model: accounting_transaction});
     $('#accounting_transactions tbody').append(view.render().el);
   },
 

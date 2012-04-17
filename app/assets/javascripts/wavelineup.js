@@ -2,6 +2,7 @@ window.Wavelineup = {
   Models: {},
   Collections: {},
   Views: {},
+  Controllers: {},
   Routers: {},
   Templates: {},
   init: function() {
