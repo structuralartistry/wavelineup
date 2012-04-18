@@ -20,10 +20,6 @@ Wavelineup.Controllers.AccountingTransactions = {
   },
 
   list: function() {
-    Wavelineup.events.on('accounting_transaction:selected', function() {
-      console.log('test event fired');
-    });
-
     this.before();
     var view = new Wavelineup.Views.AccountingTransactionsList({collection: Wavelineup.Collections.accounting_transactions})
     $('#content').html(view.render().el);

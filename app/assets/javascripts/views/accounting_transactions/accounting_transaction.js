@@ -19,18 +19,11 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   events: {
     'mousedown .delete': 'delete',
-    'mousedown .save': 'save',
-    'mousedown #test_event_button': 'test_method'
-  },
-
-  test_method: function() {
-    Wavelineup.Controllers.AccountingTransactions.edit();
-    Wavelineup.events.trigger('accounting_transaction:selected');
+    'mousedown .save': 'save'
   },
 
   render: function() {
     $(this.el).html(this.template(this.model.toJSON()));
-//    $(this.el).html(_.template(this.template(), this.model.toJSON()));
     return this;
   },
 
@@ -51,7 +44,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
         wait: true,
         success: function() {
           $('#notices').html('Accounting Transaction accepted by server!');
-          Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
+          Wavelineup.Controllers.AccountingTransactions.list();
         },
         error: function(model, response) {
           var attribute, errors, message, messages, _i, _len;
@@ -64,39 +57,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
       });
     } else {
       this.model.save();
-//      Wavelineup.Routers.main.navigate('accounting_transactions');
       Wavelineup.Controllers.AccountingTransactions.list();
-//      Wavelineup.events.trigger('controller:accounting_transactions:list')
     }
-
-
-
-
-
-//    attributes = {
-//      date_time: $('input#date_time').val(),
-//      credit_debit_id: $('input#credit_debit_id').val(),
-//      amount: $('input#amount').val(),
-//      category_id: $('input#category_id').val(),
-//      account_id: $('input#account_id').val(),
-//      note: $('input#note').val()
-//    };
-//
-//    Wavelineup.Collections.accounting_transactions.create(attributes, {
-//      wait: true,
-//      success: function() {
-//        $('#notices').html('Accounting Transaction accepted by server!');
-//        Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
-//      },
-//      error: function(model, response) {
-//        var attribute, errors, message, messages, _i, _len;
-//        if (response.status === 422) {
-//          $('#notices').html('');
-//          errors = $.parseJSON(response.responseText).errors;
-//          Wavelineup.write_model_errors_to_screen(errors);
-//        }
-//      }
-//    });
   },
 
   delete: function() {
