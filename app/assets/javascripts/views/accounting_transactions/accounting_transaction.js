@@ -12,14 +12,15 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
         <li><input type='text' id='note' value='<%= note %>'></li> \
         <li><input class='save' type='submit' value='Save'></li> \
         <li><input class='delete' type='submit' value='Delete'></li> \
-        <li><input id='test_event_button' type='submit' value='Test An Event'></li> \
+        <li><input class='cancel' type='submit' value='Cancel'></li> \
       </ul>"
     return _.template(t,json);
   },
 
   events: {
     'mousedown .delete': 'delete',
-    'mousedown .save': 'save'
+    'mousedown .save': 'save',
+    'mousedown .cancel': 'cancel'
   },
 
   render: function() {
@@ -27,9 +28,11 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     return this;
   },
 
-  save: function(event) {
-    event.preventDefault();
+  cancel: function() {
+    Wavelineup.Controllers.AccountingTransactions.list();
+  },
 
+  save: function() {
     this.model.set({
       date_time: $('input#date_time').val(),
       credit_debit_id: $('input#credit_debit_id').val(),
@@ -39,29 +42,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
       note: $('input#note').val()
     });
 
-    if(this.model.isNew()) {
-      Wavelineup.Collections.accounting_transactions.create(this.model, {
-        wait: true,
-        success: function() {
-          $('#notices').html('Accounting Transaction accepted by server!');
-          Wavelineup.Controllers.AccountingTransactions.list();
-        },
-        error: function(model, response) {
-          var attribute, errors, message, messages, _i, _len;
-          if (response.status === 422) {
-            $('#notices').html('');
-            var errors = $.parseJSON(response.responseText).errors;
-            Wavelineup.write_model_errors_to_screen(errors);
-          }
-        }
-      });
-    } else {
-      this.model.save();
-      Wavelineup.Controllers.AccountingTransactions.list();
-    }
+    Wavelineup.Controllers.AccountingTransactions.save(this.model);
   },
 
   delete: function() {
-    alert('delete');
+    Wavelineup.Controllers.AccountingTransactions.destroy(this.model);
   }
 });

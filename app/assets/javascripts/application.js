@@ -18,5 +18,4 @@
 //= require backbone-0.9.2
 //= require handlebars.runtime
 //= require wavelineup.js
-//= require_tree ../templates
 //= require_tree .

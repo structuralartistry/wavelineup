@@ -1,18 +1,67 @@
 Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   el: '#content',
 
-  template: JST['accounting_transactions/list'],
+  template: function(json) {
+    var t = " \
+      <div id='notices'></div> \
+      <h1>Hello World Index View from Backbone!!!</h1> \
+      <input id='accounting_transaction__new__button' type='submit' value='New'> \
+      <table id='accounting_transactions'> \
+        <thead> \
+          <tr> \
+            <th>Date Time</th> \
+            <th>Credit/Debit</th> \
+            <th>Amount</th> \
+            <th>Category</th> \
+            <th>Account</th> \
+            <th>Note</th> \
+            <th>Edit</th> \
+          </tr> \
+        </thead> \
+        <tbody> \
+        </tbody> \
+      </table> \
+      <style> \
+        ul.selector li { \
+          display: inline-block; \
+          border: solid 1px black;  \
+          width: 1.5in;  \
+          height: 0.25in; \
+          list-style-type: none; \
+        } \
+        #a_selector { \
+          display: none; \
+        } \
+      </style> \
+      <ul class='selector' id='a_selector'> \
+        <li id='button_one' class='selected_value' data-value='1'>1</li> \
+        <li id='button_two' class='selected_value' data-value='2'>2</li> \
+      </ul>"
+    return _.template(t,json);
+  },
 
   events: {
     'mousedown #accounting_transaction__new__button': 'new_accounting_transaction',
     'mousedown .show_selector': 'show_selector',
-    'mousedown .selected_value': 'set_selected_value',
-    'mousedown #accounting_transactions tbody tr': 'edit'
+    'mousedown .selected_value': 'set_selected_value'
   },
 
-  edit: function(event) {
-    id = $(event.target).parent().attr('id')
-    Wavelineup.Controllers.AccountingTransactions.edit(id);
+  initialize: function() {
+    this.collection.on('reset', this.render, this);
+    this.collection.on('add', this.append_accounting_transaction, this);
+  },
+
+  render: function() {
+    data = { accounting_transactions: this.collection.toJSON() };
+    $(this.el).html(this.template(data));
+    this.collection.each(this.append_accounting_transaction);
+
+    // datatable
+    oTable = $('#accounting_transactions').dataTable( {
+      "aaSorting": [[ 4, "desc" ]]
+    });
+
+    return this.el;
   },
 
   new_accounting_transaction: function(event) {
@@ -35,24 +84,6 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
     caller_id = $(selector_element).data('caller_id');
     $('#' + caller_id).html($(event.target).data('value'));
     $(selector_element).hide();
-  },
-
-  initialize: function() {
-    this.collection.on('reset', this.render, this);
-    this.collection.on('add', this.append_accounting_transaction, this);
-  },
-
-  render: function() {
-    data = { accounting_transactions: this.collection.toJSON() };
-    $(this.el).html(this.template(data));
-    this.collection.each(this.append_accounting_transaction);
-
-    // datatable
-    oTable = $('#accounting_transactions').dataTable( {
-      "aaSorting": [[ 4, "desc" ]]
-    });
-
-    return this.el;
   },
 
   append_accounting_transaction: function(accounting_transaction) {
