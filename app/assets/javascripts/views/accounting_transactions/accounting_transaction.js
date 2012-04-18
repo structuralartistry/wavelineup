@@ -12,13 +12,20 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
         <li><input type='text' id='note' value='<%= note %>'></li> \
         <li><input class='save' type='submit' value='Save'></li> \
         <li><input class='delete' type='submit' value='Delete'></li> \
+        <li><input id='test_event_button' type='submit' value='Test An Event'></li> \
       </ul>"
     return _.template(t,json);
   },
 
   events: {
     'mousedown .delete': 'delete',
-    'mousedown .save': 'save'
+    'mousedown .save': 'save',
+    'mousedown #test_event_button': 'test_method'
+  },
+
+  test_method: function() {
+    Wavelineup.Controllers.AccountingTransactions.edit();
+    Wavelineup.events.trigger('accounting_transaction:selected');
   },
 
   render: function() {
@@ -50,14 +57,16 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
           var attribute, errors, message, messages, _i, _len;
           if (response.status === 422) {
             $('#notices').html('');
-            errors = $.parseJSON(response.responseText).errors;
+            var errors = $.parseJSON(response.responseText).errors;
             Wavelineup.write_model_errors_to_screen(errors);
           }
         }
       });
     } else {
       this.model.save();
-      Wavelineup.Routers.main.navigate('accounting_transactions', {trigger: true});
+//      Wavelineup.Routers.main.navigate('accounting_transactions');
+      Wavelineup.Controllers.AccountingTransactions.list();
+//      Wavelineup.events.trigger('controller:accounting_transactions:list')
     }
 
 
