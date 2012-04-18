@@ -3,7 +3,6 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
 
   template: function(json) {
     var t = " \
-      <div id='notices'></div> \
       <h1>Hello World Index View from Backbone!!!</h1> \
       <input id='accounting_transaction__new__button' type='submit' value='New'> \
       <table id='accounting_transactions'> \
