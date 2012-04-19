@@ -64,7 +64,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   new_accounting_transaction: function(event) {
-    Wavelineup.Controllers.AccountingTransactions.neww();
+    Wavelineup.Controllers.AccountingTransactions.new_edit('new');
   },
 
   show_selector: function(event) {

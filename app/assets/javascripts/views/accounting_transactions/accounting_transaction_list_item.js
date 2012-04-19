@@ -30,7 +30,7 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
   },
 
   edit: function(event) {
-    Wavelineup.Controllers.AccountingTransactions.edit(this.model);
+    Wavelineup.Controllers.AccountingTransactions.new_edit(this.model.id);
   }
 
 });

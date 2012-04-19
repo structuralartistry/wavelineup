@@ -9,6 +9,7 @@
 //  }
 
 Wavelineup.Controllers.AccountingTransactions = {
+
   before: function() {
     if(!Wavelineup.Collections.accounting_transactions) {
       Wavelineup.Collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
@@ -16,9 +17,17 @@ Wavelineup.Controllers.AccountingTransactions = {
     }
   },
 
-  neww: function() {
+  new_edit: function(id) {
+    var view, model;
     this.before();
-    var view = new Wavelineup.Views.AccountingTransaction({model: new Wavelineup.Models.AccountingTransaction()});
+    Wavelineup.Routers.main.navigate('accounting_transactions/' + id);
+
+    if(id=='new') {
+      view = new Wavelineup.Views.AccountingTransaction({model: new Wavelineup.Models.AccountingTransaction()});
+    } else {
+      model = Wavelineup.Collections.accounting_transactions.get(id);
+      view = new Wavelineup.Views.AccountingTransaction({model: model});
+    }
     $('#content').html(view.render().el);
   },
 
@@ -46,14 +55,9 @@ Wavelineup.Controllers.AccountingTransactions = {
 
   },
 
-  edit: function(model) {
-    this.before();
-    var view = new Wavelineup.Views.AccountingTransaction({model: model});
-    $('#content').html(view.render().el);
-  },
-
   list: function() {
     this.before();
+    Wavelineup.Routers.main.navigate('accounting_transactions/');
     var view = new Wavelineup.Views.AccountingTransactionsList({collection: Wavelineup.Collections.accounting_transactions})
     $('#content').html(view.render().el);
   },
