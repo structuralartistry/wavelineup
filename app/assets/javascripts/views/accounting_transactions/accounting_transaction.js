@@ -9,6 +9,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
         <li><a class='btn selector target' id='credit_debit_id'>1 > 3</a></li> \
         <li><input type='text' id='amount' value='<%= amount %>'></li> \
         <li><input type='text' id='category_id' value='<%= category_id %>'></li> \
+        <li><a class='btn selector target' id='category_id'>1 > 3</a></li> \
         <li><input type='text' id='account_id' value='<%= account_id %>'></li> \
         <li><input type='text' id='note' value='<%= note %>'></li> \
         <li><input class='save' type='submit' value='Save'></li> \
@@ -52,11 +53,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   },
 
   show_selector: function(event) {
-    view = new Wavelineup.Views.Selector();
+    view = new Wavelineup.Views.Selector($(event.target).attr('id'));
     $('#selector_container').html(view.render().el);
     target_selector_offset = $(event.target).offset();
     $('#selector_container').css({top: target_selector_offset.top, left: target_selector_offset.left})
-    // $('#selector_container').css({left: event.clientX, top: event.clientY})
     $('#selector_container').show();
   }
 });
