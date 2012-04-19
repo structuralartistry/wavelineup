@@ -6,7 +6,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
       <ul class='selector'> \
         <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
         <li><input type='text' id='credit_debit_id' value='<%= credit_debit_id %>'></li> \
-        <li><a class='btn selector' id='credit_debit_id'>1 > 3</a></li> \
+        <li><a class='btn selector target' id='credit_debit_id'>1 > 3</a></li> \
         <li><input type='text' id='amount' value='<%= amount %>'></li> \
         <li><input type='text' id='category_id' value='<%= category_id %>'></li> \
         <li><input type='text' id='account_id' value='<%= account_id %>'></li> \
@@ -21,7 +21,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   events: {
     'mousedown .delete': 'delete',
     'mousedown .save': 'save',
-    'mousedown .cancel': 'cancel'
+    'mousedown .cancel': 'cancel',
+    'mousedown .selector .target': 'show_selector'
   },
 
   render: function() {
@@ -48,5 +49,14 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   delete: function() {
     Wavelineup.Controllers.AccountingTransactions.destroy(this.model);
+  },
+
+  show_selector: function(event) {
+    view = new Wavelineup.Views.Selector();
+    $('#selector_container').html(view.render().el);
+    target_selector_offset = $(event.target).offset();
+    $('#selector_container').css({top: target_selector_offset.top, left: target_selector_offset.left})
+    // $('#selector_container').css({left: event.clientX, top: event.clientY})
+    $('#selector_container').show();
   }
 });

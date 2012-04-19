@@ -1,3 +1,8 @@
 .selector {
   height: 0.5in;
 }
+
+#selector_container {
+  display: none;
+  position: absolute;
+}

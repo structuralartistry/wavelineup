@@ -11,6 +11,12 @@
 Wavelineup.Controllers.AccountingTransactions = {
 
   before: function() {
+    /*
+      note, in future once get through another page or two want to do:
+        move router navigate to this before method
+        move get/build model from the id up here
+    */
+
     if(!Wavelineup.Collections.accounting_transactions) {
       Wavelineup.Collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.Collections.accounting_transactions.fetch();

@@ -50,6 +50,7 @@ Wavelineup.Views.Layout = Backbone.View.extend( {
           <div id='header'>HEADER</div> \
           <div id='left_column'>LEFT COLUMN</div> \
           <div id='notices'>NOTICES</div> \
+          <div id='selector_container'>OPTION SELECTOR</div> \
           <div id='content'>CONTENT</div> \
           <div class='hero-unit'> \
             <h1>Hello, world!</h1> \
