@@ -1,7 +1,7 @@
 Wavelineup.Views.Selector = Backbone.View.extend( {
   tagName: 'table',
 
-  template: function(values) {
+  template: function(json) {
     var t = " \
       <tbody> \
         <tr> \
@@ -9,8 +9,8 @@ Wavelineup.Views.Selector = Backbone.View.extend( {
             %> <td><a class='btn selector value'><%= value %></a></td> <% \
           }); %> \
         </tr> \
-      </tbody> "
-    return _.template(t,values);
+      </tbody>"
+    return _.template(t,json);
   },
 
   events: {
