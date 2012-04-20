@@ -3,7 +3,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   template: function(json) {
     var t = " \
-      <ul> \
+      <ul id='accounting_transaction_new_edit'> \
         <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
         <li><input type='text' id='credit_debit_id' value='<%= credit_debit_id %>'></li> \
         <li><a class='btn option_selector_target' id='credit_debit_id' data-option_selector_name='credit_debit'>1 > 3</a></li> \
