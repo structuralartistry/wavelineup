@@ -20,12 +20,23 @@ Wavelineup.Controllers.AccountingTransactions = {
     if(!Wavelineup.Collections.accounting_transactions) {
       Wavelineup.Collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.Collections.accounting_transactions.fetch();
+console.log('controller before: length: ' + Wavelineup.Collections.accounting_transactions.length.toString())
     }
+  },
+
+  list: function() {
+    this.before();
+    Wavelineup.Routers.main.navigate('accounting_transactions');
+    var view = new Wavelineup.Views.AccountingTransactionsList({collection: Wavelineup.Collections.accounting_transactions})
+    $('#content').html(view.render().el);
   },
 
   new_edit: function(id) {
     var view, model;
     this.before();
+console.log('controller new_edit')
+console.log('collection exists: ' + Wavelineup.Collections.accounting_transactions)
+console.log('collection length: ' + Wavelineup.Collections.accounting_transactions.length.toString())
     Wavelineup.Routers.main.navigate('accounting_transactions/' + id);
 
     if(id=='new') {
@@ -59,13 +70,6 @@ Wavelineup.Controllers.AccountingTransactions = {
       Wavelineup.Controllers.AccountingTransactions.list();
     }
 
-  },
-
-  list: function() {
-    this.before();
-    Wavelineup.Routers.main.navigate('accounting_transactions/');
-    var view = new Wavelineup.Views.AccountingTransactionsList({collection: Wavelineup.Collections.accounting_transactions})
-    $('#content').html(view.render().el);
   },
 
   destroy: function(model) {

@@ -1,8 +1,9 @@
-.selector {
+.option_selector_target,
+.option_selector_option {
   height: 0.5in;
 }
 
-#selector_container {
+#option_selector_container {
   display: none;
   position: absolute;
 }
