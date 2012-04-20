@@ -37,10 +37,11 @@ console.log('new edit AT controller');
     Wavelineup.Routers.main.navigate('accounting_transactions/' + id);
 
     if(id=='new') {
-      view = new Wavelineup.Views.AccountingTransaction({model: new Wavelineup.Models.AccountingTransaction()});
+      view = new Wavelineup.Views.AccountingTransaction({collection: Wavelineup.Collections.accounting_transactions, model: new Wavelineup.Models.AccountingTransaction({'id': 'new'})});
     } else {
       model = Wavelineup.Collections.accounting_transactions.get(id);
-      view = new Wavelineup.Views.AccountingTransaction({model: model});
+      if(!model) model = new Wavelineup.Models.AccountingTransaction({'id': id});
+      view = new Wavelineup.Views.AccountingTransaction({collection: Wavelineup.Collections.accounting_transactions, model: model});
     }
     $('#content').html(view.render().el);
   },

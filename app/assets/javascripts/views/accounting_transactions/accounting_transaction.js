@@ -27,8 +27,25 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     'mousedown .option_selector_target': 'show_option_selector'
   },
 
+  initialize: function() {
+    this.collection.on('reset', this.render, this);
+  },
+
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+console.log('render AT');
+    if(this.model.id=='new') {
+      model = this.model;
+    } else {
+      model = this.collection.get(this.model.id);
+    }
+    if(model) {
+console.log('model defined')
+      $(this.el).html(this.template(model.toJSON()));
+    } else {
+console.log('model undefined')
+      $(this.el).html('Loading...');
+    }
+
     return this;
   },
 
