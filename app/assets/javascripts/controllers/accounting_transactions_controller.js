@@ -20,7 +20,6 @@ Wavelineup.Controllers.AccountingTransactions = {
     if(!Wavelineup.Collections.accounting_transactions) {
       Wavelineup.Collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.Collections.accounting_transactions.fetch();
-console.log('controller before: length: ' + Wavelineup.Collections.accounting_transactions.length.toString())
     }
   },
 
@@ -32,11 +31,9 @@ console.log('controller before: length: ' + Wavelineup.Collections.accounting_tr
   },
 
   new_edit: function(id) {
+console.log('new edit AT controller');
     var view, model;
     this.before();
-console.log('controller new_edit')
-console.log('collection exists: ' + Wavelineup.Collections.accounting_transactions)
-console.log('collection length: ' + Wavelineup.Collections.accounting_transactions.length.toString())
     Wavelineup.Routers.main.navigate('accounting_transactions/' + id);
 
     if(id=='new') {

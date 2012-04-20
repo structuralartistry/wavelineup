@@ -28,7 +28,6 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   },
 
   render: function() {
-console.log('accounting transaction view render')
     $(this.el).html(this.template(this.model.toJSON()));
     return this;
   },
