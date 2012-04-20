@@ -17,7 +17,6 @@ Wavelineup.Routers.Main = Backbone.Router.extend({
   },
 
   accounting_transactions: function(id) {
-console.log('AT router method');
     if(id) { Wavelineup.Controllers.AccountingTransactions.new_edit(id); return; }
     Wavelineup.Controllers.AccountingTransactions.list();
   }
