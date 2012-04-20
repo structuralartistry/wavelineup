@@ -16,7 +16,6 @@
 //= require jquery.dataTables
 //= require underscore-1.3.1
 //= require backbone-0.9.2
-//= require handlebars.runtime
 //= require bootstrap
 //= require wavelineup.js
 //= require_tree .
