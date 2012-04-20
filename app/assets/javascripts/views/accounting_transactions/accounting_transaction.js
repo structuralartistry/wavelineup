@@ -29,18 +29,17 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   initialize: function() {
     // reload view when collection resets as if are coming in from direct url collection will not have fetched upon first render
+    // we know it has not loaded as there is a requested_id attribute
     this.collection.on('reset', function() {Wavelineup.Controllers.AccountingTransactions.new_edit(this.model.get('requested_id'))}, this);
   },
 
   render: function() {
-    // only want to render if this is (a) new model or (b) loaded model. If the requested_id is present, means that the model has not
-    // loaded via the collection, and hence the collection has not loaded
-
-    // if there is a requested it do not proced, the model has not loaded nor the collection
-    if(!this.model.get('requested_id')) {
-      $(this.el).html(this.template(this.model.toJSON()));
-    } else {
+    // if there is a requested it do not proced, the model has not loaded nor the collection -- a loaded record will never have
+    // requested_id in its attributes
+    if(this.model.get('requested_id')) {
       $(this.el).html(Wavelineup.Templates.Errors.record_can_not_be_loaded());
+    } else {
+      $(this.el).html(this.template(this.model.toJSON()));
     }
     return this;
   },

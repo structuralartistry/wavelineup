@@ -31,7 +31,6 @@ Wavelineup.Controllers.AccountingTransactions = {
   },
 
   new_edit: function(id) {
-console.log('controller new edit' + id.toString())
     var collection, model, view;
     this.before();
     Wavelineup.Routers.main.navigate('accounting_transactions/' + id);
@@ -40,6 +39,7 @@ console.log('controller new edit' + id.toString())
     if(id=='new') {
       view = new Wavelineup.Views.AccountingTransaction({collection: collection, model: new Wavelineup.Models.AccountingTransaction()});
     } else {
+      // requested_id is set if record not found, meaning that probably the collection has not loaded yet or that the record just does not exist
       model = Wavelineup.Collections.accounting_transactions.get(id) || new Wavelineup.Models.AccountingTransaction({'requested_id': id});
       view = new Wavelineup.Views.AccountingTransaction({collection: collection, model: model});
     }
