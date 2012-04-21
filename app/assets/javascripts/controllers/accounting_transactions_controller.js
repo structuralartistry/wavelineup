@@ -65,6 +65,7 @@ Wavelineup.Controllers.AccountingTransactions = {
       });
     } else {
       model.save();
+      $('#notices').html('Accounting Transaction updated by server!');
       Wavelineup.Controllers.AccountingTransactions.list();
     }
 
