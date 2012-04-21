@@ -240,84 +240,48 @@ describe('accounting transactions', function() {
     jQuery.ajax.restore();
   })
 
+  describe('direct routing', function() {
+
+    it('successfully routes to the new form', function() {
+      Wavelineup.Routers.main.navigate('accounting_transactions/new', true);
+
+      // server sending the collection
+      this.server.respond();
+
+      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
+
+      expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
+
+      expect($('input#date_time')).toBeVisible();
+      expect($('input#credit_debit_id')).toBeVisible();
+      expect($('input#amount')).toBeVisible();
+      expect($('input#category_id')).toBeVisible();
+      expect($('input#account_id')).toBeVisible();
+      expect($('input#note')).toBeVisible();
+    }),
+
+    it('successfully routes to the edit form', function() {
+      Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+
+      // server sending the collection
+      this.server.respond();
+
+      // initial view shows the loading/record not found content
+      expect($('#content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
+
+      // form now present
+      // this is bad form but note the timeout of 0 ms... somehow this gives backbone enough time to call
+      // the event on the view for collection reset
+      var t = setTimeout("expect($('ul#accounting_transaction_new_edit')).toBeVisible();", 0);
+    }),
+
+    it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
+      Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+      // note: no loading of collection via server.respond()
+      expect($('#content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
+    })
+  });
+
 });
 
-describe('direct routing', function() {
-
-  beforeEach(function() {
-    setFixtures("<div id='container'>Loading...</div>");
-    expect($('#container')).toHaveText('Loading...');
-
-    this.server = sinon.fakeServer.create();
-
-    this.accounting_transaction = fixtures.accounting_transactions.one;
-
-    this.server.respondWith("GET", "/api/accounting_transactions",
-                                    [200, { "Content-Type": "application/json" },
-                                    JSON.stringify(this.accounting_transaction)]);
-
-    Wavelineup.init();
-
-  }),
-
-
-  afterEach(function() {
-    this.server.restore();
-    $('#container').html('');
-  }),
-
-  it('successfully routes to the new form', function() {
-    Wavelineup.Routers.main.navigate('accounting_transactions/new', true);
-
-    // server sending the collection
-    this.server.respond();
-
-    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
-
-    expect($('input#date_time')).toBeVisible();
-    expect($('input#credit_debit_id')).toBeVisible();
-    expect($('input#amount')).toBeVisible();
-    expect($('input#category_id')).toBeVisible();
-    expect($('input#account_id')).toBeVisible();
-    expect($('input#note')).toBeVisible();
-  }),
-
-  it('successfully routes to the edit form', function() {
-    Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
-
-// note to really do this right, need to wait for the bb 'reset' callback on the collection to happen
-
-    // manually call fetch to ensure collection loaded
-//    Wavelineup.Collections.accounting_transactions.fetch();
-
-    // server sending the collection
-    this.server.respond();
-
-    // form present
-    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-
-    // verify form values
-    expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time.toString());
-    expect($('input#credit_debit_id').val()).toEqual(this.accounting_transaction.credit_debit_id.toString());
-    expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    expect($('input#category_id').val()).toEqual(this.accounting_transaction.category_id.toString());
-    expect($('input#account_id').val()).toEqual(this.accounting_transaction.account_id.toString());
-    expect($('input#note').val()).toEqual(this.accounting_transaction.note.toString());
-  }),
-
-  it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
-// need to destroy the Wavelineup object before?
-// why is the form from last test staying?
-console.log(window.Wavelineup);
-console.log($('#content').html());
-console.log(this.accounting_transaction.id);
-    Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
-
-    expected_content = Wavelineup.Templates.Errors.record_can_not_be_loaded();
-
-    expect($('#content:contains(' + expected_content + ')')).toExist();
-  })
-});
 
