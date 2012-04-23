@@ -50,11 +50,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     Wavelineup.Controllers.AccountingTransactions.destroy(this.model);
   },
 
+  // note this may be ripe to move to a global event aggregator
   show_option_selector: function(event) {
-    view = new Wavelineup.Views.OptionSelector($(event.target));
-    $('#option_selector_container').html(view.render().el);
-    target_option_selector_offset = $(event.target).offset();
-    $('#option_selector_container').css({top: target_option_selector_offset.top, left: target_option_selector_offset.left})
-    $('#option_selector_container').show();
+    new Wavelineup.Views.OptionSelector($(event.target));
   }
 });

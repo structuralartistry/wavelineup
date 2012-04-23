@@ -1,10 +1,10 @@
 window.Wavelineup = {
-  Models: {},
   Collections: {},
-  Views: {},
   Controllers: {},
+  Models: {},
   Routers: {},
   Templates: {},
+  Views: {},
 
   init: function() {
     this.set_instance();
@@ -22,7 +22,7 @@ window.Wavelineup = {
   // between test runs... probably does not matter on standard usage but does on tests as the window is only
   // loaded once
   set_instance: function() {
-    this.instance = { routers: {}, collections: {} }
+    this.instance = { collections: {}, data: {}, routers: {} }
   },
 
   write_model_errors_to_screen: function(errors) {

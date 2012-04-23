@@ -62,26 +62,33 @@ describe('accounting transactions', function() {
 
 
 // *** selectors
-/*
     // set the credit/debit type using selector cell
     // note: running selector through paces... this will be refactored out at some point
-    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
-    expect($('#a_selector')).not.toBeVisible();
+    expect($('#option_selector_container')).toExist();
+    expect($('#option_selector_container')).not.toBeVisible();
+//    expect($('#credit_debit_id.option_selector_target').html()).toEqual('');
 
-    $('#accounting_transaction__credit_debit_id__new').mousedown();
-    expect($('#a_selector')).toBeVisible();
-    $('#a_selector #button_one').mousedown();
-    expect($('#a_selector')).not.toBeVisible();
-    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('1');
+    $('#credit_debit_id.option_selector_target').mousedown();
+    expect($('#option_selector_container')).toBeVisible();
 
-    $('#accounting_transaction__credit_debit_id__new').mousedown();
-    expect($('#a_selector')).toBeVisible();
-    $('#a_selector #button_two').mousedown();
-    expect($('#a_selector')).not.toBeVisible();
-    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('2');
-    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
-    new_accounting_transaction.credit_debit_id = '2'
-*/
+
+
+//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
+//    expect($('#a_selector')).not.toBeVisible();
+//
+//    $('#accounting_transaction__credit_debit_id__new').mousedown();
+//    expect($('#a_selector')).toBeVisible();
+//    $('#a_selector #button_one').mousedown();
+//    expect($('#a_selector')).not.toBeVisible();
+//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('1');
+//
+//    $('#accounting_transaction__credit_debit_id__new').mousedown();
+//    expect($('#a_selector')).toBeVisible();
+//    $('#a_selector #button_two').mousedown();
+//    expect($('#a_selector')).not.toBeVisible();
+//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('2');
+//    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
+//    new_accounting_transaction.credit_debit_id = '2'
 // *** selectors
 
 
