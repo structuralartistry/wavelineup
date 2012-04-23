@@ -54,7 +54,7 @@ describe('accounting transactions', function() {
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(new_accounting_transaction.date_time);
-    $('input#credit_debit_id').val(new_accounting_transaction.credit_debit_id);
+    $('#credit_debit_id.option_selector_target').html(new_accounting_transaction.credit_debit_id);
     $('input#amount').val(new_accounting_transaction.amount);
     $('input#category_id').val(new_accounting_transaction.category_id);
     $('input#account_id').val(new_accounting_transaction.account_id);
