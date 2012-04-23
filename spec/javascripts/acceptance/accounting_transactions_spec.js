@@ -60,6 +60,8 @@ describe('accounting transactions', function() {
     $('input#account_id').val(new_accounting_transaction.account_id);
     $('input#note').val(new_accounting_transaction.note);
 
+
+// *** selectors
 /*
     // set the credit/debit type using selector cell
     // note: running selector through paces... this will be refactored out at some point
@@ -80,6 +82,9 @@ describe('accounting transactions', function() {
     // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
     new_accounting_transaction.credit_debit_id = '2'
 */
+// *** selectors
+
+
     created_accounting_transaction = fixtures.accounting_transactions.two;
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },

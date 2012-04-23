@@ -1,25 +1,6 @@
 Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   tagName: 'li',
 
-  template: function(json) {
-    var t = " \
-      <ul id='accounting_transaction_new_edit'> \
-        <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
-        <li><input type='text' id='credit_debit_id' value='<%= credit_debit_id %>'></li> \
-        <li><a class='btn option_selector_target' id='credit_debit_id' data-option_selector_name='credit_debit'>1 > 3</a></li> \
-        <li><input type='text' id='amount' value='<%= amount %>'></li> \
-        <li><input type='text' id='category_id' value='<%= category_id %>'></li> \
-        <li><a class='btn option_selector_target' id='category_id' data-option_selector_name='accounting_categories'>1 > 3</a></li> \
-        <li><input type='text' id='account_id' value='<%= account_id %>'></li> \
-        <li><a class='btn option_selector_target' id='account_id' data-option_selector_name='accounting_accounts'>1 > 3</a></li> \
-        <li><input type='text' id='note' value='<%= note %>'></li> \
-        <li><input class='save' type='submit' value='Save'></li> \
-        <li><input class='delete' type='submit' value='Delete'></li> \
-        <li><input class='cancel' type='submit' value='Cancel'></li> \
-      </ul>"
-    return _.template(t,json);
-  },
-
   events: {
     'mousedown .delete': 'delete',
     'mousedown .save': 'save',
@@ -31,6 +12,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     // reload view when collection resets as if are coming in from direct url collection will not have fetched upon first render
     // we know it has not loaded as there is a requested_id attribute
     this.collection.on('reset', function() {Wavelineup.Controllers.AccountingTransactions.new_edit(this.model.get('requested_id'))}, this);
+  },
+
+  template: function(json) {
+    return Wavelineup.Templates.AccountingTransactions.accounting_transaction(json);
   },
 
   render: function() {
