@@ -1,13 +1,13 @@
 describe('option selector', function() {
 
   beforeEach(function() {
-    setFixtures("<a id='option_selector_field_id' class='btn option_selector_target' data-option_selector_data_json='test_option_selector_data'></a><div id='option_selector_container'></div>");
+    setFixtures("<a id='option_selector_field_id' class='btn option_selector_target' data-option_selector_data='test_option_selector_data'></a><div id='option_selector_container'></div>");
 
-    Wavelineup.instance = {data: {}};
+    Wavelineup.instance = {data: { option_selector: {} }};
   }),
 
   it('renders and shows as expected', function() {
-    Wavelineup.instance.data['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other']};
+    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other']};
 
     // renders and shows in the option selector container
     expect($('#option_selector_container')).toExist();
@@ -29,7 +29,7 @@ describe('option selector', function() {
   }),
 
   it('includes a blank option if requested', function() {
-    Wavelineup.instance.data['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_blank': true}};
+    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_blank': true}};
 
     // renders and shows in the option selector container
     view = new Wavelineup.Views.OptionSelector($('#option_selector_field_id'));
@@ -42,7 +42,7 @@ describe('option selector', function() {
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
 
-    Wavelineup.instance.data['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_cancel': true}};
+    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_cancel': true}};
 
     // renders and shows in the option selector container
     view = new Wavelineup.Views.OptionSelector($('#option_selector_field_id'));

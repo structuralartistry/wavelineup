@@ -22,7 +22,8 @@ window.Wavelineup = {
   // between test runs... probably does not matter on standard usage but does on tests as the window is only
   // loaded once
   set_instance: function() {
-    this.instance = { collections: {}, data: {}, routers: {} }
+    this.instance = { collections: {}, data: { option_selector: {} }, routers: {} }
+    this.instance.data.option_selector['credit_debit'] = {'values': ['Income', 'Expense', 'Other']};
   },
 
   write_model_errors_to_screen: function(errors) {

@@ -26,8 +26,7 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   },
 
   render: function() {
-    var option_selector_data_json = Wavelineup.instance.data[this.$target_element.data('option_selector_data_json')];
-console.log(Wavelineup);
+    var option_selector_data_json = Wavelineup.instance.data.option_selector[this.$target_element.data('option_selector_data')];
     if(option_selector_data_json['config']) {
       if(option_selector_data_json['config']['include_blank']) option_selector_data_json['values'].push('');
       if(option_selector_data_json['config']['include_cancel']) option_selector_data_json['values'].push('cancel');
