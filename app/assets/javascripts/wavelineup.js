@@ -5,9 +5,10 @@ window.Wavelineup = {
   Controllers: {},
   Routers: {},
   Templates: {},
+
   init: function() {
-    Wavelineup.Routers.main = new Wavelineup.Routers.Main();
-    Wavelineup.events = _.extend({}, Backbone.Events);
+    this.set_instance();
+    this.instance.routers.main = new Wavelineup.Routers.Main();
     // triggers the matching router for what is in the url:
     try{ Backbone.history.start(); }
     catch(error){
@@ -16,6 +17,14 @@ window.Wavelineup = {
       Backbone.history.start();
     }
   },
+
+  // not sure if is best pattern, but putting instances of created objects here so can clear the 'app instance'
+  // between test runs... probably does not matter on standard usage but does on tests as the window is only
+  // loaded once
+  set_instance: function() {
+    this.instance = { routers: {}, collections: {} }
+  },
+
   write_model_errors_to_screen: function(errors) {
     for (attribute in errors) {
       messages = errors[attribute];
@@ -25,4 +34,5 @@ window.Wavelineup = {
       }
     }
   }
+
 }

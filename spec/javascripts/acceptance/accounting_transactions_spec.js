@@ -14,7 +14,7 @@ describe('accounting transactions', function() {
 
     Wavelineup.init();
 
-    Wavelineup.Routers.main.navigate('accounting_transactions', true);
+    Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
 
     this.server.respond();
   }),
@@ -22,7 +22,7 @@ describe('accounting transactions', function() {
 
   afterEach(function() {
     this.server.restore();
-    $('#container').html('');
+    setFixtures('');
   }),
 
 
@@ -243,7 +243,7 @@ describe('accounting transactions', function() {
   describe('direct routing', function() {
 
     it('successfully routes to the new form', function() {
-      Wavelineup.Routers.main.navigate('accounting_transactions/new', true);
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/new', true);
 
       // server sending the collection
       this.server.respond();
@@ -261,22 +261,15 @@ describe('accounting transactions', function() {
     }),
 
     it('successfully routes to the edit form', function() {
-      Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
 
-      // server sending the collection
-      this.server.respond();
-
-      // initial view shows the loading/record not found content
-      expect($('#content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
-
-      // form now present
-      // this is bad form but note the timeout of 0 ms... somehow this gives backbone enough time to call
-      // the event on the view for collection reset
-      var t = setTimeout("expect($('ul#accounting_transaction_new_edit')).toBeVisible();", 0);
+      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
     }),
 
     it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
-      Wavelineup.Routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+      // come in on new instance of app
+      Wavelineup.init();
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
       // note: no loading of collection via server.respond()
       expect($('#content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
     })
