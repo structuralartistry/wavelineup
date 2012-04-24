@@ -1,0 +1,7 @@
+one: 
+  date_time: '2012-01-01 13:00'
+  credit_debit_id: 1
+  amount: 11.11
+  category_id: 1
+  account_id: 1
+  note: 'blah'

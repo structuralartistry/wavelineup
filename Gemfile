@@ -6,7 +6,6 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'miniskirt'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,6 +35,8 @@ gem 'jquery-rails'
 
 # To use debugger
 group :development, :test do
+  gem 'test-unit'
   gem 'debugger'
   gem 'jasminerice'
+  gem 'shoulda'
 end

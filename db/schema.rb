@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120404202031) do
+ActiveRecord::Schema.define(:version => 20120424155751) do
 
   create_table "accounting_transactions", :force => true do |t|
     t.datetime "date_time"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(:version => 20120404202031) do
     t.string   "note"
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
+  end
+
+  create_table "option_selector_values", :force => true do |t|
+    t.integer  "option_selector_id"
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "option_selectors", :force => true do |t|
+    t.string   "name"
+    t.boolean  "include_blank"
+    t.boolean  "include_cancel"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
 end
