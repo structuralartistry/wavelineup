@@ -55,6 +55,14 @@ describe('option selector', function() {
     // click hides the selector and does not set the value
     $cancel_button.mousedown();
     expect($('#option_selector_container')).not.toBeVisible();
-  })
+  }),
+
+  it('sets the value based on literal string value when provided as the first array param', function() {
+
+  });
+
+  it('sets the value based on index value when provided as the first array param', function() {
+
+  });
 
 });

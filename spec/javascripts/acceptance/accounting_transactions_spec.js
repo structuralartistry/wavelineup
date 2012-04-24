@@ -54,7 +54,7 @@ describe('accounting transactions', function() {
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(new_accounting_transaction.date_time);
-    $('#credit_debit_id.option_selector_target').html(new_accounting_transaction.credit_debit_id);
+//    $('#credit_debit_id.option_selector_target').html(new_accounting_transaction.credit_debit_id);
     $('input#amount').val(new_accounting_transaction.amount);
     $('input#category_id').val(new_accounting_transaction.category_id);
     $('input#account_id').val(new_accounting_transaction.account_id);
@@ -66,12 +66,18 @@ describe('accounting transactions', function() {
     // note: running selector through paces... this will be refactored out at some point
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
-//    expect($('#credit_debit_id.option_selector_target').html()).toEqual('');
+    expect($('#credit_debit_id.option_selector_target').html()).toEqual('');
 
     $('#credit_debit_id.option_selector_target').mousedown();
     expect($('#option_selector_container')).toBeVisible();
 
+    $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
 
+    expect($('#credit_debit_id.option_selector_target').html()).toEqual('Income');
+
+//    expected_index = Wavelineup.instance.data.option_selector['credit_debit'].values.indexOf('Expense');
+    expected_index = _.each(Wavelineup.instance.data.option_selector['credit_debit'].values, function(row) { if(row[1]=='Other') { console.log(row[0]) } });
+    expect($('#credit_debit_id.option_selector_target').data('set_value')).toEqual(expected_index);
 
 //    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
 //    expect($('#a_selector')).not.toBeVisible();

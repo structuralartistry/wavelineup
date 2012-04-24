@@ -4,7 +4,7 @@ Wavelineup.Templates.AccountingTransactions = {
       <ul id='accounting_transaction_new_edit'> \
         <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
         <li><input type='text' id='credit_debit_id' value='<%= credit_debit_id %>'></li> \
-        <li><a id='credit_debit_id' class='btn option_selector_target' data-option_selector_data='credit_debit'></a></li> \
+        <li><a id='credit_debit_id' class='btn option_selector_target' data-option_selector_data='credit_debit' data-set_value='<%= credit_debit_id %>'></a></li> \
         <li><input type='text' id='amount' value='<%= amount %>'></li> \
         <li><input type='text' id='category_id' value='<%= category_id %>'></li> \
         <li><a class='btn option_selector_target' id='category_id' data-option_selector_name='accounting_categories'>1 > 3</a></li> \
