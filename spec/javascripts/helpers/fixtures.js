@@ -20,5 +20,14 @@ window.fixtures = {
            "date_time":"2012-02-22T22:22:22Z",
            "credit_debit_id":2222,
            "updated_at":"2002-02-02T02:02:02Z" }
-  }
+  },
+  option_selectors: [
+    {"id":1, "name":"credit_debit"}
+  ],
+  option_selector_options: [
+    {"id":1,"key":"1","option_selector_id":1,"value":"Income"},
+    {"id":2,"key":"2","option_selector_id":1,"value":"Expense"},
+    {"id":3,"key":"blank","option_selector_id":1,"value":""},
+    {"id":4,"key":"cancel","option_selector_id":1,"value":"Cancel"}
+  ]
 }

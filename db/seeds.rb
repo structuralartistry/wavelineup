@@ -15,7 +15,10 @@ if Rails.env == 'development'
                                 :note => 'blah' )
 end
 
-option_selector = OptionSelector.create(:name => 'credit_debit', :include_blank => true, :include_cancel => true)
-OptionSelectorValue.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
-OptionSelectorValue.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
+#option_selector = OptionSelector.create(:name => 'credit_debit', :include_blank => true, :include_cancel => true)
+option_selector = OptionSelector.create(:name => 'credit_debit')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
 

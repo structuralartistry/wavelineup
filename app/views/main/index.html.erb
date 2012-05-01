@@ -1,6 +1,12 @@
 <%= javascript_tag do %>
   $(document).ready(function() {
-    Wavelineup.init()
+    Wavelineup.init();
+
+    Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
+    Wavelineup.instance.collections.option_selectors.reset(<%= raw @option_selectors_json %>);
+
+    Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
+    Wavelineup.instance.collections.option_selector_options.reset(<%= raw @option_selector_options_json %>);
   });
 <% end %>
 <div id='container'>Loading...</div>

@@ -1,68 +1,58 @@
 describe('option selector', function() {
 
   beforeEach(function() {
-    setFixtures("<a id='option_selector_field_id' class='btn option_selector_target' data-option_selector_data='test_option_selector_data'></a><div id='option_selector_container'></div>");
+    setFixtures("<a id='test_option_selector_target' class='btn option_selector_target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a> \
+                 <div id='option_selector_container'></div>");
 
-    Wavelineup.instance = {data: { option_selector: {} }};
+    Wavelineup.instance = {collections: {}};
+
+    Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
+    Wavelineup.instance.collections.option_selectors.reset([{"id":1,"name":"test_option_selector"}]);
+
+    Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
+    Wavelineup.instance.collections.option_selector_options.reset([
+      {"id":1,"key":"1","option_selector_id":1,"value":"Income"},
+      {"id":2,"key":"2","option_selector_id":1,"value":"Expense"},
+      {"id":3,"key":"blank","option_selector_id":1,"value":""},
+      {"id":4,"key":"cancel","option_selector_id":1,"value":"Cancel"}
+    ]);
   }),
 
   it('renders and shows as expected', function() {
-    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other']};
 
     // renders and shows in the option selector container
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
-    view = new Wavelineup.Views.OptionSelector($('#option_selector_field_id'));
+    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
     expect($('#option_selector_container')).toBeVisible();
 
     // contains the expected elements
     expect($('#option_selector_container').find('a:contains(Income)')).toExist();
     expect($('#option_selector_container').find('a:contains(Expense)')).toExist();
-    expect($('#option_selector_container').find('a:contains(Other)')).toExist();
+    expect($('#option_selector_container').find("[data-key='blank']")).toExist();
+    expect($('#option_selector_container').find('a:contains(Cancel)')).toExist();
 
-
-    // should not include any options as they are not set
-      // include_blank
-      expect($('#option_selector_container').find("[data-value='']")).not.toExist();
-      // include_cancel
-      expect($('#option_selector_container').find("[data-value='']")).not.toExist();
   }),
 
-  it('includes a blank option if requested', function() {
-    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_blank': true}};
-
-    // renders and shows in the option selector container
-    view = new Wavelineup.Views.OptionSelector($('#option_selector_field_id'));
-
-    // verify include_blank
-    expect($('#option_selector_container').find("[data-value='']")).toExist();
-  }),
-
-  it('includes a cancel option if requested', function() {
+  it('selected option with the key of cancel maintaines the current set value', function() {
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
 
-    Wavelineup.instance.data.option_selector['test_option_selector_data'] = {'values': ['Income', 'Expense', 'Other'], 'config': {'include_cancel': true}};
+    // set a current value
+    var existing_value = 'an existing value';
+    $('#test_option_selector_target').html(existing_value)
 
     // renders and shows in the option selector container
-    view = new Wavelineup.Views.OptionSelector($('#option_selector_field_id'));
+    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
 
-    // verify include_blank
-    $cancel_button = $('#option_selector_container').find("[data-value='cancel']");
+    $cancel_button = $('#option_selector_container').find("[data-key='cancel']");
     expect($cancel_button).toExist();
 
 
     // click hides the selector and does not set the value
     $cancel_button.mousedown();
     expect($('#option_selector_container')).not.toBeVisible();
-  }),
-
-  it('sets the value based on literal string value when provided as the first array param', function() {
-
-  });
-
-  it('sets the value based on index value when provided as the first array param', function() {
-
-  });
+    expect($('#test_option_selector_target').html()).toEqual(existing_value);
+  })
 
 });

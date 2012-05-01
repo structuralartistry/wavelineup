@@ -2,6 +2,7 @@ Wavelineup::Application.routes.draw do
 
   scope 'api' do
     resources :accounting_transactions
+    resources :option_selectors
   end
 
   root :to => 'main#index'

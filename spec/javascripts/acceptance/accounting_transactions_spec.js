@@ -14,6 +14,18 @@ describe('accounting transactions', function() {
 
     Wavelineup.init();
 
+
+
+
+    Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
+    Wavelineup.instance.collections.option_selectors.reset(fixtures.option_selectors);
+
+    Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
+    Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
+
+
+
+
     Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
 
     this.server.respond();
@@ -72,12 +84,15 @@ describe('accounting transactions', function() {
     expect($('#option_selector_container')).toBeVisible();
 
     $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
-
     expect($('#credit_debit_id.option_selector_target').html()).toEqual('Income');
 
-//    expected_index = Wavelineup.instance.data.option_selector['credit_debit'].values.indexOf('Expense');
-    expected_index = _.each(Wavelineup.instance.data.option_selector['credit_debit'].values, function(row) { if(row[1]=='Other') { console.log(row[0]) } });
-    expect($('#credit_debit_id.option_selector_target').data('set_value')).toEqual(expected_index);
+
+    // this is disgusting, just to get the index of a selected value for verification
+    var credit_debit_option_selector = Wavelineup.instance.collections.option_selectors.where({name: 'credit_debit'})[0];
+    var expected_index = Wavelineup.instance.collections.option_selector_options.where({option_selector_id: credit_debit_option_selector.get('id'), value: 'Income'})[0].get('id');
+
+    expect($('#credit_debit_id.option_selector_target').data('set_key')).toEqual(expected_index);
+
 
 //    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
 //    expect($('#a_selector')).not.toBeVisible();
@@ -108,9 +123,13 @@ describe('accounting transactions', function() {
 
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-    _.each(result, function(value,key) {
-      expect(value).toEqual(new_accounting_transaction[key].toString());
-    })
+
+    expect(result['account_id']).toEqual('2');
+    expect(result['amount']).toEqual('2.22');
+    expect(result['category_id']).toEqual('22');
+    expect(result['credit_debit_id']).toEqual(1);
+    expect(result['date_time']).toEqual('2012-02-22T22:22:22Z');
+    expect(result['note']).toEqual('accounting transaction two');
 
     // updates list
     this.server.respond();

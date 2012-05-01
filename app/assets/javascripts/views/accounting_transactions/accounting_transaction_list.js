@@ -49,13 +49,13 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   render: function() {
-    data = { accounting_transactions: this.collection.toJSON() };
+    var data = { accounting_transactions: this.collection.toJSON() };
     $(this.el).html(this.template(data));
     this.collection.each(this.append_accounting_transaction);
 
     // datatable
     // note that may need to play with the bRetrieve / bDestroy params -- use bDestroy if want table killed and recreated upon re-init
-    oTable = $('#accounting_transactions').dataTable( {
+    var oTable = $('#accounting_transactions').dataTable( {
       'aaSorting': [[ 4, "desc" ]],
       'bRetrieve': true
       //'bDestroy': true

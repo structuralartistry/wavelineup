@@ -1,16 +1,16 @@
 Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   tagName: 'table',
 
-  template: function(json) {
+  template: function(option_selector_options) {
     var t = " \
       <tbody> \
         <tr> \
-          <% _.each(values, function(value) { \
-            %> <td><a class='btn option_selector_option' data-value='<%= value %>'><%= value %></a></td> <% \
+          <% _.each(option_selector_options, function(option_selector_option) { \
+            %> <td><a class='btn option_selector_option' data-key='<%= option_selector_option.get('key') %>' data-value='<%= option_selector_option.get('value') %>'><%= option_selector_option.get('value') %></a></td> <% \
           }); %> \
         </tr> \
       </tbody>"
-    return _.template(t,json);
+    return _.template(t,option_selector_options);
   },
 
   events: {
@@ -26,19 +26,23 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   },
 
   render: function() {
-    var option_selector_data_json = Wavelineup.instance.data.option_selector[this.$target_element.data('option_selector_data')];
-    if(option_selector_data_json['config']) {
-      if(option_selector_data_json['config']['include_blank']) option_selector_data_json['values'].push('');
-      if(option_selector_data_json['config']['include_cancel']) option_selector_data_json['values'].push('cancel');
-    }
-    $(this.el).html(this.template(option_selector_data_json));
+    var option_selector = Wavelineup.instance.collections.option_selectors.where({name: this.$target_element.data('option_selector_name')})[0];
+    var filtered_option_selector_options = Wavelineup.instance.collections.option_selector_options.where({option_selector_id: option_selector.id});
+
+    var data = { option_selector_options: filtered_option_selector_options };
+    $(this.el).html(this.template({option_selector_options: filtered_option_selector_options}));
 
     return this;
   },
 
   set_value: function(event) {
-    if($(event.target).data('value')!='cancel') {
-      this.$target_element.html($(event.target).html());
+    if($(event.target).data('key')!='cancel') {
+      // set the visible html in the target element
+      this.$target_element.html($(event.target).data('value'));
+      // set the 'data-set_key' property of the target element
+      this.$target_element.data('set_key', $(event.target).data('key'));
+      // set the 'data-set_value' property of the target element
+      this.$target_element.data('set_value', $(event.target).data('value'));
     }
     $('#option_selector_container').hide();
   }

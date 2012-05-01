@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 20120424155751) do
     t.datetime "updated_at",                                    :null => false
   end
 
-  create_table "option_selector_values", :force => true do |t|
+  create_table "option_selector_options", :force => true do |t|
     t.integer  "option_selector_id"
     t.string   "key"
     t.string   "value"
@@ -34,10 +34,8 @@ ActiveRecord::Schema.define(:version => 20120424155751) do
 
   create_table "option_selectors", :force => true do |t|
     t.string   "name"
-    t.boolean  "include_blank"
-    t.boolean  "include_cancel"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
