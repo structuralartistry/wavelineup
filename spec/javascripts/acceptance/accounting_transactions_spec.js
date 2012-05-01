@@ -14,17 +14,12 @@ describe('accounting transactions', function() {
 
     Wavelineup.init();
 
-
-
-
+    // set data that loads on app load via the main rails index
     Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
     Wavelineup.instance.collections.option_selectors.reset(fixtures.option_selectors);
 
     Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
     Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
-
-
-
 
     Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
 

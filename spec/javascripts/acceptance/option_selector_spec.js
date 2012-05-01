@@ -55,4 +55,11 @@ describe('option selector', function() {
     expect($('#test_option_selector_target').html()).toEqual(existing_value);
   })
 
+  /* forseen future needs
+    * can edit/add/delete selector items
+    * flag for allowing/diabling the edit/add/modify of seletor items
+    * be able to perform a function/callback after set, i.e. on visit trigger special logic for show, save value to server
+    * we may be able to merge OptionSelector and OptionSelectorOptions to single model if dont end up using custom config settings for the selector in the db...
+    * be able to specify if value sent to server would be the key or the value of the option
+  */
 });

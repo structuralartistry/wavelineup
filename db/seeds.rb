@@ -16,9 +16,27 @@ if Rails.env == 'development'
 end
 
 #option_selector = OptionSelector.create(:name => 'credit_debit', :include_blank => true, :include_cancel => true)
+
+
 option_selector = OptionSelector.create(:name => 'credit_debit')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
 
+option_selector = OptionSelector.create(:name => 'category')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Cafe')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Dining')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'Groceries')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '4', :value => 'Rent')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '5', :value => 'Utilities')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
+
+option_selector = OptionSelector.create(:name => 'financial_account')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'B of A CC')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Cash')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'CHAP')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '4', :value => 'Zions')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
