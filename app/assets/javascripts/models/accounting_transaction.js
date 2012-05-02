@@ -9,10 +9,23 @@
 Wavelineup.Models.AccountingTransaction = Backbone.Model.extend({
   defaults: {
     'date_time': '2012-01-01 14:01',
-    'credit_debit_id': '',
+    'credit_debit_key': '',
     'amount': '',
-    'category_id': '',
-    'account_id': '',
+    'category_key': '',
+    'account_key': '',
     'note': ''
+  },
+
+  credit_debit_value: function () {
+    return Waveline.instance.collections.option_selector_options.get_option_by_key('credit_debit', this.get('credit_debit_key'));
+  },
+
+  category_value: function () {
+    return Waveline.instance.collections.option_selector_options.get_option_by_key('accounting_category', this.get('category_key'));
+  },
+
+  account_value: function () {
+    return Waveline.instance.collections.option_selector_options.get_option_by_key('accounting_account', this.get('account_key'));
   }
+
 });

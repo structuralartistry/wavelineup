@@ -36,10 +36,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   save: function() {
     this.model.set({
       date_time: $('input#date_time').val(),
-      credit_debit_id: $('#credit_debit_id.option_selector_target').data('set_key'),
+      credit_debit_key: $('#credit_debit_key.option_selector_target').data('set_key'),
       amount: $('input#amount').val(),
-      category_id: $('input#category_id').val(),
-      account_id: $('input#account_id').val(),
+      category_key: $('input#category_key').val(),
+      account_key: $('input#account_key').val(),
       note: $('input#note').val()
     });
 

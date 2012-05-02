@@ -8,10 +8,10 @@
 
 if Rails.env == 'development'
   AccountingTransaction.create( :date_time => '2012-01-01 13:00',
-                                :credit_debit_id => 1,
+                                :credit_debit_key => 1,
                                 :amount => 11.11,
-                                :category_id => 11,
-                                :account_id => 111,
+                                :category_key => 11,
+                                :account_key => 111,
                                 :note => 'blah' )
 end
 
@@ -24,7 +24,7 @@ OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
 
-option_selector = OptionSelector.create(:name => 'category')
+option_selector = OptionSelector.create(:name => 'accounting_category')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Cafe')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Dining')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'Groceries')
@@ -33,7 +33,7 @@ OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
 
-option_selector = OptionSelector.create(:name => 'financial_account')
+option_selector = OptionSelector.create(:name => 'accounting_account')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'B of A CC')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Cash')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'CHAP')

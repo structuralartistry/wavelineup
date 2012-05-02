@@ -53,18 +53,18 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
 
     expect($('input#date_time')).toBeVisible();
-    expect($('input#credit_debit_id')).toBeVisible();
+    expect($('#credit_debit_key.option_selector_target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
-    expect($('input#category_id')).toBeVisible();
-    expect($('input#account_id')).toBeVisible();
+    expect($('input#category_key')).toBeVisible();
+    expect($('input#account_key')).toBeVisible();
     expect($('input#note')).toBeVisible();
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(new_accounting_transaction.date_time);
-//    $('#credit_debit_id.option_selector_target').html(new_accounting_transaction.credit_debit_id);
+//    $('#credit_debit_key.option_selector_target').html(new_accounting_transaction.credit_debit_key);
     $('input#amount').val(new_accounting_transaction.amount);
-    $('input#category_id').val(new_accounting_transaction.category_id);
-    $('input#account_id').val(new_accounting_transaction.account_id);
+    $('input#category_key').val(new_accounting_transaction.category_key);
+    $('input#account_key').val(new_accounting_transaction.account_key);
     $('input#note').val(new_accounting_transaction.note);
 
 
@@ -73,20 +73,26 @@ describe('accounting transactions', function() {
     // note: running selector through paces... this will be refactored out at some point
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
-    expect($('#credit_debit_id.option_selector_target').html()).toEqual('');
+    expect($('#credit_debit_key.option_selector_target').html()).toEqual('');
 
-    $('#credit_debit_id.option_selector_target').mousedown();
+    $('#credit_debit_key.option_selector_target').mousedown();
     expect($('#option_selector_container')).toBeVisible();
 
     $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
-    expect($('#credit_debit_id.option_selector_target').html()).toEqual('Income');
+    expect($('#credit_debit_key.option_selector_target').html()).toEqual('Income');
 
 
     // this is disgusting, just to get the index of a selected value for verification
-    var credit_debit_option_selector = Wavelineup.instance.collections.option_selectors.where({name: 'credit_debit'})[0];
-    var expected_index = Wavelineup.instance.collections.option_selector_options.where({option_selector_id: credit_debit_option_selector.get('id'), value: 'Income'})[0].get('id');
+// need methods:
+// get key from option selector option value
+//  signature: option_selector_name, value
+// get value from option selector option key
+//  signature: option_selector_name, key
+//    var credit_debit_option_selector = Wavelineup.instance.collections.option_selectors.where({name: 'credit_debit'})[0];
+//    var expected_index = Wavelineup.instance.collections.option_selector_options.where({option_selector_key: credit_debit_option_selector.get('key'), value: 'Income'})[0].get('key');
 
-    expect($('#credit_debit_id.option_selector_target').data('set_key')).toEqual(expected_index);
+    expected_key = Wavelineup.instance.collections.option_selector_options.get_option_by_value('credit_debit','Income').get('key');
+    expect($('#credit_debit_key.option_selector_target').data('set_key')==1).toBeTruthy();
 
 
 //    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
@@ -119,10 +125,10 @@ describe('accounting transactions', function() {
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
 
-    expect(result['account_id']).toEqual('2');
+    expect(result['account_key']).toEqual('2');
     expect(result['amount']).toEqual('2.22');
-    expect(result['category_id']).toEqual('22');
-    expect(result['credit_debit_id']).toEqual(1);
+    expect(result['category_key']).toEqual('22');
+    expect(result['credit_debit_key']).toEqual(1);
     expect(result['date_time']).toEqual('2012-02-22T22:22:22Z');
     expect(result['note']).toEqual('accounting transaction two');
 
@@ -137,19 +143,19 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + created_accounting_transaction.id)).toExist();
 
     expect($('#date_time')).not.toBeVisible();
-    expect($('#credit_debit_id')).not.toBeVisible();
+    expect($('#credit_debit_key')).not.toBeVisible();
     expect($('#amount')).not.toBeVisible();
-    expect($('#category_id')).not.toBeVisible();
-    expect($('#account_id')).not.toBeVisible();
+    expect($('#category_key')).not.toBeVisible();
+    expect($('#account_key')).not.toBeVisible();
     expect($('#note')).not.toBeVisible();
 
     // verify that when accessed the new form again it is cleared
     $('#accounting_transaction__new__button').mousedown();
     //expect($('#date_time').val()).toEqual('');
-    expect($('#credit_debit_id').html()).toEqual('');
+    expect($('#credit_debit_key').html()).toEqual('');
     expect($('#amount').val()).toEqual('');
-    expect($('#category_id').val()).toEqual('');
-    expect($('#account_id').val()).toEqual('');
+    expect($('#category_key').val()).toEqual('');
+    expect($('#account_key').val()).toEqual('');
     expect($('#note').val()).toEqual('');
 
     jQuery.ajax.restore();
@@ -170,10 +176,10 @@ describe('accounting transactions', function() {
 
     // verify initial form values
     expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time.toString());
-    expect($('input#credit_debit_id').val()).toEqual(this.accounting_transaction.credit_debit_id.toString());
+    expect($('#credit_debit_key.option_selector_target').html()).toEqual(this.accounting_transaction.credit_debit_key.toString());
     expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    expect($('input#category_id').val()).toEqual(this.accounting_transaction.category_id.toString());
-    expect($('input#account_id').val()).toEqual(this.accounting_transaction.account_id.toString());
+    expect($('input#category_key').val()).toEqual(this.accounting_transaction.category_key.toString());
+    expect($('input#account_key').val()).toEqual(this.accounting_transaction.account_key.toString());
     expect($('input#note').val()).toEqual(this.accounting_transaction.note.toString());
 
     // update a field
@@ -285,10 +291,10 @@ describe('accounting transactions', function() {
       expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
 
       expect($('input#date_time')).toBeVisible();
-      expect($('input#credit_debit_id')).toBeVisible();
+      expect($('#credit_debit_key.option_selector_target')).toBeVisible();
       expect($('input#amount')).toBeVisible();
-      expect($('input#category_id')).toBeVisible();
-      expect($('input#account_id')).toBeVisible();
+      expect($('input#category_key')).toBeVisible();
+      expect($('input#account_key')).toBeVisible();
       expect($('input#note')).toBeVisible();
     }),
 
