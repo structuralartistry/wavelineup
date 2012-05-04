@@ -11,6 +11,7 @@
 
     init: function () {
       this.set_instance();
+      this.set_base_data();
       this.instance.routers.main = new Wavelineup.Routers.Main();
       // triggers the matching router for what is in the url:
       try {
@@ -26,8 +27,7 @@
     // between test runs... probably does not matter on standard usage but does on tests as the window is only
     // loaded once
     set_instance: function () {
-      this.instance = { collections: {}, data: { option_selector: {} }, routers: {} };
-      this.instance.data.option_selector['credit_debit'] = {'values': ['Income', 'Expense', 'Other']};
+      this.instance = { collections: {}, routers: {} };
     },
 
     write_model_errors_to_screen: function (errors) {

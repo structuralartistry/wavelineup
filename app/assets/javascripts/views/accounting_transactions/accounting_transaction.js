@@ -24,7 +24,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     if(this.model.get('requested_id')) {
       $(this.el).html(Wavelineup.Templates.Errors.record_can_not_be_loaded());
     } else {
-      $(this.el).html(this.template(this.model.toJSON()));
+      $(this.el).html(this.template(this.model.to_local_json()));
     }
     return this;
   },
@@ -36,10 +36,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   save: function() {
     this.model.set({
       date_time: $('input#date_time').val(),
-      credit_debit_key: $('#credit_debit_key.option_selector_target').data('set_key'),
+      credit_debit_key: $('#credit_debit_key.option_selector_target').data('set_key').toString(),
       amount: $('input#amount').val(),
-      category_key: $('input#category_key').val(),
-      account_key: $('input#account_key').val(),
+      category_key: $('#category_key.option_selector_target').data('set_key').toString(),
+      account_key: $('#account_key.option_selector_target').data('set_key').toString(),
       note: $('input#note').val()
     });
 

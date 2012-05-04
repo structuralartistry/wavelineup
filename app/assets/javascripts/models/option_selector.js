@@ -1,2 +1,2 @@
-Wavelineup.Models.OptionSelector = Backbone.Model.extend({
+Wavelineup.Models.OptionSelector = Wavelineup.Models.Base.extend({
 });

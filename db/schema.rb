@@ -15,13 +15,13 @@ ActiveRecord::Schema.define(:version => 20120424155751) do
 
   create_table "accounting_transactions", :force => true do |t|
     t.datetime "date_time"
-    t.integer  "credit_debit_key"
-    t.decimal  "amount",           :precision => 8, :scale => 2
-    t.integer  "category_key"
-    t.integer  "account_key"
+    t.string   "credit_debit_key"
+    t.integer  "amount"
+    t.string   "category_key"
+    t.string   "account_key"
     t.string   "note"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "option_selector_options", :force => true do |t|

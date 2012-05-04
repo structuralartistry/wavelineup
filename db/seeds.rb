@@ -8,17 +8,17 @@
 
 if Rails.env == 'development'
   AccountingTransaction.create( :date_time => '2012-01-01 13:00',
-                                :credit_debit_key => 1,
-                                :amount => 11.11,
-                                :category_key => 11,
-                                :account_key => 111,
+                                :credit_debit_key => '1',
+                                :amount => 1111,
+                                :category_key => '1',
+                                :account_key => '1',
                                 :note => 'blah' )
 end
 
 #option_selector = OptionSelector.create(:name => 'credit_debit', :include_blank => true, :include_cancel => true)
 
 
-option_selector = OptionSelector.create(:name => 'credit_debit')
+option_selector = OptionSelector.create(:name => 'accounting_credit_debit')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')

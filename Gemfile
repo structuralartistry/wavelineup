@@ -19,7 +19,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+# gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -39,6 +39,6 @@ gem 'jquery-rails'
 group :development, :test do
   gem 'test-unit'
   gem 'debugger'
-  gem 'jasminerice'
+  gem 'jasmine'
   gem 'shoulda'
 end

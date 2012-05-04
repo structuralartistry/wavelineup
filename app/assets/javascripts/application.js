@@ -11,11 +11,13 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require json2-2011-10-19
-//= require jquery
-//= require jquery_ujs
+//= require jquery-1.7.2
+//= require jquery-ui-1.8.20
 //= require jquery.dataTables
 //= require underscore-1.3.1
 //= require backbone-0.9.2
 //= require bootstrap
 //= require wavelineup
+//= require models/base
+//= require models/accounting_transaction
 //= require_tree .
