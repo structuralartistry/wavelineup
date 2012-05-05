@@ -12,14 +12,17 @@ describe('accounting transactions', function() {
                                     [200, { "Content-Type": "application/json" },
                                     JSON.stringify(this.accounting_transaction)]);
 
-    Wavelineup.init();
 
     // set data that loads on app load via the main rails index
-    Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-    Wavelineup.instance.collections.option_selectors.reset(fixtures.option_selectors);
+    Wavelineup.set_base_data = function() {
+      Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
+      Wavelineup.instance.collections.option_selectors.reset(fixtures.option_selectors);
 
-    Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
-    Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
+      Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
+      Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
+    }
+
+    Wavelineup.init();
 
     Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
 
@@ -55,8 +58,8 @@ describe('accounting transactions', function() {
     expect($('input#date_time')).toBeVisible();
     expect($('#credit_debit_key.option_selector_target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
-    expect($('input#category_key')).toBeVisible();
-    expect($('input#account_key')).toBeVisible();
+    expect($('#category_key.option_selector_target')).toBeVisible();
+    expect($('#account_key.option_selector_target')).toBeVisible();
     expect($('input#note')).toBeVisible();
 
     // set standard form values (these will go away as implement selectors)
@@ -71,6 +74,9 @@ describe('accounting transactions', function() {
 // *** selectors
     // set the credit/debit type using selector cell
     // note: running selector through paces... this will be refactored out at some point
+//    'option_selector_name':'accounting_credit_debit', 'target_field':'credit_debit_key', 'value_to_select':'Income'
+
+    // credit_debit
     expect($('#option_selector_container')).toExist();
     expect($('#option_selector_container')).not.toBeVisible();
     expect($('#credit_debit_key.option_selector_target').html()).toEqual('');
@@ -81,37 +87,40 @@ describe('accounting transactions', function() {
     $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
     expect($('#credit_debit_key.option_selector_target').html()).toEqual('Income');
 
-
-    // this is disgusting, just to get the index of a selected value for verification
-// need methods:
-// get key from option selector option value
-//  signature: option_selector_name, value
-// get value from option selector option key
-//  signature: option_selector_name, key
-//    var credit_debit_option_selector = Wavelineup.instance.collections.option_selectors.where({name: 'credit_debit'})[0];
-//    var expected_index = Wavelineup.instance.collections.option_selector_options.where({option_selector_key: credit_debit_option_selector.get('key'), value: 'Income'})[0].get('key');
-
-    expected_key = Wavelineup.instance.collections.option_selector_options.get_option_by_value('credit_debit','Income').get('key');
-    expect($('#credit_debit_key.option_selector_target').data('set_key')==1).toBeTruthy();
+    credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
+    expect($('#credit_debit_key.option_selector_target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
 
-//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('');
-//    expect($('#a_selector')).not.toBeVisible();
-//
-//    $('#accounting_transaction__credit_debit_id__new').mousedown();
-//    expect($('#a_selector')).toBeVisible();
-//    $('#a_selector #button_one').mousedown();
-//    expect($('#a_selector')).not.toBeVisible();
-//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('1');
-//
-//    $('#accounting_transaction__credit_debit_id__new').mousedown();
-//    expect($('#a_selector')).toBeVisible();
-//    $('#a_selector #button_two').mousedown();
-//    expect($('#a_selector')).not.toBeVisible();
-//    expect($('#accounting_transaction__credit_debit_id__new').html()).toEqual('2');
-//    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
-//    new_accounting_transaction.credit_debit_id = '2'
-// *** selectors
+
+    // category
+    expect($('#option_selector_container')).toExist();
+    expect($('#option_selector_container')).not.toBeVisible();
+    expect($('#category_key.option_selector_target').html()).toEqual('');
+
+    $('#category_key.option_selector_target').mousedown();
+    expect($('#option_selector_container')).toBeVisible();
+
+    $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
+    expect($('#category_key.option_selector_target').html()).toEqual('Groceries');
+
+    category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
+    expect($('#category_key.option_selector_target').data('set_key')==category_expected_key).toBeTruthy();
+
+
+    // account
+    expect($('#option_selector_container')).toExist();
+    expect($('#option_selector_container')).not.toBeVisible();
+    expect($('#account_key.option_selector_target').html()).toEqual('');
+
+    $('#account_key.option_selector_target').mousedown();
+    expect($('#option_selector_container')).toBeVisible();
+
+    $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
+    expect($('#account_key.option_selector_target').html()).toEqual('CHAP');
+
+    account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
+    expect($('#account_key.option_selector_target').data('set_key')==account_expected_key).toBeTruthy();
+
 
 
     created_accounting_transaction = fixtures.accounting_transactions.two;
@@ -125,10 +134,10 @@ describe('accounting transactions', function() {
     // sends request to server
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
 
-    expect(result['account_key']).toEqual('2');
+    expect(result['account_key']).toEqual(account_expected_key);
     expect(result['amount']).toEqual('2.22');
-    expect(result['category_key']).toEqual('22');
-    expect(result['credit_debit_key']).toEqual(1);
+    expect(result['category_key']).toEqual(category_expected_key);
+    expect(result['credit_debit_key']).toEqual(credit_debit_expected_key);
     expect(result['date_time']).toEqual('2012-02-22T22:22:22Z');
     expect(result['note']).toEqual('accounting transaction two');
 
@@ -293,8 +302,8 @@ describe('accounting transactions', function() {
       expect($('input#date_time')).toBeVisible();
       expect($('#credit_debit_key.option_selector_target')).toBeVisible();
       expect($('input#amount')).toBeVisible();
-      expect($('input#category_key')).toBeVisible();
-      expect($('input#account_key')).toBeVisible();
+      expect($('#category_key.option_selector_target')).toBeVisible();
+      expect($('#account_key.option_selector_target')).toBeVisible();
       expect($('input#note')).toBeVisible();
     }),
 

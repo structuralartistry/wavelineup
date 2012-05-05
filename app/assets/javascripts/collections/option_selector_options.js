@@ -15,5 +15,11 @@ Wavelineup.Collections.OptionSelectorOptions = Backbone.Collection.extend({
     var option = this.get_by_key(option_selector_name, option_selector_option_key);
     if(option) return option.get('value');
     return '';
+  },
+
+  get_key_by_value: function (option_selector_name, option_selector_option_value) {
+    var option = this.get_by_value(option_selector_name, option_selector_option_value);
+    if(option) return option.get('key');
+    return '';
   }
 });
