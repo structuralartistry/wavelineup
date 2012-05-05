@@ -1,7 +1,7 @@
 describe('option selector', function() {
 
   beforeEach(function() {
-    setFixtures("<a id='test_option_selector_target' class='btn option_selector_target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a> \
+    setFixtures("<a id='test_option_selector_target' class='btn option_selector target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a> \
                  <div id='option_selector_container'></div>");
 
     Wavelineup.instance = {collections: {}};

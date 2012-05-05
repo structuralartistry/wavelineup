@@ -6,7 +6,7 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
       <tbody> \
         <tr> \
           <% _.each(option_selector_options, function(option_selector_option) { \
-            %> <td><a class='btn option_selector_option' data-key='<%= option_selector_option.get('key') %>' data-value='<%= option_selector_option.get('value') %>'><%= option_selector_option.get('value') %></a></td> <% \
+            %> <td><a class='btn option_selector option' data-key='<%= option_selector_option.get('key') %>' data-value='<%= option_selector_option.get('value') %>'><%= option_selector_option.get('value') %></a></td> <% \
           }); %> \
         </tr> \
       </tbody>"
@@ -14,7 +14,7 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   },
 
   events: {
-    'mousedown .option_selector_option': 'set_value'
+    'mousedown .option_selector.option': 'set_value'
   },
 
   initialize: function(target_element) {

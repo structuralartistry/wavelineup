@@ -56,10 +56,10 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
 
     expect($('input#date_time')).toBeVisible();
-    expect($('#credit_debit_key.option_selector_target')).toBeVisible();
+    expect($('#credit_debit_key.option_selector.target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
-    expect($('#category_key.option_selector_target')).toBeVisible();
-    expect($('#account_key.option_selector_target')).toBeVisible();
+    expect($('#category_key.option_selector.target')).toBeVisible();
+    expect($('#account_key.option_selector.target')).toBeVisible();
     expect($('input#note')).toBeVisible();
 
     // set standard form values (these will go away as implement selectors)
@@ -72,47 +72,47 @@ describe('accounting transactions', function() {
       // credit_debit
       expect($('#option_selector_container')).toExist();
       expect($('#option_selector_container')).not.toBeVisible();
-      expect($('#credit_debit_key.option_selector_target').html()).toEqual('');
+      expect($('#credit_debit_key.option_selector.target').html()).toEqual('');
 
-      $('#credit_debit_key.option_selector_target').mousedown();
+      $('#credit_debit_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
-      expect($('#credit_debit_key.option_selector_target').html()).toEqual('Income');
+      $('#option_selector_container .option_selector.option:contains(Income)').mousedown()
+      expect($('#credit_debit_key.option_selector.target').html()).toEqual('Income');
 
       credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
-      expect($('#credit_debit_key.option_selector_target').data('set_key')==credit_debit_expected_key).toBeTruthy();
+      expect($('#credit_debit_key.option_selector.target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
 
 
       // category
       expect($('#option_selector_container')).toExist();
       expect($('#option_selector_container')).not.toBeVisible();
-      expect($('#category_key.option_selector_target').html()).toEqual('');
+      expect($('#category_key.option_selector.target').html()).toEqual('');
 
-      $('#category_key.option_selector_target').mousedown();
+      $('#category_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
-      expect($('#category_key.option_selector_target').html()).toEqual('Groceries');
+      $('#option_selector_container .option_selector.option:contains(Groceries)').mousedown()
+      expect($('#category_key.option_selector.target').html()).toEqual('Groceries');
 
       category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
-      expect($('#category_key.option_selector_target').data('set_key')==category_expected_key).toBeTruthy();
+      expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
 
 
       // account
       expect($('#option_selector_container')).toExist();
       expect($('#option_selector_container')).not.toBeVisible();
-      expect($('#account_key.option_selector_target').html()).toEqual('');
+      expect($('#account_key.option_selector.target').html()).toEqual('');
 
-      $('#account_key.option_selector_target').mousedown();
+      $('#account_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
-      expect($('#account_key.option_selector_target').html()).toEqual('CHAP');
+      $('#option_selector_container .option_selector.option:contains(CHAP)').mousedown()
+      expect($('#account_key.option_selector.target').html()).toEqual('CHAP');
 
       account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
-      expect($('#account_key.option_selector_target').data('set_key')==account_expected_key).toBeTruthy();
+      expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
 
 
 
@@ -180,25 +180,25 @@ describe('accounting transactions', function() {
     expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time);
 
     credit_debit_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',this.accounting_transaction.credit_debit_key);
-    expect($('#credit_debit_key.option_selector_target').html()).toEqual(credit_debit_expected_value);
+    expect($('#credit_debit_key.option_selector.target').html()).toEqual(credit_debit_expected_value);
     expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
     category_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category',this.accounting_transaction.category_key);
-    expect($('#category_key.option_selector_target').html()).toEqual(category_expected_value);
+    expect($('#category_key.option_selector.target').html()).toEqual(category_expected_value);
     account_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',this.accounting_transaction.account_key);
-    expect($('#account_key.option_selector_target').html()).toEqual(account_expected_value);
+    expect($('#account_key.option_selector.target').html()).toEqual(account_expected_value);
     expect($('input#note').val()).toEqual(this.accounting_transaction.note);
 
     // update fields
     $('input#note').val(updated_note_value);
 
-    $('#credit_debit_key.option_selector_target').mousedown();
-    $('#option_selector_container .option_selector_option:contains(Expense)').mousedown()
+    $('#credit_debit_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Expense)').mousedown()
 
-    $('#category_key.option_selector_target').mousedown();
-    $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
+    $('#category_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Groceries)').mousedown()
 
-    $('#account_key.option_selector_target').mousedown();
-    $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
+    $('#account_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(CHAP)').mousedown()
 
 
     // submit and verify data sent to server
@@ -290,10 +290,10 @@ describe('accounting transactions', function() {
       expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
 
       expect($('input#date_time')).toBeVisible();
-      expect($('#credit_debit_key.option_selector_target')).toBeVisible();
+      expect($('#credit_debit_key.option_selector.target')).toBeVisible();
       expect($('input#amount')).toBeVisible();
-      expect($('#category_key.option_selector_target')).toBeVisible();
-      expect($('#account_key.option_selector_target')).toBeVisible();
+      expect($('#category_key.option_selector.target')).toBeVisible();
+      expect($('#account_key.option_selector.target')).toBeVisible();
       expect($('input#note')).toBeVisible();
     }),
 
