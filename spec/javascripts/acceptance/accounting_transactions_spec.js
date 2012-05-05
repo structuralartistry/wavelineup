@@ -64,62 +64,55 @@ describe('accounting transactions', function() {
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(new_accounting_transaction.date_time);
-//    $('#credit_debit_key.option_selector_target').html(new_accounting_transaction.credit_debit_key);
     $('input#amount').val(new_accounting_transaction.amount);
-    $('input#category_key').val(new_accounting_transaction.category_key);
-    $('input#account_key').val(new_accounting_transaction.account_key);
     $('input#note').val(new_accounting_transaction.note);
 
+    // selector fields
 
-// *** selectors
-    // set the credit/debit type using selector cell
-    // note: running selector through paces... this will be refactored out at some point
-//    'option_selector_name':'accounting_credit_debit', 'target_field':'credit_debit_key', 'value_to_select':'Income'
+      // credit_debit
+      expect($('#option_selector_container')).toExist();
+      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#credit_debit_key.option_selector_target').html()).toEqual('');
 
-    // credit_debit
-    expect($('#option_selector_container')).toExist();
-    expect($('#option_selector_container')).not.toBeVisible();
-    expect($('#credit_debit_key.option_selector_target').html()).toEqual('');
+      $('#credit_debit_key.option_selector_target').mousedown();
+      expect($('#option_selector_container')).toBeVisible();
 
-    $('#credit_debit_key.option_selector_target').mousedown();
-    expect($('#option_selector_container')).toBeVisible();
+      $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
+      expect($('#credit_debit_key.option_selector_target').html()).toEqual('Income');
 
-    $('#option_selector_container .option_selector_option:contains(Income)').mousedown()
-    expect($('#credit_debit_key.option_selector_target').html()).toEqual('Income');
-
-    credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
-    expect($('#credit_debit_key.option_selector_target').data('set_key')==credit_debit_expected_key).toBeTruthy();
+      credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
+      expect($('#credit_debit_key.option_selector_target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
 
 
-    // category
-    expect($('#option_selector_container')).toExist();
-    expect($('#option_selector_container')).not.toBeVisible();
-    expect($('#category_key.option_selector_target').html()).toEqual('');
+      // category
+      expect($('#option_selector_container')).toExist();
+      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#category_key.option_selector_target').html()).toEqual('');
 
-    $('#category_key.option_selector_target').mousedown();
-    expect($('#option_selector_container')).toBeVisible();
+      $('#category_key.option_selector_target').mousedown();
+      expect($('#option_selector_container')).toBeVisible();
 
-    $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
-    expect($('#category_key.option_selector_target').html()).toEqual('Groceries');
+      $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
+      expect($('#category_key.option_selector_target').html()).toEqual('Groceries');
 
-    category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
-    expect($('#category_key.option_selector_target').data('set_key')==category_expected_key).toBeTruthy();
+      category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
+      expect($('#category_key.option_selector_target').data('set_key')==category_expected_key).toBeTruthy();
 
 
-    // account
-    expect($('#option_selector_container')).toExist();
-    expect($('#option_selector_container')).not.toBeVisible();
-    expect($('#account_key.option_selector_target').html()).toEqual('');
+      // account
+      expect($('#option_selector_container')).toExist();
+      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#account_key.option_selector_target').html()).toEqual('');
 
-    $('#account_key.option_selector_target').mousedown();
-    expect($('#option_selector_container')).toBeVisible();
+      $('#account_key.option_selector_target').mousedown();
+      expect($('#option_selector_container')).toBeVisible();
 
-    $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
-    expect($('#account_key.option_selector_target').html()).toEqual('CHAP');
+      $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
+      expect($('#account_key.option_selector_target').html()).toEqual('CHAP');
 
-    account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
-    expect($('#account_key.option_selector_target').data('set_key')==account_expected_key).toBeTruthy();
+      account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
+      expect($('#account_key.option_selector_target').data('set_key')==account_expected_key).toBeTruthy();
 
 
 
@@ -195,28 +188,19 @@ describe('accounting transactions', function() {
     expect($('#account_key.option_selector_target').html()).toEqual(account_expected_value);
     expect($('input#note').val()).toEqual(this.accounting_transaction.note);
 
-    // update a field
+    // update fields
     $('input#note').val(updated_note_value);
 
-/*
-    // update the credit/debit type using selector cell
-    // note: running selector through paces... this will be refactored out at some point
-    expect($('#a_selector')).not.toBeVisible();
+    $('#credit_debit_key.option_selector_target').mousedown();
+    $('#option_selector_container .option_selector_option:contains(Expense)').mousedown()
 
-    $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).mousedown();
-    expect($('#a_selector')).toBeVisible();
-    $('#a_selector #button_one').mousedown();
-    expect($('#a_selector')).not.toBeVisible();
-    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual('1');
+    $('#category_key.option_selector_target').mousedown();
+    $('#option_selector_container .option_selector_option:contains(Groceries)').mousedown()
 
-    $('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).mousedown();
-    expect($('#a_selector')).toBeVisible();
-    $('#a_selector #button_two').mousedown();
-    expect($('#a_selector')).not.toBeVisible();
-    expect($('#accounting_transaction__credit_debit_id__' + accounting_transaction_id).html()).toEqual('2');
-    // set this value manually for now... since using fixture... kind of gross but so server returns right value expected
-    this.accounting_transaction.credit_debit_id = '2'
-*/
+    $('#account_key.option_selector_target').mousedown();
+    $('#option_selector_container .option_selector_option:contains(CHAP)').mousedown()
+
+
     // submit and verify data sent to server
     this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
@@ -226,13 +210,15 @@ describe('accounting transactions', function() {
     $('.save').mousedown();
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-//    expect(result.credit_debit_id).toEqual('2');
     expect(result.note).toEqual(updated_note_value);
 
     this.server.respond();
 
-    // field shows value
+    // verify field shows value
     expect($('#accounting_transactions').find('td:contains(' + updated_note_value + ')')).toExist();
+    expect($('#accounting_transactions').find('td:contains(Expense)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(Groceries)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(CHAP)')).toExist();
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
 
 
