@@ -21,6 +21,12 @@ Wavelineup.Controllers.AccountingTransactions = {
       Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.instance.collections.accounting_transactions.fetch();
     }
+    this.clear_child_modal();
+  },
+
+  clear_child_modal: function () {
+    $('#modal_content').html('');
+    $('#modal_content').modal('hide');
   },
 
   list: function() {
@@ -43,7 +49,11 @@ Wavelineup.Controllers.AccountingTransactions = {
       model = Wavelineup.instance.collections.accounting_transactions.get(id) || new Wavelineup.Models.AccountingTransaction({'requested_id': id});
       view = new Wavelineup.Views.AccountingTransaction({collection: collection, model: model});
     }
-    $('#content').html(view.render().el);
+
+    $('#modal_content').html(view.render().el);
+    $('#modal_content').modal({
+      backdrop: 'static'
+    });
   },
 
   save: function(model) {

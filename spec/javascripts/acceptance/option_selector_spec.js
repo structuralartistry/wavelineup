@@ -1,8 +1,7 @@
 describe('option selector', function() {
 
   beforeEach(function() {
-    setFixtures("<a id='test_option_selector_target' class='btn option_selector target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a> \
-                 <div id='option_selector_container'></div>");
+    setFixtures("<a id='test_option_selector_target' class='btn option_selector target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a>");
 
     Wavelineup.instance = {collections: {}};
 
@@ -20,9 +19,10 @@ describe('option selector', function() {
 
   it('renders and shows as expected', function() {
 
+    // should not exist as is created dynamically
+    expect($('#option_selector_container')).not.toExist();
+
     // renders and shows in the option selector container
-    expect($('#option_selector_container')).toExist();
-    expect($('#option_selector_container')).not.toBeVisible();
     view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
     expect($('#option_selector_container')).toBeVisible();
 
@@ -35,8 +35,9 @@ describe('option selector', function() {
   }),
 
   it('selected option with the key of cancel maintaines the current set value', function() {
-    expect($('#option_selector_container')).toExist();
-    expect($('#option_selector_container')).not.toBeVisible();
+
+    // should not exist as is created dynamically
+    expect($('#option_selector_container')).not.toExist();
 
     // set a current value
     var existing_value = 'an existing value';
@@ -53,6 +54,22 @@ describe('option selector', function() {
     $cancel_button.mousedown();
     expect($('#option_selector_container')).not.toBeVisible();
     expect($('#test_option_selector_target').html()).toEqual(existing_value);
+  }),
+
+  it('kills the option selector container when closed', function() {
+    // should not exist as is created dynamically
+    expect($('#option_selector_container')).not.toExist();
+
+    // renders and shows in the option selector container
+    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
+
+    expect($('#option_selector_container')).toBeVisible();
+
+    $cancel_button = $('#option_selector_container').find("[data-key='cancel']");
+    $cancel_button.mousedown();
+
+    // should have been killed
+    expect($('#option_selector_container')).not.toExist();
   })
 
   /* forseen future needs

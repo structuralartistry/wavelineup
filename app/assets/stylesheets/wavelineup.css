@@ -2,6 +2,11 @@
   height: 0.5in;
 }
 
+#modal_content {
+  display: none;
+  position: absolute;
+}
+
 #option_selector_container {
   display: none;
   position: absolute;

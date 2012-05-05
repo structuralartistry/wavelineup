@@ -53,10 +53,11 @@ describe('accounting transactions', function() {
     // shows new form and index hidden
     expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
+    // under modal layer
+    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
 
+    // modal layer
     expect($('input#date_time')).toBeVisible();
-
     expect($('#credit_debit_key.option_selector.target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
     expect($('#category_key.option_selector.target')).toBeVisible();
@@ -71,8 +72,7 @@ describe('accounting transactions', function() {
     // selector fields
 
       // credit_debit
-      expect($('#option_selector_container')).toExist();
-      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#option_selector_container')).not.toExist();
       expect($('#credit_debit_key.option_selector.target').html()).toEqual('');
 
       $('#credit_debit_key.option_selector.target').mousedown();
@@ -85,8 +85,7 @@ describe('accounting transactions', function() {
       expect($('#credit_debit_key.option_selector.target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
       // category
-      expect($('#option_selector_container')).toExist();
-      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#option_selector_container')).not.toExist();
       expect($('#category_key.option_selector.target').html()).toEqual('');
 
       $('#category_key.option_selector.target').mousedown();
@@ -99,8 +98,7 @@ describe('accounting transactions', function() {
       expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
 
       // account
-      expect($('#option_selector_container')).toExist();
-      expect($('#option_selector_container')).not.toBeVisible();
+      expect($('#option_selector_container')).not.toExist();
       expect($('#account_key.option_selector.target').html()).toEqual('');
 
       $('#account_key.option_selector.target').mousedown();
@@ -284,8 +282,10 @@ describe('accounting transactions', function() {
 
       expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
-      expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
+      // this is on the layer under the modal layer
+      expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
 
+      // modal layer
       expect($('input#date_time')).toBeVisible();
       expect($('#credit_debit_key.option_selector.target')).toBeVisible();
       expect($('input#amount')).toBeVisible();
@@ -305,7 +305,7 @@ describe('accounting transactions', function() {
       Wavelineup.init();
       Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
       // note: no loading of collection via server.respond()
-      expect($('#content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
+      expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
     })
   });
 
