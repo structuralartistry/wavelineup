@@ -56,6 +56,7 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + this.accounting_transaction.id)).not.toExist();
 
     expect($('input#date_time')).toBeVisible();
+
     expect($('#credit_debit_key.option_selector.target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
     expect($('#category_key.option_selector.target')).toBeVisible();
@@ -83,8 +84,6 @@ describe('accounting transactions', function() {
       credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
       expect($('#credit_debit_key.option_selector.target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
-
-
       // category
       expect($('#option_selector_container')).toExist();
       expect($('#option_selector_container')).not.toBeVisible();
@@ -99,7 +98,6 @@ describe('accounting transactions', function() {
       category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
       expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
 
-
       // account
       expect($('#option_selector_container')).toExist();
       expect($('#option_selector_container')).not.toBeVisible();
@@ -113,7 +111,6 @@ describe('accounting transactions', function() {
 
       account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
       expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
-
 
 
     created_accounting_transaction = fixtures.accounting_transactions.two;

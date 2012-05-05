@@ -20,16 +20,20 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
     this.constructor.__super__.initialize.apply(this);
     var that = this;
 
+    // virtual attributes for associations
     this.set('credit_debit_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit', that.get('credit_debit_key'));
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',
+                                                                                      that.get('credit_debit_key'));
     })
 
     this.set('category_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category', that.get('category_key'));
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category',
+                                                                                      that.get('category_key'));
     })
 
     this.set('account_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account', that.get('account_key'));
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',
+                                                                                      that.get('account_key'));
     })
 
   }
