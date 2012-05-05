@@ -184,12 +184,16 @@ describe('accounting transactions', function() {
     $('#accounting_transactions #' + this.accounting_transaction.id + ' .edit').mousedown();
 
     // verify initial form values
-    expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time.toString());
-    expect($('#credit_debit_key.option_selector_target').html()).toEqual(this.accounting_transaction.credit_debit_key.toString());
+    expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time);
+
+    credit_debit_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',this.accounting_transaction.credit_debit_key);
+    expect($('#credit_debit_key.option_selector_target').html()).toEqual(credit_debit_expected_value);
     expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    expect($('input#category_key').val()).toEqual(this.accounting_transaction.category_key.toString());
-    expect($('input#account_key').val()).toEqual(this.accounting_transaction.account_key.toString());
-    expect($('input#note').val()).toEqual(this.accounting_transaction.note.toString());
+    category_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category',this.accounting_transaction.category_key);
+    expect($('#category_key.option_selector_target').html()).toEqual(category_expected_value);
+    account_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',this.accounting_transaction.account_key);
+    expect($('#account_key.option_selector_target').html()).toEqual(account_expected_value);
+    expect($('input#note').val()).toEqual(this.accounting_transaction.note);
 
     // update a field
     $('input#note').val(updated_note_value);
