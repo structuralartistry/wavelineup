@@ -4,7 +4,7 @@
 //    if (response.status === 422) {
 //      $('#notices').html('');
 //      errors = $.parseJSON(response.responseText).errors;
-//      Wavelineup.write_model_errors_to_screen(errors);
+//      Wavelineup.format_model_errors(errors);
 //    }
 //  }
 
@@ -67,9 +67,8 @@ Wavelineup.Controllers.AccountingTransactions = {
         error: function(model, response) {
           var attribute, errors, message, messages, _i, _len;
           if (response.status === 422) {
-            $('#notices').html('');
             var errors = $.parseJSON(response.responseText).errors;
-            Wavelineup.write_model_errors_to_screen(errors);
+            $('#modal_notices').html(Wavelineup.format_model_errors(errors));
           }
         }
       });
@@ -92,9 +91,8 @@ Wavelineup.Controllers.AccountingTransactions = {
       error: function(model, response) {
         var attribute, errors, message, messages, _i, _len;
         if (response.status === 422) {
-          $('#notices').html('');
           var errors = $.parseJSON(response.responseText).errors;
-          Wavelineup.write_model_errors_to_screen(errors);
+          $('#modal_notices').html(Wavelineup.format_model_errors(errors));
         }
       }
     });

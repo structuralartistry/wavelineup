@@ -4,6 +4,7 @@ Wavelineup.Templates.AccountingTransactions = {
       <div class='modal-header'> \
         <button class='close' data-dismiss='modal'>×</button> \
         <h3>Modal header</h3> \
+        <div id='modal_notices'></div> \
       </div> \
       <div class='modal-body'> \
         <ul id='accounting_transaction_new_edit'> \

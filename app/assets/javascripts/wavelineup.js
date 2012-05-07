@@ -30,17 +30,18 @@
       this.instance = { collections: {}, routers: {} };
     },
 
-    write_model_errors_to_screen: function (errors) {
-      var messages, message, attribute, i, len;
+    format_model_errors: function (errors) {
+      var messages, message, attribute, i, len, output='';
       if (errors) {
         for (attribute in errors) {
           messages = errors[attribute];
           for (i = 0, len = messages.length; i < len; i++) {
             message = messages[i];
-            $('#notices').append(attribute + ' ' + message + '<br>');
+            output += (attribute + ' ' + message + '<br>');
           }
         }
       }
+      return output;
     }
 
   }

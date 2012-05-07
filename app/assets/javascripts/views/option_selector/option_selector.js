@@ -23,12 +23,13 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
     // dynamically create the option selector container as sibling to target
     // as sometimes we show the option selector in model or in non-modal, want to keep this
     // container within the context it is called...
-    this.$target_element.parent().append("<div id='option_selector_container'></div>");
+    this.$target_element.append("<div id='option_selector_container'></div>");
 
     $('#option_selector_container').html(this.render().el);
-    target_option_selector_offset = $(this.$target_element).offset();
-    $('#option_selector_container').css({top: target_option_selector_offset.top, left: target_option_selector_offset.left})
+    var position = $(this.$target_element).position();
+    $('#option_selector_container').css({display: 'none', position: 'absolute', top: position.top, left: position.left})
     $('#option_selector_container').show();
+
   },
 
   render: function() {
