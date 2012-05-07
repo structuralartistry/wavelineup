@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120507163544) do
+ActiveRecord::Schema.define(:version => 20120507185056) do
 
   create_table "accounting_transactions", :force => true do |t|
     t.integer  "practice_id"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(:version => 20120507163544) do
     t.string   "note"
     t.integer  "invoice_id"
     t.integer  "receivable_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "identities", :force => true do |t|
+    t.integer  "practice_id"
+    t.integer  "identity_type_id"
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "company_name"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
@@ -60,6 +71,18 @@ ActiveRecord::Schema.define(:version => 20120507163544) do
     t.integer  "referring_practice_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
+  end
+
+  create_table "receivables", :force => true do |t|
+    t.integer  "practice_id"
+    t.integer  "invoice_id"
+    t.integer  "amount"
+    t.integer  "balance_due"
+    t.string   "category_key"
+    t.integer  "billing_identity_id"
+    t.integer  "attributed_sale_identity_id"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
 end

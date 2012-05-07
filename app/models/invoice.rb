@@ -1,6 +1,8 @@
 class Invoice < ActiveRecord::Base
-  belongs_to :practice
   has_many :accounting_transactions
+  has_many :receivables
+  belongs_to :practice
+  belongs_to :identity
 
   attr_accessible :date_time, :identity_id, :identity_write_in, :note, :visit_date_time, :visit_id
 

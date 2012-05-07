@@ -1,33 +1,114 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 if Rails.env == 'development'
+  # this serves as fixture data for the jasmine suite as well as basic population of data for dev
+
   practice = Practice.create( :name => 'Demo Practice' )
 
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:00',
-                                                      :credit_debit_key => '1',
+
+  # stand alone accounting transactions
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:01',
                                                       :amount => 1111,
                                                       :category_key => '1',
                                                       :account_key => '1',
-                                                      :note => 'blah' )
+                                                      :note => 'stand alone accounting transaction one note' )
+  accounting_transaction.credit_debit_key = '1'
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save
 
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-02 13:02',
+                                                      :amount => 2222,
+                                                      :category_key => '2',
+                                                      :account_key => '2',
+                                                      :note => 'stand alone accounting transaction two note' )
+  accounting_transaction.credit_debit_key = '2'
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-03 13:03',
+                                                      :amount => 3333,
+                                                      :category_key => '3',
+                                                      :account_key => '3',
+                                                      :note => 'stand alone accounting transaction three note' )
+  accounting_transaction.credit_debit_key = '1'
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+
+
+  # invoices
+
+  # invoice with no associated receivables and accounting transactions
+  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
+                         :note      => 'invoice one note' )
+  invoice.practice_id = practice.id
+  invoice.save
+
+
+  # invoices with receivables and accounting transactions
+  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
+                         :note      => 'invoice two note' )
+  invoice.practice_id = practice.id
+  invoice.save
+
+  receivable = Receivable.new( :invoice_id                 => invoice.id,
+                               :amount                     => 1111,
+                               :balance_due                => 0,
+                               :category_key               => '1',
+                               :billing_identity_id        => 1,
+                               :attributed_sale_idenity_id => 1 )
+  receivable.practice_id = practice.id
+  receivable.save
+
+
+
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:01',
+                                                      :amount => 1111,
+                                                      :category_key => '1',
+                                                      :account_key => '1',
+                                                      :note => 'one note' )
+  accounting_transaction.credit_debit_key = '1'
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-02 13:02',
+                                                      :amount => 2222,
+                                                      :category_key => '2',
+                                                      :account_key => '2',
+                                                      :note => 'two note' )
+  accounting_transaction.credit_debit_key = '2'
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-03 13:03',
+                                                      :amount => 3333,
+                                                      :category_key => '3',
+                                                      :account_key => '3',
+                                                      :note => 'three note' )
+  accounting_transaction.credit_debit_key = '2'
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+
+  # invoice with accounting transactions
   invoice = Invoice.new( :date_time => '2012-01-01 13:00',
                          :note => 'blah' )
   invoice.practice_id = practice.id
   invoice.save
+  %w(1 2 3).each do |i|
+    accounting_transaction = AccountingTransaction.new( :date_time => "2012-01-0#{i} 13:0#{i}",
+                                                        :invoice_id => invoice.id,
+                                                        :credit_debit_key => i,
+                                                        :amount => i * 4,
+                                                        :category_key => i,
+                                                        :account_key => i,
+                                                        :note => "#{i} note" )
+    accounting_transaction.practice_id = practice.id
+    accounting_transaction.save
+  end
 end
 
 option_selector = OptionSelector.create(:name => 'accounting_credit_debit')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
 
 option_selector = OptionSelector.create(:name => 'accounting_category')
