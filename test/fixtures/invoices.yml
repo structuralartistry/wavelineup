@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date_time: 2012-05-07 09:21:36
+  identity_id: 1
+  identity_write_in: MyString
+  visit_id: 1
+  visit_date_time: 2012-05-07 09:21:36
+  note: MyText
+
+two:
+  date_time: 2012-05-07 09:21:36
+  identity_id: 1
+  identity_write_in: MyString
+  visit_id: 1
+  visit_date_time: 2012-05-07 09:21:36
+  note: MyText

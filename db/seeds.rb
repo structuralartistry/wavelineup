@@ -7,16 +7,22 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 if Rails.env == 'development'
-  AccountingTransaction.create( :date_time => '2012-01-01 13:00',
-                                :credit_debit_key => '1',
-                                :amount => 1111,
-                                :category_key => '1',
-                                :account_key => '1',
-                                :note => 'blah' )
+  practice = Practice.create( :name => 'Demo Practice' )
+
+  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:00',
+                                                      :credit_debit_key => '1',
+                                                      :amount => 1111,
+                                                      :category_key => '1',
+                                                      :account_key => '1',
+                                                      :note => 'blah' )
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
+                         :note => 'blah' )
+  invoice.practice_id = practice.id
+  invoice.save
 end
-
-#option_selector = OptionSelector.create(:name => 'credit_debit', :include_blank => true, :include_cancel => true)
-
 
 option_selector = OptionSelector.create(:name => 'accounting_credit_debit')
 OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
