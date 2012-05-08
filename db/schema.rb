@@ -29,13 +29,13 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
 
   create_table "identities", :force => true do |t|
     t.integer  "practice_id"
-    t.integer  "identity_type_id"
+    t.integer  "type_id"
     t.string   "last_name"
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "company_name"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "invoices", :force => true do |t|
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
     t.integer  "practice_id"
     t.string   "key"
     t.string   "value"
+    t.integer  "default_price"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end

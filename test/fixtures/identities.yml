@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  identity_type_id: 1
+  last_name: MyString
+  first_name: MyString
+  middle_name: MyString
+  company_name: MyString
+
+two:
+  identity_type_id: 1
+  last_name: MyString
+  first_name: MyString
+  middle_name: MyString
+  company_name: MyString

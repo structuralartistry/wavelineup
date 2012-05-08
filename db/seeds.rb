@@ -1,34 +1,130 @@
-if Rails.env == 'development'
-  # this serves as fixture data for the jasmine suite as well as basic population of data for dev
+# production seed data goals
+# * base standard seed date for a new practice (will be used/copied for Practice#create)
 
-  practice = Practice.create( :name => 'Demo Practice' )
+
+option_selector_accounting_credit_debit = OptionSelector.create(:name => 'accounting_credit_debit')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_credit_debit.id, :key => '1', :value => 'Credit')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_credit_debit.id, :key => '2', :value => 'Debit')
+
+option_selector_accounting_category_expense = OptionSelector.create(:name => 'accounting_category_expense')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '1', :value => 'Advertising')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '2', :value => 'Equipment')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '3', :value => 'Office Supplies')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '4', :value => 'Rent')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '5', :value => 'Utilities')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => 'cancel', :value => 'Cancel')
+
+option_selector_accounting_category_income = OptionSelector.create(:name => 'accounting_category_income')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => '1', :value => 'Cash Payment')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => '2', :value => 'Credit Card Payment')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => '3', :value => 'Check Payment')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => '4', :value => 'Insurance Payment')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_income.id, :key => 'cancel', :value => 'Cancel')
+
+option_selector_accounting_account = OptionSelector.create(:name => 'accounting_account')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :key => '1', :value => 'Cash Reserves')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :key => '2', :value => 'Business Checking')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :key => '3', :value => 'Business Savings')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :key => 'cancel', :value => 'Cancel')
+
+option_selector_identity_types = OptionSelector.create(:name => 'identity_types')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :key => '1', :value => 'Prospective Client')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :key => '2', :value => 'Practice Member')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :key => '3', :value => 'Insurance Company')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :key => '4', :value => 'Practitioner')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :key => '5', :value => 'Practice Personnel')
+
+option_selector_product_service = OptionSelector.create(:name => 'product_service')
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '1', :value => 'Introductory Package', :default_price => 15000)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '2', :value => 'Entrainment', :default_price => 5000)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '3', :value => 'SRI Session', :default_price => 4000)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '4', :value => '10 Visit Package', :default_price => 45000)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '5', :value => 'Herbs/Vitamins', :default_price => 2995)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => '6', :value => 'Homeopathic Remedies', :default_price => 599)
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => 'blank', :value => '')
+OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :key => 'cancel', :value => 'Cancel')
+
+
+if Rails.env == 'development'
+  # development/test seed data goals
+  # - fixtures for jasmine suite
+  # - illustrate all major features/differential
+  # - serve for marketing/screenshots
+  # - *only* as much data as needed, the minimal agile set
+
+  practice = Practice.create( :name => 'Exuberant Wellness' )
+
+
+  identity_insurance_one = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Insurance Company'),
+    :company_name => 'ACME Insurance Co' )
+
+
+  identity_practitioner_one = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :last_name => 'Wilhelm',
+    :first_name => 'Reich' )
+
+  identity_practitioner_two = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :last_name => 'DD',
+    :first_name => 'Palmer' )
+
+
+  identity_practice_personnel_one = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :last_name => 'Rosie',
+    :first_name => 'Admon' )
+
+
+  identity_practice_member_one = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :last_name => 'Ian',
+    :first_name => 'Stuk' )
+
+  identity_practice_member_two = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :last_name => 'May',
+    :middle_name => 'Bee',
+    :first_name => 'Enlightened' )
+
+  identity_practice_member_three = Identity.create(
+    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :last_name => 'Moe',
+    :first_name => 'Transform' )
 
 
   # stand alone accounting transactions
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:01',
-                                                      :amount => 1111,
-                                                      :category_key => '1',
-                                                      :account_key => '1',
-                                                      :note => 'stand alone accounting transaction one note' )
-  accounting_transaction.credit_debit_key = '1'
+  accounting_transaction = AccountingTransaction.new(
+    :date_time => '2012-01-01 13:01',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
+    :amount => 1111,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment'),
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
+    :note => 'accounting transaction one note' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save
 
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-02 13:02',
-                                                      :amount => 2222,
-                                                      :category_key => '2',
-                                                      :account_key => '2',
-                                                      :note => 'stand alone accounting transaction two note' )
-  accounting_transaction.credit_debit_key = '2'
+  accounting_transaction = AccountingTransaction.new(
+    :date_time => '2012-01-02 13:02',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit'),
+    :amount => 100000,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Rent'),
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
+    :note => 'accounting transaction two note' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save
 
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-03 13:03',
-                                                      :amount => 3333,
-                                                      :category_key => '3',
-                                                      :account_key => '3',
-                                                      :note => 'stand alone accounting transaction three note' )
-  accounting_transaction.credit_debit_key = '1'
+  accounting_transaction = AccountingTransaction.new(
+    :date_time => '2012-01-03 13:03',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit'),
+    :amount => 3333,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Office Supplies'),
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves'),
+    :note => 'accounting transaction three note' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save
 
@@ -37,93 +133,91 @@ if Rails.env == 'development'
   # invoices
 
   # invoice with no associated receivables and accounting transactions
-  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
-                         :note      => 'invoice one note' )
+  invoice = Invoice.new(
+    :date_time => '2012-01-01 13:01',
+    :identity_id => identity_practice_member_one.id,
+    :note      => 'invoice one note' )
   invoice.practice_id = practice.id
   invoice.save
 
 
-  # invoices with receivables and accounting transactions
-  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
-                         :note      => 'invoice two note' )
+  # invoice with receivables only, no payments applied
+  invoice = Invoice.new(
+    :date_time => '2012-01-01 13:02',
+    :identity_id => identity_practice_member_two.id,
+    :note      => 'invoice two note' )
   invoice.practice_id = practice.id
   invoice.save
 
-  receivable = Receivable.new( :invoice_id                 => invoice.id,
-                               :amount                     => 1111,
-                               :balance_due                => 0,
-                               :category_key               => '1',
-                               :billing_identity_id        => 1,
-                               :attributed_sale_idenity_id => 1 )
+  receivable = Receivable.new(
+    :invoice_id                 => invoice.id,
+    :amount                     => 7500,
+    :balance_due                => 0,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id.to_s,
+    :billing_identity_id        => identity_insurance_one.id,
+    :attributed_sale_identity_id => identity_practitioner_two.id )
+  receivable.practice_id = practice.id
+  receivable.save
+
+  receivable = Receivable.new(
+    :invoice_id                 => invoice.id,
+    :amount                     => 4000,
+    :balance_due                => 0,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('SRI Session').id.to_s,
+    :billing_identity_id        => nil,
+    :attributed_sale_identity_id => identity_practitioner_one.id )
   receivable.practice_id = practice.id
   receivable.save
 
 
-
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-01 13:01',
-                                                      :amount => 1111,
-                                                      :category_key => '1',
-                                                      :account_key => '1',
-                                                      :note => 'one note' )
-  accounting_transaction.credit_debit_key = '1'
-  accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
-
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-02 13:02',
-                                                      :amount => 2222,
-                                                      :category_key => '2',
-                                                      :account_key => '2',
-                                                      :note => 'two note' )
-  accounting_transaction.credit_debit_key = '2'
-  accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
-
-  accounting_transaction = AccountingTransaction.new( :date_time => '2012-01-03 13:03',
-                                                      :amount => 3333,
-                                                      :category_key => '3',
-                                                      :account_key => '3',
-                                                      :note => 'three note' )
-  accounting_transaction.credit_debit_key = '2'
-  accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
-
-
-  # invoice with accounting transactions
-  invoice = Invoice.new( :date_time => '2012-01-01 13:00',
-                         :note => 'blah' )
+  # invoices with receivables and payments applied via accounting transactions
+  invoice = Invoice.new(
+    :date_time => '2012-01-01 13:02',
+    :identity_id => identity_practice_member_two.id,
+    :note      => 'invoice two note' )
   invoice.practice_id = practice.id
   invoice.save
-  %w(1 2 3).each do |i|
-    accounting_transaction = AccountingTransaction.new( :date_time => "2012-01-0#{i} 13:0#{i}",
-                                                        :invoice_id => invoice.id,
-                                                        :credit_debit_key => i,
-                                                        :amount => i * 4,
-                                                        :category_key => i,
-                                                        :account_key => i,
-                                                        :note => "#{i} note" )
-    accounting_transaction.practice_id = practice.id
-    accounting_transaction.save
-  end
+
+  receivable = Receivable.new(
+    :invoice_id                 => invoice.id,
+    :amount                     => 1100,
+    :balance_due                => 0,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Herbs/Vitamins').id.to_s,
+    :billing_identity_id        => nil,
+    :attributed_sale_identity_id => identity_practice_personnel_one.id )
+  receivable.practice_id = practice.id
+  receivable.save
+
+  # this receivable is paid by the following accounting transaction (note receivable_id in the accounting transaction)
+  receivable = Receivable.new(
+    :invoice_id                 => invoice.id,
+    :amount                     => 7500,
+    :balance_due                => 0,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id.to_s,
+    :billing_identity_id        => identity_insurance_one.id,
+    :attributed_sale_identity_id => identity_practitioner_one.id )
+  receivable.practice_id = practice.id
+  receivable.save
+
+  accounting_transaction = AccountingTransaction.new(
+    :date_time => '2012-01-01 13:01',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
+    :amount => 6100,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').id,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
+    :receivable_id => receivable.id,
+    :note => 'one note' )
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
+  accounting_transaction = AccountingTransaction.new(
+    :date_time => '2012-01-01 13:01',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
+    :amount => 1100,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').id,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves'),
+    :note => 'one note' )
+  accounting_transaction.practice_id = practice.id
+  accounting_transaction.save
+
 end
-
-option_selector = OptionSelector.create(:name => 'accounting_credit_debit')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Income')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Expense')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
-
-option_selector = OptionSelector.create(:name => 'accounting_category')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'Cafe')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Dining')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'Groceries')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '4', :value => 'Rent')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '5', :value => 'Utilities')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')
-
-option_selector = OptionSelector.create(:name => 'accounting_account')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '1', :value => 'B of A CC')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '2', :value => 'Cash')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '3', :value => 'CHAP')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => '4', :value => 'Zions')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'blank', :value => '')
-OptionSelectorOption.create(:option_selector_id => option_selector.id, :key => 'cancel', :value => 'Cancel')

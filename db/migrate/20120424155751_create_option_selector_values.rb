@@ -5,7 +5,7 @@ class CreateOptionSelectorValues < ActiveRecord::Migration
       t.integer :practice_id
       t.string :key
       t.string :value
-      t.string :options
+      t.integer :default_price
 
       t.timestamps
     end

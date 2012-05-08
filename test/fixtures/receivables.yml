@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  practice_id: 1
+  invoice_id: 1
+  amount: 1
+  balance_due: 1
+  category_key: MyString
+  billing_identity_id: 1
+  attributed_sale_identity_id: 1
+
+two:
+  practice_id: 1
+  invoice_id: 1
+  amount: 1
+  balance_due: 1
+  category_key: MyString
+  billing_identity_id: 1
+  attributed_sale_identity_id: 1
