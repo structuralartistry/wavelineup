@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
 
   create_table "identities", :force => true do |t|
     t.integer  "practice_id"
-    t.integer  "type_id"
+    t.string   "type_key"
     t.string   "last_name"
     t.string   "first_name"
     t.string   "middle_name"

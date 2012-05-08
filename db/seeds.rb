@@ -59,74 +59,74 @@ if Rails.env == 'development'
 
 
   identity_insurance_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Insurance Company'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Insurance Company').key,
     :company_name => 'ACME Insurance Co' )
 
 
   identity_practitioner_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').key,
     :last_name => 'Wilhelm',
     :first_name => 'Reich' )
 
   identity_practitioner_two = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').key,
     :last_name => 'DD',
     :first_name => 'Palmer' )
 
 
   identity_practice_personnel_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').key,
     :last_name => 'Rosie',
     :first_name => 'Admon' )
 
 
   identity_practice_member_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').key,
     :last_name => 'Ian',
     :first_name => 'Stuk' )
 
   identity_practice_member_two = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').key,
     :last_name => 'May',
     :middle_name => 'Bee',
     :first_name => 'Enlightened' )
 
   identity_practice_member_three = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member'),
+    :type_key => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').key,
     :last_name => 'Moe',
     :first_name => 'Transform' )
 
 
   # stand alone accounting transactions
   accounting_transaction = AccountingTransaction.new(
-    :date_time => '2012-01-01 13:01',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
-    :amount => 1111,
-    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment'),
-    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
-    :note => 'accounting transaction one note' )
+    :date_time => '2012-01-01 10:05',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
+    :amount => 2198,
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').key,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
+    :note => 'verify in checking' )
   accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
+  accounting_transaction.save!
 
   accounting_transaction = AccountingTransaction.new(
-    :date_time => '2012-01-02 13:02',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit'),
+    :date_time => '2012-01-02 11:32',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit').key,
     :amount => 100000,
-    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Rent'),
-    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
-    :note => 'accounting transaction two note' )
+    :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').key,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
+    :note => 'Jan 2012' )
   accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
+  accounting_transaction.save!
 
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-03 13:03',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit'),
-    :amount => 3333,
-    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Office Supplies'),
-    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves'),
-    :note => 'accounting transaction three note' )
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit').key,
+    :amount => 3312,
+    :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').key,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').key,
+    :note => 'business cards' )
   accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
+  accounting_transaction.save!
 
 
 
@@ -134,90 +134,91 @@ if Rails.env == 'development'
 
   # invoice with no associated receivables and accounting transactions
   invoice = Invoice.new(
-    :date_time => '2012-01-01 13:01',
+    :date_time => '2012-01-01 09:45',
     :identity_id => identity_practice_member_one.id,
-    :note      => 'invoice one note' )
+    :note      => 'placeholder for todays treatments' )
   invoice.practice_id = practice.id
-  invoice.save
+  invoice.save!
 
 
   # invoice with receivables only, no payments applied
   invoice = Invoice.new(
-    :date_time => '2012-01-01 13:02',
+    :date_time => '2012-01-02 13:02',
     :identity_id => identity_practice_member_two.id,
-    :note      => 'invoice two note' )
+    :note      => 'will pay next visit and bring insurance info' )
   invoice.practice_id = practice.id
-  invoice.save
+  invoice.save!
 
   receivable = Receivable.new(
     :invoice_id                 => invoice.id,
     :amount                     => 7500,
     :balance_due                => 0,
-    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id.to_s,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').key,
     :billing_identity_id        => identity_insurance_one.id,
     :attributed_sale_identity_id => identity_practitioner_two.id )
   receivable.practice_id = practice.id
-  receivable.save
+  receivable.save!
 
   receivable = Receivable.new(
     :invoice_id                 => invoice.id,
     :amount                     => 4000,
     :balance_due                => 0,
-    :category_key               => option_selector_product_service.option_selector_options.find_by_value('SRI Session').id.to_s,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('SRI Session').key,
     :billing_identity_id        => nil,
     :attributed_sale_identity_id => identity_practitioner_one.id )
   receivable.practice_id = practice.id
-  receivable.save
+  receivable.save!
 
 
   # invoices with receivables and payments applied via accounting transactions
   invoice = Invoice.new(
-    :date_time => '2012-01-01 13:02',
+    :date_time => '2012-01-03 16:18',
     :identity_id => identity_practice_member_two.id,
-    :note      => 'invoice two note' )
+    :note      => 'need to contact insurance re short payment' )
   invoice.practice_id = practice.id
-  invoice.save
+  invoice.save!
 
   receivable = Receivable.new(
     :invoice_id                 => invoice.id,
     :amount                     => 1100,
     :balance_due                => 0,
-    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Herbs/Vitamins').id.to_s,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Herbs/Vitamins').key,
     :billing_identity_id        => nil,
     :attributed_sale_identity_id => identity_practice_personnel_one.id )
   receivable.practice_id = practice.id
-  receivable.save
+  receivable.save!
 
   # this receivable is paid by the following accounting transaction (note receivable_id in the accounting transaction)
   receivable = Receivable.new(
     :invoice_id                 => invoice.id,
     :amount                     => 7500,
     :balance_due                => 0,
-    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id.to_s,
+    :category_key               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').key,
     :billing_identity_id        => identity_insurance_one.id,
     :attributed_sale_identity_id => identity_practitioner_one.id )
   receivable.practice_id = practice.id
-  receivable.save
+  receivable.save!
 
   accounting_transaction = AccountingTransaction.new(
-    :date_time => '2012-01-01 13:01',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
+    :date_time => '2012-01-03 16:18',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
     :amount => 6100,
-    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').id,
-    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking'),
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').key,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
     :receivable_id => receivable.id,
-    :note => 'one note' )
+    :note      => 'sent to insurance on 1/5/2012' )
+
   accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
+  accounting_transaction.save!
 
   accounting_transaction = AccountingTransaction.new(
-    :date_time => '2012-01-01 13:01',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit'),
+    :date_time => '2012-01-03 16:18',
+    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
     :amount => 1100,
-    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').id,
-    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves'),
-    :note => 'one note' )
+    :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').key,
+    :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').key,
+    :note      => 'only had cash' )
   accounting_transaction.practice_id = practice.id
-  accounting_transaction.save
+  accounting_transaction.save!
 
 end

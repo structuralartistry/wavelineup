@@ -27,7 +27,9 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
     })
 
     this.set('category_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category',
+      var category_selector_name = 'accounting_category_expense';
+      if(that.get('credit_debit_value') == 'Credit') category_selector_name = 'accounting_category_income';
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_key(category_selector_name,
                                                                                       that.get('category_key'));
     })
 
