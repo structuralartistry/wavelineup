@@ -3,20 +3,34 @@ class AccountingTransactionsController < ApplicationController
 
   def index
     @accounting_transactions = AccountingTransaction.all
+    render :template => 'accounting_transactions/index'
   end
 
   def create
-    @response = AccountingTransaction.create(params[:accounting_transaction])
-debugger
-    render :template => 'shared/response'
+    @accounting_transaction = AccountingTransaction.new(params[:accounting_transaction])
+    if @accounting_transaction.save
+      render :template => 'accounting_transactions/accounting_transaction', :status => 201
+    else
+      render :template => 'accounting_transactions/accounting_transaction', :status => 422
+    end
   end
 
   def update
-    respond_with AccountingTransaction.update(params[:id], params[:accounting_transaction])
+    @accounting_transaction = AccountingTransaction.update_attributes(params[:accounting_transaction])
+    if @accounting_transaction.save
+      render :template => 'accounting_transactions/accounting_transaction', :status => 202
+    else
+      render :template => 'accounting_transactions/accounting_transaction', :status => 422
+    end
   end
 
   def destroy
-    respond_with AccountingTransaction.destroy(params[:id])
+    @accounting_transaction = AccountingTransaction.find(params[:id])
+    if @accounting_transaction.destroy
+      render :template => 'accounting_transactions/accounting_transaction', :status => 202
+    else
+      render :template => 'accounting_transactions/accounting_transaction', :status => 422
+    end
   end
 
 end

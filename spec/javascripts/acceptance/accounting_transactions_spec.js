@@ -78,10 +78,10 @@ describe('accounting transactions', function() {
       $('#credit_debit_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector.option:contains(Income)').mousedown()
-      expect($('#credit_debit_key.option_selector.target').html()).toEqual('Income');
+      $('#option_selector_container .option_selector.option:contains(Credit)').mousedown()
+      expect($('#credit_debit_key.option_selector.target').html()).toEqual('Credit');
 
-      credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Income');
+      credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Credit');
       expect($('#credit_debit_key.option_selector.target').data('set_key')==credit_debit_expected_key).toBeTruthy();
 
       // category
@@ -187,7 +187,7 @@ describe('accounting transactions', function() {
     $('input#note').val(updated_note_value);
 
     $('#credit_debit_key.option_selector.target').mousedown();
-    $('#option_selector_container .option_selector.option:contains(Expense)').mousedown()
+    $('#option_selector_container .option_selector.option:contains(Debit)').mousedown()
 
     $('#category_key.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Groceries)').mousedown()
@@ -211,7 +211,7 @@ describe('accounting transactions', function() {
 
     // verify field shows value
     expect($('#accounting_transactions').find('td:contains(' + updated_note_value + ')')).toExist();
-    expect($('#accounting_transactions').find('td:contains(Expense)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(Debit)')).toExist();
     expect($('#accounting_transactions').find('td:contains(Groceries)')).toExist();
     expect($('#accounting_transactions').find('td:contains(CHAP)')).toExist();
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
