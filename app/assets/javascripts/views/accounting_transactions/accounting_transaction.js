@@ -5,7 +5,9 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     'mousedown .delete': 'delete',
     'mousedown .save': 'save',
     'mousedown .cancel': 'cancel',
-    'mousedown .option_selector.target': 'show_option_selector'
+    'mousedown .option_selector.target': 'show_option_selector',
+    'change #credit_debit_key': 'set_category_selector_name'
+
   },
 
   initialize: function() {
@@ -52,6 +54,24 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   // note this may be ripe to move to a global event aggregator
   show_option_selector: function(event) {
+    // the accounting category selector name is determined by whether this is an income or expense
+    // so when this value is toggled, we change the selector referenced on the category key field
+    if($(event.target).data('option_selector_name').indexOf('accounting_credit_debit')>=0) {
+      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_income');
+    } else {
+      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_expense');
+    }
+
     new Wavelineup.Views.OptionSelector($(event.target));
+  },
+
+  set_category_selector_name: function(event) {
+console.log('change');
+    if($(event.target).data('option_selector_name').indexOf('accounting_credit_debit')>=0) {
+      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_income');
+    } else {
+      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_expense');
+    }
   }
+
 });

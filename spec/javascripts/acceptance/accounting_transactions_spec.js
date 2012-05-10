@@ -91,10 +91,10 @@ describe('accounting transactions', function() {
       $('#category_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector.option:contains(Groceries)').mousedown()
-      expect($('#category_key.option_selector.target').html()).toEqual('Groceries');
+      $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
+      expect($('#category_key.option_selector.target').html()).toEqual('Office Supplies');
 
-      category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category','Groceries');
+      category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category_expense','Office Supplies');
       expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
 
       // account
@@ -104,10 +104,10 @@ describe('accounting transactions', function() {
       $('#account_key.option_selector.target').mousedown();
       expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector.option:contains(CHAP)').mousedown()
-      expect($('#account_key.option_selector.target').html()).toEqual('CHAP');
+      $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
+      expect($('#account_key.option_selector.target').html()).toEqual('Business Checking');
 
-      account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','CHAP');
+      account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','Business Checking');
       expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
 
 
@@ -177,7 +177,10 @@ describe('accounting transactions', function() {
     credit_debit_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',this.accounting_transaction.credit_debit_key);
     expect($('#credit_debit_key.option_selector.target').html()).toEqual(credit_debit_expected_value);
     expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    category_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category',this.accounting_transaction.category_key);
+    // determine if it is income or expense category (mapping from credit_debit_key)
+    var accounting_category_suffix = 'expense';
+    if(credit_debit_expected_value=='Credit') accounting_category_suffix = 'income';
+    category_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category_' + accounting_category_suffix,this.accounting_transaction.category_key);
     expect($('#category_key.option_selector.target').html()).toEqual(category_expected_value);
     account_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',this.accounting_transaction.account_key);
     expect($('#account_key.option_selector.target').html()).toEqual(account_expected_value);
@@ -190,11 +193,10 @@ describe('accounting transactions', function() {
     $('#option_selector_container .option_selector.option:contains(Debit)').mousedown()
 
     $('#category_key.option_selector.target').mousedown();
-    $('#option_selector_container .option_selector.option:contains(Groceries)').mousedown()
+    $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
 
     $('#account_key.option_selector.target').mousedown();
-    $('#option_selector_container .option_selector.option:contains(CHAP)').mousedown()
-
+    $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
 
     // submit and verify data sent to server
     this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction.id,
@@ -212,8 +214,8 @@ describe('accounting transactions', function() {
     // verify field shows value
     expect($('#accounting_transactions').find('td:contains(' + updated_note_value + ')')).toExist();
     expect($('#accounting_transactions').find('td:contains(Debit)')).toExist();
-    expect($('#accounting_transactions').find('td:contains(Groceries)')).toExist();
-    expect($('#accounting_transactions').find('td:contains(CHAP)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(Office Supplies)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(Business Checking)')).toExist();
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
 
 

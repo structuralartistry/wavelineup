@@ -3,7 +3,7 @@ class CreateAccountingTransactions < ActiveRecord::Migration
     create_table :accounting_transactions do |t|
       t.integer :practice_id
       t.datetime :date_time
-      t.integer :multiplier
+      t.string :credit_debit_key
       t.integer :amount
       t.string :category_key
       t.string :account_key
