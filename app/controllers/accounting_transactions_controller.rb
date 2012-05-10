@@ -2,15 +2,13 @@ class AccountingTransactionsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with AccountingTransaction.all
+    @accounting_transactions = AccountingTransaction.all
   end
 
   def create
-    respond_with AccountingTransaction.create(params[:accounting_transaction])
-  end
-
-  def show
-    respond_with AccountingTransaction.find(params[:id])
+    @response = AccountingTransaction.create(params[:accounting_transaction])
+debugger
+    render :template => 'shared/response'
   end
 
   def update

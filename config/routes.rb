@@ -3,6 +3,7 @@ Wavelineup::Application.routes.draw do
   scope 'api' do
     resources :accounting_transactions
     resources :option_selectors
+    resources :option_selector_options
   end
 
   root :to => 'main#index'

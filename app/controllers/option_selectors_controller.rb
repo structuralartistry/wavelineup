@@ -3,7 +3,6 @@ class OptionSelectorsController < ApplicationController
 
   def index
     OptionSelector.all.to_json
-#    @option_selectors = OptionSelector.all
   end
 
 end
