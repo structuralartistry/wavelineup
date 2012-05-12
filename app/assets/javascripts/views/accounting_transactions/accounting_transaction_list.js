@@ -4,12 +4,13 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   template: function(json) {
     var t = " \
       <h1>Hello World Index View from Backbone!!!</h1> \
-      <input id='accounting_transaction__new__button' type='submit' value='New'> \
+      <input class='new_accounting_transaction expense' type='submit' value='New Expense'> \
+      <input class='new_accounting_transaction income' type='submit' value='New Income'> \
       <table id='accounting_transactions'> \
         <thead> \
           <tr> \
             <th>Date Time</th> \
-            <th>Credit/Debit</th> \
+            <th>Income/Expense</th> \
             <th>Amount</th> \
             <th>Category</th> \
             <th>Account</th> \
@@ -40,7 +41,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   events: {
-    'mousedown #accounting_transaction__new__button': 'new_accounting_transaction'
+    'mousedown .new_accounting_transaction': 'new_accounting_transaction'
   },
 
   initialize: function() {
@@ -65,7 +66,9 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   new_accounting_transaction: function(event) {
-    Wavelineup.Controllers.AccountingTransactions.new_edit('new');
+    income_expense = 'expense'
+    if($(event.target).hasClass('income')) income_expense = 'income';
+    Wavelineup.Controllers.AccountingTransactions.new_edit('new', income_expense);
   },
 
   append_accounting_transaction: function(accounting_transaction) {

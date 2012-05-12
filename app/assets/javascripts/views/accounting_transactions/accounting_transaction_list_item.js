@@ -4,7 +4,7 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
   template: function(json) {
     var t = " \
       <td><%= date_time %></td> \
-      <td><%= credit_debit_value %></td> \
+      <td><%= income_expense %></td> \
       <td><%= amount %></td> \
       <td><%= category_value %></td> \
       <td><%= account_value %></td> \

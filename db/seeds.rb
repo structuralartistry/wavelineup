@@ -1,11 +1,6 @@
 # production seed data goals
 # * base standard seed date for a new practice (will be used/copied for Practice#create)
 
-
-option_selector_accounting_credit_debit = OptionSelector.create(:name => 'accounting_credit_debit')
-OptionSelectorOption.create(:option_selector_id => option_selector_accounting_credit_debit.id, :key => '1', :value => 'Credit')
-OptionSelectorOption.create(:option_selector_id => option_selector_accounting_credit_debit.id, :key => '2', :value => 'Debit')
-
 option_selector_accounting_category_expense = OptionSelector.create(:name => 'accounting_category_expense')
 OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '1', :value => 'Advertising')
 OptionSelectorOption.create(:option_selector_id => option_selector_accounting_category_expense.id, :key => '2', :value => 'Equipment')
@@ -100,7 +95,7 @@ if Rails.env == 'development'
   # stand alone accounting transactions
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-01 10:05',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
+    :income_expense => 'income',
     :amount => 2198,
     :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').key,
     :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
@@ -110,7 +105,7 @@ if Rails.env == 'development'
 
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-02 11:32',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit').key,
+    :income_expense => 'expense',
     :amount => 100000,
     :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').key,
     :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
@@ -120,7 +115,7 @@ if Rails.env == 'development'
 
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-03 13:03',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Debit').key,
+    :income_expense => 'expense',
     :amount => 3312,
     :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').key,
     :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').key,
@@ -201,7 +196,7 @@ if Rails.env == 'development'
 
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-03 16:18',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
+    :income_expense => 'income',
     :amount => 6100,
     :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').key,
     :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
@@ -213,7 +208,7 @@ if Rails.env == 'development'
 
   accounting_transaction = AccountingTransaction.new(
     :date_time => '2012-01-03 16:18',
-    :credit_debit_key => option_selector_accounting_credit_debit.option_selector_options.find_by_value('Credit').key,
+    :income_expense => 'income',
     :amount => 1100,
     :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').key,
     :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').key,

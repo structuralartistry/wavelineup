@@ -12,7 +12,6 @@ describe('accounting transactions', function() {
                                     [200, { "Content-Type": "application/json" },
                                     JSON.stringify(this.accounting_transaction)]);
 
-
     // set data that loads on app load via the main rails index
     Wavelineup.set_base_data = function() {
       Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
@@ -22,9 +21,14 @@ describe('accounting transactions', function() {
       Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
     }
 
+    // turn off the router
+    if( (typeof Backbone.history == 'object') && (typeof Backbone.history.stop == 'function') ) Backbone.history.stop();
+
     Wavelineup.init();
 
     Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
+    current_url = Backbone.history.getHash();
+    expect(current_url).toEqual('accounting_transactions')
 
     this.server.respond();
   }),
@@ -33,22 +37,48 @@ describe('accounting transactions', function() {
   afterEach(function() {
     this.server.restore();
     setFixtures('');
+    if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
   }),
 
 
   it('loads the index page with correct content', function() {
     expect($('#content h1')).toHaveText('Hello World Index View from Backbone!!!');
 
-    expect($('#accounting_transaction__new__button')).toExist();
+    expect($('.new_accounting_transaction.expense')).toExist();
+    expect($('.new_accounting_transaction.income')).toExist();
 
     expect($('#' + this.accounting_transaction.id)).toExist();
+  }),
+
+  it('shows new Expense transaction modal if New Expense is clicked', function () {
+    $('.new_accounting_transaction.expense').mousedown();
+
+    expect($('#accounting_transaction_new_edit')).toBeVisible();
+
+    current_url = Backbone.history.getHash();
+    expect(current_url).toEqual('accounting_transactions/new/expense')
+
+    // the Category selector
+    expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_expense');
+  }),
+
+  it('shows new Income transaction modal if New Income is clicked', function () {
+    $('.new_accounting_transaction.income').mousedown();
+
+    expect($('#accounting_transaction_new_edit')).toBeVisible();
+
+    current_url = Backbone.history.getHash();
+    expect(current_url).toEqual('accounting_transactions/new/income')
+
+    // the Category selector
+    expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
   }),
 
   it('creates a new Accounting Transaction', function() {
     new_accounting_transaction = fixtures.accounting_transactions.two;
     expect($('#accounting_transaction_' + new_accounting_transaction.id)).not.toExist();
 
-    $('#accounting_transaction__new__button').mousedown();
+    $('.new_accounting_transaction.expense').mousedown();
 
     // shows new form and index hidden
     expect($('ul#accounting_transaction_new_edit')).toBeVisible();
@@ -58,7 +88,6 @@ describe('accounting transactions', function() {
 
     // modal layer
     expect($('input#date_time')).toBeVisible();
-    expect($('#credit_debit_key.option_selector.target')).toBeVisible();
     expect($('input#amount')).toBeVisible();
     expect($('#category_key.option_selector.target')).toBeVisible();
     expect($('#account_key.option_selector.target')).toBeVisible();
@@ -71,44 +100,31 @@ describe('accounting transactions', function() {
 
     // selector fields
 
-      // credit_debit
-      expect($('#option_selector_container')).not.toExist();
-      expect($('#credit_debit_key.option_selector.target').html()).toEqual('');
+    // category
+    expect($('#option_selector_container')).not.toExist();
+    expect($('#category_key.option_selector.target').html()).toEqual('');
 
-      $('#credit_debit_key.option_selector.target').mousedown();
-      expect($('#option_selector_container')).toBeVisible();
+    $('#category_key.option_selector.target').mousedown();
+    expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector.option:contains(Credit)').mousedown()
-      expect($('#credit_debit_key.option_selector.target').html()).toEqual('Credit');
+    $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
+    expect($('#category_key.option_selector.target').html()).toEqual('Office Supplies');
 
-      credit_debit_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_credit_debit','Credit');
-      expect($('#credit_debit_key.option_selector.target').data('set_key')==credit_debit_expected_key).toBeTruthy();
+    category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category_expense','Office Supplies');
+    expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
 
-      // category
-      expect($('#option_selector_container')).not.toExist();
-      expect($('#category_key.option_selector.target').html()).toEqual('');
+    // account
+    expect($('#option_selector_container')).not.toExist();
+    expect($('#account_key.option_selector.target').html()).toEqual('');
 
-      $('#category_key.option_selector.target').mousedown();
-      expect($('#option_selector_container')).toBeVisible();
+    $('#account_key.option_selector.target').mousedown();
+    expect($('#option_selector_container')).toBeVisible();
 
-      $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
-      expect($('#category_key.option_selector.target').html()).toEqual('Office Supplies');
+    $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
+    expect($('#account_key.option_selector.target').html()).toEqual('Business Checking');
 
-      category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category_expense','Office Supplies');
-      expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
-
-      // account
-      expect($('#option_selector_container')).not.toExist();
-      expect($('#account_key.option_selector.target').html()).toEqual('');
-
-      $('#account_key.option_selector.target').mousedown();
-      expect($('#option_selector_container')).toBeVisible();
-
-      $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
-      expect($('#account_key.option_selector.target').html()).toEqual('Business Checking');
-
-      account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','Business Checking');
-      expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
+    account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','Business Checking');
+    expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
 
 
     created_accounting_transaction = fixtures.accounting_transactions.two;
@@ -125,7 +141,7 @@ describe('accounting transactions', function() {
     expect(result['account_key']).toEqual(account_expected_key);
     expect(result['amount']).toEqual('2.22');
     expect(result['category_key']).toEqual(category_expected_key);
-    expect(result['credit_debit_key']).toEqual(credit_debit_expected_key);
+    expect(result['income_expense']).toEqual('expense');
     expect(result['date_time']).toEqual('2012-02-22T22:22:22Z');
     expect(result['note']).toEqual('accounting transaction two');
 
@@ -140,22 +156,20 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + created_accounting_transaction.id)).toExist();
 
     expect($('#date_time')).not.toBeVisible();
-    expect($('#credit_debit_key')).not.toBeVisible();
+    expect($('#income_expense')).not.toBeVisible();
     expect($('#amount')).not.toBeVisible();
     expect($('#category_key')).not.toBeVisible();
     expect($('#account_key')).not.toBeVisible();
     expect($('#note')).not.toBeVisible();
 
     // verify that when accessed the new form again it is cleared
-    $('#accounting_transaction__new__button').mousedown();
+    $('.new_accounting_transaction.expense').mousedown();
     //expect($('#date_time').val()).toEqual('');
-    expect($('#credit_debit_key').html()).toEqual('');
     expect($('#amount').val()).toEqual('');
     expect($('#category_key').val()).toEqual('');
     expect($('#account_key').val()).toEqual('');
     expect($('#note').val()).toEqual('');
 
-    jQuery.ajax.restore();
   }),
 
   it('can edit and delete an existing accounting transaction', function() {
@@ -174,23 +188,15 @@ describe('accounting transactions', function() {
     // verify initial form values
     expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time);
 
-    credit_debit_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',this.accounting_transaction.credit_debit_key);
-    expect($('#credit_debit_key.option_selector.target').html()).toEqual(credit_debit_expected_value);
+    expect($('#income_expense').html()).toEqual('expense');
     expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    // determine if it is income or expense category (mapping from credit_debit_key)
-    var accounting_category_suffix = 'expense';
-    if(credit_debit_expected_value=='Credit') accounting_category_suffix = 'income';
-    category_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category_' + accounting_category_suffix,this.accounting_transaction.category_key);
-    expect($('#category_key.option_selector.target').html()).toEqual(category_expected_value);
+    expect($('#category_key.option_selector.target').html()).toEqual('Advertising');
     account_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',this.accounting_transaction.account_key);
     expect($('#account_key.option_selector.target').html()).toEqual(account_expected_value);
     expect($('input#note').val()).toEqual(this.accounting_transaction.note);
 
     // update fields
     $('input#note').val(updated_note_value);
-
-    $('#credit_debit_key.option_selector.target').mousedown();
-    $('#option_selector_container .option_selector.option:contains(Debit)').mousedown()
 
     $('#category_key.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
@@ -213,7 +219,7 @@ describe('accounting transactions', function() {
 
     // verify field shows value
     expect($('#accounting_transactions').find('td:contains(' + updated_note_value + ')')).toExist();
-    expect($('#accounting_transactions').find('td:contains(Debit)')).toExist();
+    expect($('#accounting_transactions').find('td:contains(expense)')).toExist();
     expect($('#accounting_transactions').find('td:contains(Office Supplies)')).toExist();
     expect($('#accounting_transactions').find('td:contains(Business Checking)')).toExist();
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
@@ -239,8 +245,6 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions #' + this.accounting_transaction_id)).not.toExist();
 
     expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
-
-    jQuery.ajax.restore();
   }),
 
   it('should handle error responses', function() {
@@ -251,7 +255,7 @@ describe('accounting transactions', function() {
     sinon.spy(jQuery, 'ajax');
 
     // new accounting transaction form
-    $('#accounting_transaction__new__button').mousedown();
+    $('.new_accounting_transaction.expense').mousedown();
 
     // attempt to save empty form
     $('input.save').mousedown();
@@ -270,46 +274,42 @@ describe('accounting transactions', function() {
         expect($('#notices:contains(' + value + ')')).toExist();
       }
     }
-
-    jQuery.ajax.restore();
   })
 
-  describe('direct routing', function() {
+//  describe('direct routing', function() {
 
-    it('successfully routes to the new form', function() {
-      Wavelineup.instance.routers.main.navigate('accounting_transactions/new', true);
+  it('successfully routes to the new form', function() {
+    Wavelineup.instance.routers.main.navigate('accounting_transactions/new/expense', true);
 
-      // server sending the collection
-      this.server.respond();
+    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
-      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
+    // this is on the layer under the modal layer
+    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
 
-      // this is on the layer under the modal layer
-      expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
+    // modal layer
+    expect($('input#date_time')).toBeVisible();
+    expect($('input#amount')).toBeVisible();
+    expect($('#category_key.option_selector.target')).toBeVisible();
+    expect($('#account_key.option_selector.target')).toBeVisible();
+    expect($('input#note')).toBeVisible();
+  }),
 
-      // modal layer
-      expect($('input#date_time')).toBeVisible();
-      expect($('#credit_debit_key.option_selector.target')).toBeVisible();
-      expect($('input#amount')).toBeVisible();
-      expect($('#category_key.option_selector.target')).toBeVisible();
-      expect($('#account_key.option_selector.target')).toBeVisible();
-      expect($('input#note')).toBeVisible();
-    }),
+  it('successfully routes to the edit form', function() {
+    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
 
-    it('successfully routes to the edit form', function() {
-      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
+  }),
 
-      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-    }),
+  it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
+    // come in on new instance of app
+    Backbone.history.stop();
+    Wavelineup.init();
+    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+    // note: no loading of collection via server.respond()
+    expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
+  })
 
-    it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
-      // come in on new instance of app
-      Wavelineup.init();
-      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
-      // note: no loading of collection via server.respond()
-      expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
-    })
-  });
+//  });
 
 });
 

@@ -2,7 +2,8 @@ Wavelineup.Routers.Main = Backbone.Router.extend({
   routes: {
     '': 'main',
     'accounting_transactions': 'accounting_transactions',
-    'accounting_transactions/:id': 'accounting_transactions'
+    'accounting_transactions/:id': 'accounting_transactions',
+    'accounting_transactions/:id/:income_expense': 'accounting_transactions'
   },
 
   main: function() {
@@ -16,9 +17,13 @@ Wavelineup.Routers.Main = Backbone.Router.extend({
     $('#container').html(new Wavelineup.Views.Layout().render().el);
   },
 
-  accounting_transactions: function(id) {
-    if(id) { Wavelineup.Controllers.AccountingTransactions.new_edit(id); return; }
-    Wavelineup.Controllers.AccountingTransactions.list();
+  accounting_transactions: function(id, income_expense) {
+    if(id) {
+      Wavelineup.Controllers.AccountingTransactions.new_edit(id, income_expense);
+      return;
+    } else {
+      Wavelineup.Controllers.AccountingTransactions.list();
+    }
   }
 
 });

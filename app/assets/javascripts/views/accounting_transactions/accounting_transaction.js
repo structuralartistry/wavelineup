@@ -5,9 +5,7 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     'mousedown .delete': 'delete',
     'mousedown .save': 'save',
     'mousedown .cancel': 'cancel',
-    'mousedown .option_selector.target': 'show_option_selector',
-    'change #credit_debit_key': 'set_category_selector_name'
-
+    'mousedown .option_selector.target': 'show_option_selector'
   },
 
   initialize: function() {
@@ -26,6 +24,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     if(this.model.get('requested_id')) {
       $(this.el).html(Wavelineup.Templates.Errors.record_can_not_be_loaded());
     } else {
+      data = this.model.to_local_json();
+
       $(this.el).html(this.template(this.model.to_local_json()));
     }
     return this;
@@ -38,7 +38,6 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
   save: function() {
     this.model.set({
       date_time: $('input#date_time').val(),
-      credit_debit_key: $('#credit_debit_key.option_selector.target').data('set_key').toString(),
       amount: $('input#amount').val(),
       category_key: $('#category_key.option_selector.target').data('set_key').toString(),
       account_key: $('#account_key.option_selector.target').data('set_key').toString(),
@@ -54,19 +53,10 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   // note this may be ripe to move to a global event aggregator
   show_option_selector: function(event) {
-    // the accounting category selector name is determined by whether this is an income or expense
-    // so when this value is toggled, we change the selector referenced on the category key field
-    if($(event.target).data('option_selector_name').indexOf('accounting_credit_debit')>=0) {
-      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_income');
-    } else {
-      $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_expense');
-    }
-
     new Wavelineup.Views.OptionSelector($(event.target));
   },
 
   set_category_selector_name: function(event) {
-console.log('change');
     if($(event.target).data('option_selector_name').indexOf('accounting_credit_debit')>=0) {
       $(event.target).closest('ul').find('#category_key').data('option_selector_name','accounting_category_income');
     } else {

@@ -9,7 +9,7 @@
 Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
   defaults: {
     'date_time': '2012-01-01 14:01',
-    'credit_debit_key': '',
+    'income_expense': 'expense',
     'amount': '',
     'category_key': '',
     'account_key': '',
@@ -21,15 +21,8 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
     var that = this;
 
     // virtual attributes for associations
-    this.set('credit_debit_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_credit_debit',
-                                                                                      that.get('credit_debit_key'));
-    })
-
     this.set('category_value', function () {
-      var category_selector_name = 'accounting_category_expense';
-      if(that.get('credit_debit_value') == 'Credit') category_selector_name = 'accounting_category_income';
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key(category_selector_name,
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category_' + that.get('income_expense'),
                                                                                       that.get('category_key'));
     })
 
@@ -38,6 +31,6 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
                                                                                       that.get('account_key'));
     })
 
-  }
+  },
 
 });

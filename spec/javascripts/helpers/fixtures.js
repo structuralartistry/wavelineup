@@ -1,7 +1,7 @@
 window.fixtures = {
   accounting_transactions: {
-    attributes: ['date_time','credit_debit_key','amount','category_key','account_key','note'],
-    errors: '{"errors":{"date_time":["can\'t be blank"],"credit_debit_key":["can\'t be blank"],"amount":["can\'t be blank"],"category_key":["can\'t be blank"],"account_key":["can\'t be blank"]}}',
+    attributes: ['date_time','income_expense','amount','category_key','account_key','note'],
+    errors: '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"category_key":["can\'t be blank"],"account_key":["can\'t be blank"]}}',
     one: { "account_key":'1',
             "amount":"1.11",
             "category_key":'1',
@@ -9,7 +9,7 @@ window.fixtures = {
             "id":111,
             "note":"accounting transaction one",
             "date_time":"2011-11-11T11:11:11Z",
-            "credit_debit_key":'1',
+            "income_expense":'expense',
             "updated_at":"2001-01-01T01:01:01Z" },
     two: { "account_key":2,
            "amount":"2.22",
@@ -18,7 +18,7 @@ window.fixtures = {
            "id":222,
            "note":"accounting transaction two",
            "date_time":"2012-02-22T22:22:22Z",
-           "credit_debit_key":2222,
+           "income_expense":'income',
            "updated_at":"2002-02-02T02:02:02Z" }
   },
   option_selectors: [

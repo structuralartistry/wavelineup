@@ -36,14 +36,18 @@ Wavelineup.Controllers.AccountingTransactions = {
     $('#content').html(view.render().el);
   },
 
-  new_edit: function(id) {
-    var collection, model, view;
+  new_edit: function(id, income_expense) {
+    var collection, model, view, url;
     this.before();
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + id);
+
+    url = 'accounting_transactions/' + id;
+    if(income_expense) url += ('/' + income_expense);
+    Wavelineup.instance.routers.main.navigate(url);
 
     collection = Wavelineup.instance.collections.accounting_transactions;
     if(id=='new') {
-      view = new Wavelineup.Views.AccountingTransaction({collection: collection, model: new Wavelineup.Models.AccountingTransaction()});
+      model = new Wavelineup.Models.AccountingTransaction({'income_expense': income_expense});
+      view = new Wavelineup.Views.AccountingTransaction({collection: collection, model: model});
     } else {
       // requested_id is set if record not found, meaning that probably the collection has not loaded yet or that the record just does not exist
       model = Wavelineup.instance.collections.accounting_transactions.get(id) || new Wavelineup.Models.AccountingTransaction({'requested_id': id});

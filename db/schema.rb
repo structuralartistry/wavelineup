@@ -16,15 +16,15 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
   create_table "accounting_transactions", :force => true do |t|
     t.integer  "practice_id"
     t.datetime "date_time"
-    t.string   "credit_debit_key"
+    t.string   "income_expense"
     t.integer  "amount"
     t.string   "category_key"
     t.string   "account_key"
     t.string   "note"
     t.integer  "invoice_id"
     t.integer  "receivable_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "identities", :force => true do |t|
