@@ -59,7 +59,8 @@ describe('accounting transactions', function() {
 
     expect($('#accounting_transactions')).toBeVisible();
     _.each(Wavelineup.instance.collections.accounting_transactions, function(accounting_transaction) {
-      expect($('#accounting_transaction_' + accounting_transaction.id)).toBeVisible();
+      expect($('.accounting_transaction.' + accounting_transaction.id)).toBeVisible();
+      expect($('.accounting_transaction.' + accounting_transaction.id)).toBeVisible();
     });
   }),
 
@@ -89,7 +90,7 @@ describe('accounting transactions', function() {
 
   it('creates a new Accounting Transaction', function() {
 
-    expect($('#accounting_transaction_' + this.new_accounting_transaction.id)).not.toExist();
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).not.toExist();
 
     $('.new_accounting_transaction.expense').mousedown();
 
@@ -160,7 +161,7 @@ describe('accounting transactions', function() {
     // index view should be visible with newly created transaction
     expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
 
-    expect($('#accounting_transaction_' + this.new_accounting_transaction.id)).toExist();
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).toExist();
 
     expect($('#date_time')).not.toBeVisible();
     expect($('#income_expense')).not.toBeVisible();
@@ -184,7 +185,7 @@ describe('accounting transactions', function() {
     var $existing_accounting_transaction, updated_note_value = 'this is an updated note';
 
     // verify existing accounting transaction row
-    $existing_accounting_transaction = $('#accounting_transaction_' + this.existing_accounting_transaction.id);
+    $existing_accounting_transaction = $('.accounting_transaction.' + this.existing_accounting_transaction.id);
 
     expect($existing_accounting_transaction).toExist();
 
@@ -233,10 +234,10 @@ describe('accounting transactions', function() {
 
 
     // delete the transaction
-    expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
+    expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
 
     // go to edit screen
-    $('#accounting_transaction_' + this.existing_accounting_transaction.id + ' .edit').mousedown();
+    $('.accounting_transaction.' + this.existing_accounting_transaction.id + ' .edit').mousedown();
 
     // can delete the transaction
     this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
@@ -293,7 +294,7 @@ describe('accounting transactions', function() {
       expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
       // this is on the layer under the modal layer
-      expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
+      expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
 
       // modal layer
       expect($('#income_expense:contains(income)')).toBeVisible()
@@ -305,7 +306,7 @@ describe('accounting transactions', function() {
       expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
       // this is on the layer under the modal layer
-      expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
+      expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
 
       // modal layer
       expect($('#income_expense:contains(expense)')).toBeVisible()
