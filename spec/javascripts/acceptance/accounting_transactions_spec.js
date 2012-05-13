@@ -1,29 +1,5 @@
 describe('accounting transactions', function() {
 
-/*
-
-  accounting_transactions: {
-    one: { "account_key":'1',
-            "amount":"1.11",
-            "category_key":'1',
-            "created_at":"2001-01-01T01:01:01Z",
-            "id":111,
-            "note":"accounting transaction one",
-            "date_time":"2011-11-11T11:11:11Z",
-            "income_expense":'expense',
-            "updated_at":"2001-01-01T01:01:01Z" },
-    two: { "account_key":2,
-           "amount":"2.22",
-           "category_key":22,
-           "created_at":"2002-02-02T02:02:02Z",
-           "id":222,
-           "note":"accounting transaction two",
-           "date_time":"2012-02-22T22:22:22Z",
-           "income_expense":'income',
-           "updated_at":"2002-02-02T02:02:02Z" }
-  },
-*/
-
   beforeEach(function() {
     this.server = sinon.fakeServer.create();
 
@@ -81,8 +57,9 @@ describe('accounting transactions', function() {
     expect($('.new_accounting_transaction.expense')).toExist();
     expect($('.new_accounting_transaction.income')).toExist();
 
+    expect($('#accounting_transactions')).toBeVisible();
     _.each(Wavelineup.instance.collections.accounting_transactions, function(accounting_transaction) {
-      expect($('#accounting_transactions #accounting_transaction_' + accounting_transaction.id)).toExist();
+      expect($('#accounting_transaction_' + accounting_transaction.id)).toBeVisible();
     });
   }),
 
@@ -308,41 +285,49 @@ describe('accounting transactions', function() {
     }
   })
 
-//  describe('direct routing', function() {
+  describe('direct routing', function() {
 
-  it('successfully routes to the new form', function() {
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/new/expense', true);
+    it('successfully routes to the new form for Income transaction', function() {
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/new/income', true);
 
-    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
+      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
-    // this is on the layer under the modal layer
-    expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
+      // this is on the layer under the modal layer
+      expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
 
-    // modal layer
-    expect($('input#date_time')).toBeVisible();
-    expect($('input#amount')).toBeVisible();
-    expect($('#category_key.option_selector.target')).toBeVisible();
-    expect($('#account_key.option_selector.target')).toBeVisible();
-    expect($('input#note')).toBeVisible();
-  }),
+      // modal layer
+      expect($('#income_expense:contains(income)')).toBeVisible()
+    }),
 
-  it('successfully routes to the edit form', function() {
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
+    it('successfully routes to the new form for Expense transaction', function() {
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/new/expense', true);
 
-    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-  }),
+      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
-  it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
-    // come in on new instance of app
-    Backbone.history.stop();
-    Wavelineup.init();
-    Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
-    // note: no loading of collection via server.respond()
-    expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
-  })
+      // this is on the layer under the modal layer
+      expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
 
-//  });
+      // modal layer
+      expect($('#income_expense:contains(expense)')).toBeVisible()
+    }),
+
+    it('successfully routes to the edit form', function() {
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
+
+      expect($('ul#accounting_transaction_new_edit')).toBeVisible();
+    }),
+
+    it('successfully handles non-existant edit or slow loading collection temporary loading message', function() {
+      // come in on new instance of app
+      Backbone.history.stop();
+      Wavelineup.init();
+      Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
+      Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
+      // note: no loading of collection via server.respond()
+      expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
+    })
+
+  });
 
 });
 
