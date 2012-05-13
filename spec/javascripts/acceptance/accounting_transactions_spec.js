@@ -64,7 +64,7 @@ describe('accounting transactions', function() {
     });
   }),
 
-  it('shows new Expense transaction modal if New Expense is clicked', function () {
+  it('shows and creates new Expense transaction modal if New Expense is clicked', function () {
     $('.new_accounting_transaction.expense').mousedown();
 
     expect($('#accounting_transaction_new_edit')).toBeVisible();
@@ -72,11 +72,66 @@ describe('accounting transactions', function() {
     current_url = Backbone.history.getHash();
     expect(current_url).toEqual('accounting_transactions/new/expense')
 
-    // the Category selector
+    // the Category selector is for expenses
     expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_expense');
+
+
+
+
+
+
+
+
+    // set standard form values (these will go away as implement selectors)
+    $('input#date_time').val(this.new_accounting_transaction.date_time);
+    $('input#amount').val(this.new_accounting_transaction.amount);
+    $('input#note').val(this.new_accounting_transaction.note);
+
+    // selector fields
+
+    // category
+    $('#category_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
+
+    // account
+    $('#account_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
+
+    this.server.respondWith("POST", "/api/accounting_transactions",
+                                    [201, { "Content-Type": "application/json" },
+                                    JSON.stringify(this.new_accounting_transaction)]);
+
+    sinon.spy(jQuery, 'ajax');
+    $('input.save').mousedown();
+
+    // index view should be visible with newly created transaction
+    expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
+
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).toExist();
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id + ':contains(expense)')).toExist();
+
+    this.server.restore();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }),
 
-  it('shows new Income transaction modal if New Income is clicked', function () {
+  it('shows and creates new Income transaction modal if New Income is clicked', function () {
     $('.new_accounting_transaction.income').mousedown();
 
     expect($('#accounting_transaction_new_edit')).toBeVisible();
@@ -84,7 +139,7 @@ describe('accounting transactions', function() {
     current_url = Backbone.history.getHash();
     expect(current_url).toEqual('accounting_transactions/new/income')
 
-    // the Category selector
+    // the Category selector is for income
     expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
   }),
 
