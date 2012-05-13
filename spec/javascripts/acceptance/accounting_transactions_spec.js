@@ -1,16 +1,34 @@
 describe('accounting transactions', function() {
 
-  beforeEach(function() {
-    setFixtures("<div id='container'>Loading...</div>");
-    expect($('#container')).toHaveText('Loading...');
+/*
 
+  accounting_transactions: {
+    one: { "account_key":'1',
+            "amount":"1.11",
+            "category_key":'1',
+            "created_at":"2001-01-01T01:01:01Z",
+            "id":111,
+            "note":"accounting transaction one",
+            "date_time":"2011-11-11T11:11:11Z",
+            "income_expense":'expense',
+            "updated_at":"2001-01-01T01:01:01Z" },
+    two: { "account_key":2,
+           "amount":"2.22",
+           "category_key":22,
+           "created_at":"2002-02-02T02:02:02Z",
+           "id":222,
+           "note":"accounting transaction two",
+           "date_time":"2012-02-22T22:22:22Z",
+           "income_expense":'income',
+           "updated_at":"2002-02-02T02:02:02Z" }
+  },
+*/
+
+  beforeEach(function() {
     this.server = sinon.fakeServer.create();
 
-    this.accounting_transaction = fixtures.accounting_transactions.one;
-
-    this.server.respondWith("GET", "/api/accounting_transactions",
-                                    [200, { "Content-Type": "application/json" },
-                                    JSON.stringify(this.accounting_transaction)]);
+    setFixtures("<div id='container'>Loading...</div>");
+    expect($('#container')).toHaveText('Loading...');
 
     // set data that loads on app load via the main rails index
     Wavelineup.set_base_data = function() {
@@ -19,6 +37,9 @@ describe('accounting transactions', function() {
 
       Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
       Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
+
+      Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
+      Wavelineup.instance.collections.accounting_transactions.reset(fixtures.accounting_transactions);
     }
 
     // turn off the router
@@ -30,7 +51,20 @@ describe('accounting transactions', function() {
     current_url = Backbone.history.getHash();
     expect(current_url).toEqual('accounting_transactions')
 
-    this.server.respond();
+    // used as one of the existing accounting transactions, as an alias
+    this.existing_accounting_transaction = Wavelineup.instance.collections.accounting_transactions.models[2].to_local_json();
+
+    // used when needing to add an accounting transaction not already in existance
+    this.new_accounting_transaction = {
+      "account_key":2,
+      "amount":"2.22",
+      "category_key":22,
+      "created_at":"2002-02-02T02:02:02Z",
+      "id":222,
+      "note":"accounting transaction two",
+      "date_time":"2012-02-22T22:22:22Z",
+      "income_expense":'income',
+      "updated_at":"2002-02-02T02:02:02Z" }
   }),
 
 
@@ -47,7 +81,9 @@ describe('accounting transactions', function() {
     expect($('.new_accounting_transaction.expense')).toExist();
     expect($('.new_accounting_transaction.income')).toExist();
 
-    expect($('#' + this.accounting_transaction.id)).toExist();
+    _.each(Wavelineup.instance.collections.accounting_transactions, function(accounting_transaction) {
+      expect($('#accounting_transactions #accounting_transaction_' + accounting_transaction.id)).toExist();
+    });
   }),
 
   it('shows new Expense transaction modal if New Expense is clicked', function () {
@@ -75,16 +111,13 @@ describe('accounting transactions', function() {
   }),
 
   it('creates a new Accounting Transaction', function() {
-    new_accounting_transaction = fixtures.accounting_transactions.two;
-    expect($('#accounting_transaction_' + new_accounting_transaction.id)).not.toExist();
+
+    expect($('#accounting_transaction_' + this.new_accounting_transaction.id)).not.toExist();
 
     $('.new_accounting_transaction.expense').mousedown();
 
     // shows new form and index hidden
     expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-
-    // under modal layer
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
 
     // modal layer
     expect($('input#date_time')).toBeVisible();
@@ -94,9 +127,9 @@ describe('accounting transactions', function() {
     expect($('input#note')).toBeVisible();
 
     // set standard form values (these will go away as implement selectors)
-    $('input#date_time').val(new_accounting_transaction.date_time);
-    $('input#amount').val(new_accounting_transaction.amount);
-    $('input#note').val(new_accounting_transaction.note);
+    $('input#date_time').val(this.new_accounting_transaction.date_time);
+    $('input#amount').val(this.new_accounting_transaction.amount);
+    $('input#note').val(this.new_accounting_transaction.note);
 
     // selector fields
 
@@ -127,10 +160,9 @@ describe('accounting transactions', function() {
     expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
 
 
-    created_accounting_transaction = fixtures.accounting_transactions.two;
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
-                                    JSON.stringify(created_accounting_transaction)]);
+                                    JSON.stringify(this.new_accounting_transaction)]);
 
     sinon.spy(jQuery, 'ajax');
     $('input.save').mousedown();
@@ -151,9 +183,7 @@ describe('accounting transactions', function() {
     // index view should be visible with newly created transaction
     expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
 
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
-
-    expect($('#accounting_transactions #' + created_accounting_transaction.id)).toExist();
+    expect($('#accounting_transaction_' + this.new_accounting_transaction.id)).toExist();
 
     expect($('#date_time')).not.toBeVisible();
     expect($('#income_expense')).not.toBeVisible();
@@ -170,30 +200,30 @@ describe('accounting transactions', function() {
     expect($('#account_key').val()).toEqual('');
     expect($('#note').val()).toEqual('');
 
+    this.server.restore();
   }),
 
   it('can edit and delete an existing accounting transaction', function() {
-    updated_note_value = 'this is an updated note';
-
-    accounting_transaction_id = this.accounting_transaction.id
+    var $existing_accounting_transaction, updated_note_value = 'this is an updated note';
 
     // verify existing accounting transaction row
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
+    $existing_accounting_transaction = $('#accounting_transaction_' + this.existing_accounting_transaction.id);
 
-    expect($('#accounting_transaction__note__' + accounting_transaction_id).val()).not.toEqual(updated_note_value);
+    expect($existing_accounting_transaction).toExist();
+
+    expect($existing_accounting_transaction.find('#note').val()).not.toEqual(updated_note_value);
 
     // edit the transaction
-    $('#accounting_transactions #' + this.accounting_transaction.id + ' .edit').mousedown();
+    $($existing_accounting_transaction.find('.edit')).mousedown();
 
     // verify initial form values
-    expect($('input#date_time').val()).toEqual(this.accounting_transaction.date_time);
+    expect($('input#date_time').val()).toEqual(this.existing_accounting_transaction.date_time);
 
     expect($('#income_expense').html()).toEqual('expense');
-    expect($('input#amount').val()).toEqual(this.accounting_transaction.amount.toString());
-    expect($('#category_key.option_selector.target').html()).toEqual('Advertising');
-    account_expected_value = Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',this.accounting_transaction.account_key);
-    expect($('#account_key.option_selector.target').html()).toEqual(account_expected_value);
-    expect($('input#note').val()).toEqual(this.accounting_transaction.note);
+    expect($('input#amount').val()).toEqual(this.existing_accounting_transaction.amount.toString());
+    expect($('#category_key.option_selector.target').html()).toEqual(this.existing_accounting_transaction.category_value);
+    expect($('#account_key.option_selector.target').html()).toEqual(this.existing_accounting_transaction.account_value);
+    expect($('input#note').val()).toEqual(this.existing_accounting_transaction.note);
 
     // update fields
     $('input#note').val(updated_note_value);
@@ -205,7 +235,7 @@ describe('accounting transactions', function() {
     $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
 
     // submit and verify data sent to server
-    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.accounting_transaction.id,
+    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
     sinon.spy(jQuery, 'ajax');
@@ -226,13 +256,13 @@ describe('accounting transactions', function() {
 
 
     // delete the transaction
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
+    expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
 
     // go to edit screen
-    $('#accounting_transactions #' + this.accounting_transaction.id + ' .edit').mousedown();
+    $('#accounting_transaction_' + this.existing_accounting_transaction.id + ' .edit').mousedown();
 
     // can delete the transaction
-    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.accounting_transaction.id,
+    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
                                     [204, { "Content-Type": "application/json" },
                                      '{}']);
     $('.delete').mousedown();
@@ -240,18 +270,20 @@ describe('accounting transactions', function() {
     this.server.respond();
 
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-    expect(result.id).toEqual(this.accounting_transaction.id);
+    expect(result.id).toEqual(this.existing_accounting_transaction.id);
 
-    expect($('#accounting_transactions #' + this.accounting_transaction_id)).not.toExist();
+    expect($('#accounting_transactions #' + this.existing_accounting_transaction_id)).not.toExist();
 
     expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
   }),
 
   it('should handle error responses', function() {
+    var errors = '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"category_key":["can\'t be blank"],"account_key":["can\'t be blank"]}}';
+
     // send an empty create which will cause validation errors
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [422, { "Content-Type": "application/json" },
-                                     fixtures.accounting_transactions.errors]);
+                                     errors]);
     sinon.spy(jQuery, 'ajax');
 
     // new accounting transaction form
@@ -266,7 +298,7 @@ describe('accounting transactions', function() {
 
     // updates list
     this.server.respond();
-    errors = JSON.parse(fixtures.accounting_transactions.errors);
+    errors = JSON.parse(errors);
     for (attribute in errors) {
       messages = errors[attribute];
       for (_i = 0, _len = messages.length; _i < _len; _i++) {
@@ -284,7 +316,7 @@ describe('accounting transactions', function() {
     expect($('ul#accounting_transaction_new_edit')).toBeVisible();
 
     // this is on the layer under the modal layer
-    expect($('#accounting_transactions #' + this.accounting_transaction.id)).toExist();
+    expect($('#accounting_transaction_' + this.existing_accounting_transaction.id)).toExist();
 
     // modal layer
     expect($('input#date_time')).toBeVisible();
@@ -295,7 +327,7 @@ describe('accounting transactions', function() {
   }),
 
   it('successfully routes to the edit form', function() {
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
 
     expect($('ul#accounting_transaction_new_edit')).toBeVisible();
   }),
@@ -304,7 +336,8 @@ describe('accounting transactions', function() {
     // come in on new instance of app
     Backbone.history.stop();
     Wavelineup.init();
-    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.accounting_transaction.id, true);
+    Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
+    Wavelineup.instance.routers.main.navigate('accounting_transactions/' + this.existing_accounting_transaction.id, true);
     // note: no loading of collection via server.respond()
     expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
   })

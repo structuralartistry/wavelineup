@@ -21,7 +21,7 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
     _.bindAll(this, 'render')
     this.model.bind('change', this.render, this)
 
-    $(this.el).attr('id', this.model.get('id'));
+    $(this.el).attr('id', 'accounting_transaction_' + this.model.get('id'));
   },
 
   render: function() {

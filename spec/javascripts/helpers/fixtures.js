@@ -1,26 +1,7 @@
 window.fixtures = {
-  accounting_transactions: {
-    attributes: ['date_time','income_expense','amount','category_key','account_key','note'],
-    errors: '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"category_key":["can\'t be blank"],"account_key":["can\'t be blank"]}}',
-    one: { "account_key":'1',
-            "amount":"1.11",
-            "category_key":'1',
-            "created_at":"2001-01-01T01:01:01Z",
-            "id":111,
-            "note":"accounting transaction one",
-            "date_time":"2011-11-11T11:11:11Z",
-            "income_expense":'expense',
-            "updated_at":"2001-01-01T01:01:01Z" },
-    two: { "account_key":2,
-           "amount":"2.22",
-           "category_key":22,
-           "created_at":"2002-02-02T02:02:02Z",
-           "id":222,
-           "note":"accounting transaction two",
-           "date_time":"2012-02-22T22:22:22Z",
-           "income_expense":'income',
-           "updated_at":"2002-02-02T02:02:02Z" }
-  },
+  accounting_transactions: [
+{"id":1,"date_time":"2012-01-01T10:05:00Z","income_expense":"income","amount":2198,"category_key":"2","account_key":"2","note":"verify in checking","invoice_id":null,"receivable_id":null},{"id":2,"date_time":"2012-01-02T11:32:00Z","income_expense":"expense","amount":100000,"category_key":"4","account_key":"2","note":"Jan 2012","invoice_id":null,"receivable_id":null},{"id":3,"date_time":"2012-01-03T13:03:00Z","income_expense":"expense","amount":3312,"category_key":"3","account_key":"1","note":"business cards","invoice_id":null,"receivable_id":null},{"id":4,"date_time":"2012-01-03T16:18:00Z","income_expense":"income","amount":6100,"category_key":"4","account_key":"2","note":"sent to insurance on 1/5/2012","invoice_id":null,"receivable_id":4},{"id":5,"date_time":"2012-01-03T16:18:00Z","income_expense":"income","amount":1100,"category_key":"1","account_key":"1","note":"only had cash","invoice_id":null,"receivable_id":null},{"id":6,"date_time":"2012-01-01T14:01:00Z","income_expense":"expense","amount":1,"category_key":"1","account_key":"1","note":"132","invoice_id":null,"receivable_id":null},{"id":7,"date_time":"2012-01-01T14:01:00Z","income_expense":"income","amount":23,"category_key":"1","account_key":"1","note":"234","invoice_id":null,"receivable_id":null}
+  ],
   option_selectors: [
 {"id":1,"name":"accounting_credit_debit"},{"id":2,"name":"accounting_category_expense"},{"id":3,"name":"accounting_category_income"},{"id":4,"name":"accounting_account"},{"id":5,"name":"identity_types"},{"id":6,"name":"product_service"}
   ],

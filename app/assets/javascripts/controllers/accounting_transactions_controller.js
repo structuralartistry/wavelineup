@@ -16,11 +16,12 @@ Wavelineup.Controllers.AccountingTransactions = {
         move router navigate to this before method
         move get/build model from the id up here
     */
-
+/*
     if(!Wavelineup.instance.collections.accounting_transactions) {
       Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.instance.collections.accounting_transactions.fetch();
     }
+*/
     this.clear_child_modal();
   },
 

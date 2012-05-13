@@ -8,6 +8,7 @@ class AccountingTransactionsController < ApplicationController
 
   def create
     @accounting_transaction = AccountingTransaction.new(params[:accounting_transaction])
+    @accounting_transaction.practice_id = 0
     if @accounting_transaction.save
       render :template => 'accounting_transactions/accounting_transaction', :status => 201
     else
