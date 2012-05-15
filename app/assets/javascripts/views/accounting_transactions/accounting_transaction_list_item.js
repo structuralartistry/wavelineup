@@ -20,7 +20,8 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
   },
 
   events: {
-    'mousedown .edit': 'edit'
+    'mousedown .edit': 'edit',
+    'mousedown .view_invoice': 'view_invoice'
   },
 
   initialize: function() {
@@ -35,8 +36,12 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
     return this;
   },
 
-  edit: function(event) {
-    Wavelineup.Controllers.AccountingTransactions.new_edit(this.model.id);
+  edit: function (event) {
+    Wavelineup.Controllers.AccountingTransactions.new_edit(this.model.get('id'));
+  },
+
+  view_invoice: function (event) {
+    Wavelineup.Controllers.Invoices.edit(this.model.get('invoice_id'));
   }
 
 });

@@ -81,6 +81,20 @@ describe('accounting transactions', function() {
     expect($('.accounting_transaction.' + accounting_transaction_no_invoice.get('id') + ' .edit')).toBeVisible();
   }),
 
+  it('navigates to the associated invoice when Invoice button is clicked', function () {
+    var accounting_transaction_with_invoice;
+    Wavelineup.instance.collections.accounting_transactions.each(function (accounting_transaction) {
+      if(accounting_transaction.get('invoice_id') != null) accounting_transaction_with_invoice = accounting_transaction;
+    });
+
+    $('.accounting_transaction.' + accounting_transaction_with_invoice.get('id') + ' .view_invoice').mousedown();
+
+    current_url = Backbone.history.getHash();
+    expect(current_url).toEqual('invoices/' + accounting_transaction_with_invoice.get('invoice_id'));
+
+    expect($('#content:contains(Viewing Invoice id ' + accounting_transaction_with_invoice.get('invoice_id') + ')')).toBeVisible();
+  }),
+
   // child/modify
   it('shows and creates new Expense transaction modal if New Expense is clicked', function () {
     this.new_accounting_transaction.income_expense = 'expense';
