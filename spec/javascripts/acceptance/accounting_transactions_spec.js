@@ -47,7 +47,7 @@ describe('accounting transactions', function() {
     if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
   }),
 
-
+  // index/list
   it('loads the index page with correct content', function() {
     expect($('.new_accounting_transaction.expense')).toExist();
     expect($('.new_accounting_transaction.income')).toExist();
@@ -59,6 +59,29 @@ describe('accounting transactions', function() {
     });
   }),
 
+  it('shows Edit button and route if no invoice associated, Invoice button and route if invoice associated', function () {
+
+    var accounting_transaction_with_invoice, accounting_transaction_no_invoice;
+
+// is way to find >= or the like in collection?
+    Wavelineup.instance.collections.accounting_transactions.each(function (accounting_transaction) {
+      if(accounting_transaction.get('invoice_id') != null) {
+        accounting_transaction_with_invoice = accounting_transaction;
+      } else {
+        accounting_transaction_no_invoice = accounting_transaction;
+      }
+    });
+
+// use to be visible or to exist???
+    expect($('.accounting_transaction.' + accounting_transaction_with_invoice.get('id') + ' .view_invoice')).toBeVisible();
+    expect($('.accounting_transaction.' + accounting_transaction_with_invoice.get('id') + ' .edit')).not.toExist();
+
+
+    expect($('.accounting_transaction.' + accounting_transaction_no_invoice.get('id') + ' .view_invoice')).not.toExist();
+    expect($('.accounting_transaction.' + accounting_transaction_no_invoice.get('id') + ' .edit')).toBeVisible();
+  }),
+
+  // child/modify
   it('shows and creates new Expense transaction modal if New Expense is clicked', function () {
     this.new_accounting_transaction.income_expense = 'expense';
 
@@ -310,5 +333,3 @@ describe('accounting transactions', function() {
   });
 
 });
-
-

@@ -195,6 +195,7 @@ if Rails.env == 'development'
   receivable.save!
 
   accounting_transaction = AccountingTransaction.new(
+    :invoice_id                 => invoice.id,
     :date_time => '2012-01-03 16:18',
     :income_expense => 'income',
     :amount => 6100,
@@ -207,6 +208,7 @@ if Rails.env == 'development'
   accounting_transaction.save!
 
   accounting_transaction = AccountingTransaction.new(
+    :invoice_id                 => invoice.id,
     :date_time => '2012-01-03 16:18',
     :income_expense => 'income',
     :amount => 1100,
