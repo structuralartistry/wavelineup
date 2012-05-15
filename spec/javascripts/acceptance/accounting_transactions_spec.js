@@ -157,7 +157,7 @@ describe('accounting transactions', function() {
     expect($('.accounting_transaction.' + this.new_accounting_transaction.id + ':contains(income)')).toExist();
   }),
 
-  it('can edit and delete an existing accounting transaction', function() {
+  it('can edit an existing accounting transaction', function() {
     var $existing_accounting_transaction, updated_note_value = 'this is an updated note';
 
     // verify existing accounting transaction row
@@ -207,33 +207,9 @@ describe('accounting transactions', function() {
     expect($('#accounting_transactions').find('td:contains(Office Supplies)')).toExist();
     expect($('#accounting_transactions').find('td:contains(Business Checking)')).toExist();
     expect($('#notices').html()).toEqual('Accounting Transaction updated by server!');
-
-
-    // delete the transaction
-    expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
-
-    // go to edit screen
-    $('.accounting_transaction.' + this.existing_accounting_transaction.id + ' .edit').mousedown();
-
-    // can delete the transaction
-    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
-                                    [204, { "Content-Type": "application/json" },
-                                     '{}']);
-    $('.delete').mousedown();
-
-    this.server.respond();
-
-    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
-    expect(result.id).toEqual(this.existing_accounting_transaction.id);
-
-    expect($('#accounting_transactions #' + this.existing_accounting_transaction_id)).not.toExist();
-
-    expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
   }),
 
   it('can delete an existing accounting transaction', function() {
-
-
     // delete the transaction
     expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
 
