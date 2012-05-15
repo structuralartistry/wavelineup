@@ -32,17 +32,14 @@ describe('accounting transactions', function() {
 
     // used when needing to add an accounting transaction not already in existance
     this.new_accounting_transaction = {
-      "account_key":2,
-      "amount":"2.22",
-      "category_key":22,
-      "created_at":"2002-02-02T02:02:02Z",
-      "id":222,
-      "note":"accounting transaction two",
-      "date_time":"2012-02-22T22:22:22Z",
-      "income_expense":'income',
-      "updated_at":"2002-02-02T02:02:02Z" }
+      'account_key': '2',
+      'amount':'2.22',
+      'category_key':'2',
+      'id':222,
+      'note':'new accounting transaction',
+      'date_time':'2012-02-22T22:22:22Z',
+      'income_expense':'income' }
   }),
-
 
   afterEach(function() {
     this.server.restore();
@@ -52,8 +49,6 @@ describe('accounting transactions', function() {
 
 
   it('loads the index page with correct content', function() {
-    expect($('#content h1')).toHaveText('Hello World Index View from Backbone!!!');
-
     expect($('.new_accounting_transaction.expense')).toExist();
     expect($('.new_accounting_transaction.income')).toExist();
 
@@ -65,6 +60,8 @@ describe('accounting transactions', function() {
   }),
 
   it('shows and creates new Expense transaction modal if New Expense is clicked', function () {
+    this.new_accounting_transaction.income_expense = 'expense';
+
     $('.new_accounting_transaction.expense').mousedown();
 
     expect($('#accounting_transaction_new_edit')).toBeVisible();
@@ -75,13 +72,6 @@ describe('accounting transactions', function() {
     // the Category selector is for expenses
     expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_expense');
 
-
-
-
-
-
-
-
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(this.new_accounting_transaction.date_time);
     $('input#amount').val(this.new_accounting_transaction.amount);
@@ -96,102 +86,6 @@ describe('accounting transactions', function() {
     // account
     $('#account_key.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
-
-    this.server.respondWith("POST", "/api/accounting_transactions",
-                                    [201, { "Content-Type": "application/json" },
-                                    JSON.stringify(this.new_accounting_transaction)]);
-
-    sinon.spy(jQuery, 'ajax');
-    $('input.save').mousedown();
-
-    // index view should be visible with newly created transaction
-    expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
-
-    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).toExist();
-    expect($('.accounting_transaction.' + this.new_accounting_transaction.id + ':contains(expense)')).toExist();
-
-    this.server.restore();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  }),
-
-  it('shows and creates new Income transaction modal if New Income is clicked', function () {
-    $('.new_accounting_transaction.income').mousedown();
-
-    expect($('#accounting_transaction_new_edit')).toBeVisible();
-
-    current_url = Backbone.history.getHash();
-    expect(current_url).toEqual('accounting_transactions/new/income')
-
-    // the Category selector is for income
-    expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
-  }),
-
-  it('creates a new Accounting Transaction', function() {
-
-    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).not.toExist();
-
-    $('.new_accounting_transaction.expense').mousedown();
-
-    // shows new form and index hidden
-    expect($('ul#accounting_transaction_new_edit')).toBeVisible();
-
-    // modal layer
-    expect($('input#date_time')).toBeVisible();
-    expect($('input#amount')).toBeVisible();
-    expect($('#category_key.option_selector.target')).toBeVisible();
-    expect($('#account_key.option_selector.target')).toBeVisible();
-    expect($('input#note')).toBeVisible();
-
-    // set standard form values (these will go away as implement selectors)
-    $('input#date_time').val(this.new_accounting_transaction.date_time);
-    $('input#amount').val(this.new_accounting_transaction.amount);
-    $('input#note').val(this.new_accounting_transaction.note);
-
-    // selector fields
-
-    // category
-    expect($('#option_selector_container')).not.toExist();
-    expect($('#category_key.option_selector.target').html()).toEqual('');
-
-    $('#category_key.option_selector.target').mousedown();
-    expect($('#option_selector_container')).toBeVisible();
-
-    $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
-    expect($('#category_key.option_selector.target').html()).toEqual('Office Supplies');
-
-    category_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_category_expense','Office Supplies');
-    expect($('#category_key.option_selector.target').data('set_key')==category_expected_key).toBeTruthy();
-
-    // account
-    expect($('#option_selector_container')).not.toExist();
-    expect($('#account_key.option_selector.target').html()).toEqual('');
-
-    $('#account_key.option_selector.target').mousedown();
-    expect($('#option_selector_container')).toBeVisible();
-
-    $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
-    expect($('#account_key.option_selector.target').html()).toEqual('Business Checking');
-
-    account_expected_key = Wavelineup.instance.collections.option_selector_options.get_key_by_value('accounting_account','Business Checking');
-    expect($('#account_key.option_selector.target').data('set_key')==account_expected_key).toBeTruthy();
-
 
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
@@ -201,39 +95,66 @@ describe('accounting transactions', function() {
     $('input.save').mousedown();
 
     // sends request to server
+    this.server.respond();
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
 
-    expect(result['account_key']).toEqual(account_expected_key);
-    expect(result['amount']).toEqual('2.22');
-    expect(result['category_key']).toEqual(category_expected_key);
+    // spot check... values are fudged so no need to verify all
     expect(result['income_expense']).toEqual('expense');
-    expect(result['date_time']).toEqual('2012-02-22T22:22:22Z');
-    expect(result['note']).toEqual('accounting transaction two');
-
-    // updates list
-    this.server.respond();
 
     // index view should be visible with newly created transaction
     expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
 
     expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).toExist();
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id + ':contains(expense)')).toExist();
+  }),
 
-    expect($('#date_time')).not.toBeVisible();
-    expect($('#income_expense')).not.toBeVisible();
-    expect($('#amount')).not.toBeVisible();
-    expect($('#category_key')).not.toBeVisible();
-    expect($('#account_key')).not.toBeVisible();
-    expect($('#note')).not.toBeVisible();
+  it('shows and creates new Income transaction modal if New Income is clicked', function () {
+    this.new_accounting_transaction.income_expense = 'income';
 
-    // verify that when accessed the new form again it is cleared
-    $('.new_accounting_transaction.expense').mousedown();
-    //expect($('#date_time').val()).toEqual('');
-    expect($('#amount').val()).toEqual('');
-    expect($('#category_key').val()).toEqual('');
-    expect($('#account_key').val()).toEqual('');
-    expect($('#note').val()).toEqual('');
+    $('.new_accounting_transaction.income').mousedown();
 
-    this.server.restore();
+    expect($('#accounting_transaction_new_edit')).toBeVisible();
+
+    current_url = Backbone.history.getHash();
+    expect(current_url).toEqual('accounting_transactions/new/income')
+
+    // the Category selector is for expenses
+    expect($('#category_key.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
+
+    // set standard form values (these will go away as implement selectors)
+    $('input#date_time').val(this.new_accounting_transaction.date_time);
+    $('input#amount').val(this.new_accounting_transaction.amount);
+    $('input#note').val(this.new_accounting_transaction.note);
+
+    // selector fields
+
+    // category
+    $('#category_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Cash Payment)').mousedown()
+
+    // account
+    $('#account_key.option_selector.target').mousedown();
+    $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
+
+    this.server.respondWith("POST", "/api/accounting_transactions",
+                                    [201, { "Content-Type": "application/json" },
+                                    JSON.stringify(this.new_accounting_transaction)]);
+
+    sinon.spy(jQuery, 'ajax');
+    $('input.save').mousedown();
+
+    // sends request to server
+    this.server.respond();
+    result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
+
+    // spot check... values are fudged so no need to verify all
+    expect(result['income_expense']).toEqual('income');
+
+    // index view should be visible with newly created transaction
+    expect($('#notices').html()).toEqual('Accounting Transaction accepted by server!');
+
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id)).toExist();
+    expect($('.accounting_transaction.' + this.new_accounting_transaction.id + ':contains(income)')).toExist();
   }),
 
   it('can edit and delete an existing accounting transaction', function() {
@@ -310,7 +231,31 @@ describe('accounting transactions', function() {
     expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
   }),
 
-  it('should handle error responses', function() {
+  it('can delete an existing accounting transaction', function() {
+
+
+    // delete the transaction
+    expect($('.accounting_transaction.' + this.existing_accounting_transaction.id)).toExist();
+
+    // go to edit screen
+    $('.accounting_transaction.' + this.existing_accounting_transaction.id + ' .edit').mousedown();
+
+    // can delete the transaction
+    this.server.respondWith("DELETE", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
+                                    [204, { "Content-Type": "application/json" },
+                                     '{}']);
+    sinon.spy(jQuery, 'ajax');
+
+    $('.delete').mousedown();
+
+    this.server.respond();
+
+    expect($('#accounting_transactions #' + this.existing_accounting_transaction_id)).not.toExist();
+
+    expect($('#notices').html()).toEqual('Accounting Transaction deleted by server!');
+  }),
+
+  it('compiles and displays expected validation errors on the model form if submit is not valid', function() {
     var errors = '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"category_key":["can\'t be blank"],"account_key":["can\'t be blank"]}}';
 
     // send an empty create which will cause validation errors
@@ -329,7 +274,7 @@ describe('accounting transactions', function() {
     result = JSON.parse(jQuery.ajax.getCall(0).args[0].data);
     expect(result.note).toEqual('');
 
-    // updates list
+    // shows expected validation errors
     this.server.respond();
     errors = JSON.parse(errors);
     for (attribute in errors) {
@@ -339,6 +284,9 @@ describe('accounting transactions', function() {
         expect($('#notices:contains(' + value + ')')).toExist();
       }
     }
+
+    // the modal form is still showing
+    expect($('#accounting_transaction_new_edit')).toBeVisible();
   })
 
   describe('direct routing', function() {
