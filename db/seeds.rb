@@ -218,4 +218,61 @@ if Rails.env == 'development'
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save!
 
+
+
+
+
+
+
+
+
+
+
+  0.times do
+    accounting_transaction = AccountingTransaction.new(
+      :date_time => '2012-01-01 10:05',
+      :income_expense => 'income',
+      :amount => 2198,
+      :category_key => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').key,
+      :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
+      :note => 'verify in checking' )
+    accounting_transaction.practice_id = practice.id
+    accounting_transaction.save!
+
+    accounting_transaction = AccountingTransaction.new(
+      :date_time => '2012-01-02 11:32',
+      :income_expense => 'expense',
+      :amount => 100000,
+      :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').key,
+      :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').key,
+      :note => 'Jan 2012' )
+    accounting_transaction.practice_id = practice.id
+    accounting_transaction.save!
+
+    accounting_transaction = AccountingTransaction.new(
+      :date_time => '2012-01-03 13:03',
+      :income_expense => 'expense',
+      :amount => 3312,
+      :category_key => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').key,
+      :account_key => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').key,
+      :note => 'business cards' )
+    accounting_transaction.practice_id = practice.id
+    accounting_transaction.save!
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end

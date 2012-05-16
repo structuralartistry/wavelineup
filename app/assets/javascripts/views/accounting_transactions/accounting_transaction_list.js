@@ -6,7 +6,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
       <h1>Hello World Index View from Backbone!!!</h1> \
       <input class='new_accounting_transaction expense' type='submit' value='New Expense'> \
       <input class='new_accounting_transaction income' type='submit' value='New Income'> \
-      <table id='accounting_transactions'> \
+      <table id='accounting_transactions' class='table table-striped table-bordered table-condensed'> \
         <thead> \
           <tr> \
             <th>Date Time</th> \
@@ -53,14 +53,6 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
     var data = { accounting_transactions: this.collection.toJSON() };
     $(this.el).html(this.template(data));
     this.collection.each(this.append_accounting_transaction);
-
-    // datatable
-    // note that may need to play with the bRetrieve / bDestroy params -- use bDestroy if want table killed and recreated upon re-init
-    var oTable = $('#accounting_transactions').dataTable( {
-      'aaSorting': [[ 4, "desc" ]],
-      'bRetrieve': true
-      //'bDestroy': true
-    });
 
     return this.el;
   },
