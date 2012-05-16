@@ -70,10 +70,15 @@ Wavelineup.Controllers.AccountingTransactions = {
           Wavelineup.Controllers.AccountingTransactions.list();
         },
         error: function(model, response) {
-          var attribute, errors, message, messages, _i, _len;
-          if (response.status === 422) {
-            var errors = $.parseJSON(response.responseText).errors;
-            $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+          switch(response.status) {
+            case 422:
+              var errors = $.parseJSON(response.responseText).errors;
+              $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+              break;
+            case 500:
+            default:
+              $('#notices').html('A fatal server error occurred.');
+              Wavelineup.instance.routers.main.navigate('');
           }
         }
       });
@@ -85,7 +90,6 @@ Wavelineup.Controllers.AccountingTransactions = {
           Wavelineup.Controllers.AccountingTransactions.list();
         },
         error: function(model, response) {
-          var attribute, errors, message, messages, _i, _len;
           switch(response.status) {
             case 422:
               var errors = $.parseJSON(response.responseText).errors;
@@ -96,14 +100,8 @@ Wavelineup.Controllers.AccountingTransactions = {
               $('#notices').html('A fatal server error occurred.');
               Wavelineup.instance.routers.main.navigate('');
           }
-          if (response.status === 422) {
-            var errors = $.parseJSON(response.responseText).errors;
-            $('#modal_notices').html(Wavelineup.format_model_errors(errors));
-          }
         }
       });
-//      $('#notices').html('Accounting Transaction updated by server!');
-//      Wavelineup.Controllers.AccountingTransactions.list();
     }
 
   },
@@ -117,10 +115,15 @@ Wavelineup.Controllers.AccountingTransactions = {
         Wavelineup.Controllers.AccountingTransactions.list();
       },
       error: function(model, response) {
-        var attribute, errors, message, messages, _i, _len;
-        if (response.status === 422) {
-          var errors = $.parseJSON(response.responseText).errors;
-          $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+        switch(response.status) {
+          case 422:
+            var errors = $.parseJSON(response.responseText).errors;
+            $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+            break;
+          case 500:
+          default:
+            $('#notices').html('A fatal server error occurred.');
+            Wavelineup.instance.routers.main.navigate('');
         }
       }
     });

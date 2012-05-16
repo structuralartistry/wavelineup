@@ -347,7 +347,7 @@ describe('accounting transactions', function() {
 
   });
 
-  // this eventually should go into general error handling testing
+  // this eventually should go into general error handling testing... perhaps!!!
   it('responds correctly to a 500 server error', function () {
     var $existing_accounting_transaction, updated_note_value = 'this is an updated note';
     $existing_accounting_transaction = $('.accounting_transaction.' + this.existing_accounting_transaction.id);
@@ -367,4 +367,21 @@ describe('accounting transactions', function() {
     expect($('#notices').html()).toEqual('A fatal server error occurred.');
   });
 
+  describe('pagination', function () {
+
+// Wavelineup.instance.collections.accounting_transactions.fetch({data: {page_size: 15, page_number: 12}})
+
+    it('shows the pagination Prev and Next buttons', function () {
+expect('todo').toBeFalsy();
+    }),
+
+    it('shows pagination Next button if more records than what showing and are not on last page', function () {
+expect('todo').toBeFalsy();
+    }),
+
+    it('shows pagination Prev if not on first page', function () {
+expect('todo').toBeFalsy();
+    })
+
+  });
 });
