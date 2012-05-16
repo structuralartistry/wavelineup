@@ -5,8 +5,8 @@ class CreateAccountingTransactions < ActiveRecord::Migration
       t.datetime :date_time
       t.string :income_expense
       t.integer :amount
-      t.string :category_key
-      t.string :account_key
+      t.integer :category_id
+      t.integer :account_id
       t.string :note
       t.integer :invoice_id
       t.integer :receivable_id

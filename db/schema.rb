@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
     t.datetime "date_time"
     t.string   "income_expense"
     t.integer  "amount"
-    t.string   "category_key"
-    t.string   "account_key"
+    t.integer  "category_id"
+    t.integer  "account_id"
     t.string   "note"
     t.integer  "invoice_id"
     t.integer  "receivable_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
 
   create_table "identities", :force => true do |t|
     t.integer  "practice_id"
-    t.string   "type_key"
+    t.string   "type_id"
     t.string   "last_name"
     t.string   "first_name"
     t.string   "middle_name"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
   create_table "option_selector_options", :force => true do |t|
     t.integer  "option_selector_id"
     t.integer  "practice_id"
-    t.string   "key"
     t.string   "value"
     t.integer  "default_price"
     t.datetime "created_at",         :null => false
@@ -79,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
     t.integer  "invoice_id"
     t.integer  "amount"
     t.integer  "balance_due"
-    t.string   "category_key"
+    t.integer  "category_id"
     t.integer  "billing_identity_id"
     t.integer  "attributed_sale_identity_id"
     t.datetime "created_at",                  :null => false

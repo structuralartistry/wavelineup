@@ -3,7 +3,6 @@ class CreateOptionSelectorValues < ActiveRecord::Migration
     create_table :option_selector_options do |t|
       t.integer :option_selector_id
       t.integer :practice_id
-      t.string :key
       t.string :value
       t.integer :default_price
 

@@ -5,7 +5,7 @@ class CreateReceivables < ActiveRecord::Migration
       t.integer :invoice_id
       t.integer :amount
       t.integer :balance_due
-      t.string :category_key
+      t.integer :category_id
       t.integer :billing_identity_id
       t.integer :attributed_sale_identity_id
 

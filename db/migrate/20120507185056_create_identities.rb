@@ -2,7 +2,7 @@ class CreateIdentities < ActiveRecord::Migration
   def change
     create_table :identities do |t|
       t.integer :practice_id
-      t.string :type_key
+      t.string :type_id
       t.string :last_name
       t.string :first_name
       t.string :middle_name
