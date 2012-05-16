@@ -11,8 +11,8 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
     'date_time': '2012-01-01 14:01',
     'income_expense': 'expense',
     'amount': '',
-    'category_key': '',
-    'account_key': '',
+    'category_id': '',
+    'account_id': '',
     'note': ''
   },
 
@@ -22,13 +22,13 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
 
     // virtual attributes for associations
     this.set('category_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_category_' + that.get('income_expense'),
-                                                                                      that.get('category_key'));
+//      return Wavelineup.instance.collections.option_selector_options.where({id: that.get('category_id')})[0].get('value');
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_id(that.get('category_id'));
     })
 
     this.set('account_value', function () {
-      return Wavelineup.instance.collections.option_selector_options.get_value_by_key('accounting_account',
-                                                                                      that.get('account_key'));
+//      return Wavelineup.instance.collections.option_selector_options.where({id: that.get('account_id')})[0].get('value');
+      return Wavelineup.instance.collections.option_selector_options.get_value_by_id(that.get('account_id'));
     })
 
   },

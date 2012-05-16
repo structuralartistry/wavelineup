@@ -11,8 +11,8 @@ Wavelineup.Templates.AccountingTransactions = {
           <li><input type='text' id='date_time' value='<%= date_time %>'></li> \
           <li><input type='text' id='amount' value='<%= amount %>'></li> \
           <li id='income_expense'><%= income_expense %></li> \
-          <li><a id='category_key' class='btn option_selector target' data-option_selector_name='accounting_category_<%= income_expense %>' data-set_key='<%= category_key %>' data-set_value=''><%= category_value %></a></li> \
-          <li><a id='account_key' class='btn option_selector target' data-option_selector_name='accounting_account' data-set_key='<%= account_key %>' data-set_value=''><%= account_value %></a></li> \
+          <li><a id='category_id' class='btn option_selector target' data-option_selector_name='accounting_category_<%= income_expense %>' data-set_id='<%= category_id %>' data-set_value=''><%= category_value %></a></li> \
+          <li><a id='account_id' class='btn option_selector target' data-option_selector_name='accounting_account' data-set_id='<%= account_id %>' data-set_value=''><%= account_value %></a></li> \
           <li><input type='text' id='note' value='<%= note %>'></li> \
         </ul> \
       </div> \

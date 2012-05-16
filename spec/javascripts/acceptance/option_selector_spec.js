@@ -1,7 +1,7 @@
 describe('option selector', function() {
 
   beforeEach(function() {
-    setFixtures("<a id='test_option_selector_target' class='btn option_selector target' data-option_selector_name='test_option_selector' data-set_key='' data-set_value=''></a>");
+    setFixtures("<a id='test_option_selector_target' class='btn option_selector target' data-option_selector_name='test_option_selector' data-set_id='' data-set_value=''></a>");
 
     Wavelineup.instance = {collections: {}};
 
@@ -10,10 +10,10 @@ describe('option selector', function() {
 
     Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
     Wavelineup.instance.collections.option_selector_options.reset([
-      {"id":1,"key":"1","option_selector_id":1,"value":"Income"},
-      {"id":2,"key":"2","option_selector_id":1,"value":"Expense"},
-      {"id":3,"key":"blank","option_selector_id":1,"value":""},
-      {"id":4,"key":"cancel","option_selector_id":1,"value":"Cancel"}
+      {'id':1,'option_selector_id':1,'value':'Income'},
+      {'id':2,'option_selector_id':1,'value':'Expense'},
+      {'id':3,'option_selector_id':1,'value':''},
+      {'id':4,'option_selector_id':1,'value':'Cancel'}
     ]);
   }),
 
@@ -29,12 +29,12 @@ describe('option selector', function() {
     // contains the expected elements
     expect($('#option_selector_container').find('a:contains(Income)')).toExist();
     expect($('#option_selector_container').find('a:contains(Expense)')).toExist();
-    expect($('#option_selector_container').find("[data-key='blank']")).toExist();
+    expect($('#option_selector_container').find("[data-id='3']")).toExist();
     expect($('#option_selector_container').find('a:contains(Cancel)')).toExist();
 
   }),
 
-  it('selected option with the key of cancel maintaines the current set value', function() {
+  it('selected option for Cancel maintaines the current set value', function() {
 
     // should not exist as is created dynamically
     expect($('#option_selector_container')).not.toExist();
@@ -46,7 +46,7 @@ describe('option selector', function() {
     // renders and shows in the option selector container
     view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
 
-    $cancel_button = $('#option_selector_container').find("[data-key='cancel']");
+    $cancel_button = $('#option_selector_container').find("[data-id='4']");
     expect($cancel_button).toExist();
 
 
@@ -65,7 +65,7 @@ describe('option selector', function() {
 
     expect($('#option_selector_container')).toBeVisible();
 
-    $cancel_button = $('#option_selector_container').find("[data-key='cancel']");
+    $cancel_button = $('#option_selector_container').find("[data-id='4']");
     $cancel_button.mousedown();
 
     // should have been killed

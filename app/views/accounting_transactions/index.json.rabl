@@ -1,2 +1,2 @@
 collection @accounting_transactions
-attributes :id, :date_time, :income_expense, :amount, :category_key, :account_key, :note, :invoice_id, :receivable_id
+attributes :id, :date_time, :income_expense, :amount, :category_id, :account_id, :note, :invoice_id, :receivable_id

@@ -6,7 +6,7 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
       <tbody> \
         <tr> \
           <% _.each(option_selector_options, function(option_selector_option) { \
-            %> <td><a class='btn option_selector option' data-key='<%= option_selector_option.get('key') %>' data-value='<%= option_selector_option.get('value') %>'><%= option_selector_option.get('value') %></a></td> <% \
+            %> <td><a class='btn option_selector option' data-id='<%= option_selector_option.get('id') %>' data-value='<%= option_selector_option.get('value') %>'><%= option_selector_option.get('value') %></a></td> <% \
           }); %> \
         </tr> \
       </tbody>"
@@ -43,11 +43,11 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   },
 
   set_value: function(event) {
-    if($(event.target).data('key')!='cancel') {
+    if($(event.target).data('id')!='cancel') {
       // set the visible html in the target element
-      this.$target_element.html($(event.target).data('value'));
-      // set the 'data-set_key' property of the target element
-      this.$target_element.data('set_key', $(event.target).data('key'));
+      this.$target_element.html($(event.target).data('set_value'));
+      // set the 'data-set_id' property of the target element
+      this.$target_element.data('set_id', $(event.target).data('id'));
       // set the 'data-set_value' property of the target element
       this.$target_element.data('set_value', $(event.target).data('value'));
     }

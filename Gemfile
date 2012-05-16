@@ -35,6 +35,8 @@ gem 'rabl'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+gem 'miniskirt'
+
 # To use debugger
 group :development, :test do
   gem 'test-unit'
