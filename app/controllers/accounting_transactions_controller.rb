@@ -17,8 +17,8 @@ class AccountingTransactionsController < ApplicationController
   end
 
   def update
-    @accounting_transaction = AccountingTransaction.update_attributes(params[:accounting_transaction])
-    if @accounting_transaction.save
+    @accounting_transaction = AccountingTransaction.find(params[:id])
+    if @accounting_transaction.update_attributes(params[:accounting_transaction])
       render :template => 'accounting_transactions/accounting_transaction', :status => 202
     else
       render :template => 'accounting_transactions/accounting_transaction', :status => 422

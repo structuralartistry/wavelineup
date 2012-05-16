@@ -23,7 +23,7 @@ describe('option selector', function() {
     expect($('#option_selector_container')).not.toExist();
 
     // renders and shows in the option selector container
-    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
+    new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
     expect($('#option_selector_container')).toBeVisible();
 
     // contains the expected elements
@@ -31,7 +31,19 @@ describe('option selector', function() {
     expect($('#option_selector_container').find('a:contains(Expense)')).toExist();
     expect($('#option_selector_container').find("[data-id='3']")).toExist();
     expect($('#option_selector_container').find('a:contains(Cancel)')).toExist();
+  }),
 
+  it('sets the visible value as the selected value', function () {
+    // set a current value
+    $('#test_option_selector_target').html('')
+
+    // renders and shows in the option selector container
+    new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
+
+    // select a value
+    $('#option_selector_container').find('a:contains(Expense)').mousedown()
+
+    expect($('#test_option_selector_target').html()).toEqual('Expense');
   }),
 
   it('selected option for Cancel maintaines the current set value', function() {
@@ -44,7 +56,7 @@ describe('option selector', function() {
     $('#test_option_selector_target').html(existing_value)
 
     // renders and shows in the option selector container
-    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
+    new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
 
     $cancel_button = $('#option_selector_container').find("[data-id='4']");
     expect($cancel_button).toExist();
@@ -61,7 +73,7 @@ describe('option selector', function() {
     expect($('#option_selector_container')).not.toExist();
 
     // renders and shows in the option selector container
-    view = new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
+    new Wavelineup.Views.OptionSelector($('#test_option_selector_target'));
 
     expect($('#option_selector_container')).toBeVisible();
 

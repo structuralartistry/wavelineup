@@ -3,6 +3,7 @@ window.fixtures = {
   accounting_transactions: [
 {"id":1,"date_time":"2012-01-01T10:05:00Z","income_expense":"income","amount":2198,"category_id":9,"account_id":15,"note":"verify in checking","invoice_id":null,"receivable_id":null},{"id":2,"date_time":"2012-01-02T11:32:00Z","income_expense":"expense","amount":100000,"category_id":4,"account_id":15,"note":"Jan 2012","invoice_id":null,"receivable_id":null},{"id":3,"date_time":"2012-01-03T13:03:00Z","income_expense":"expense","amount":3312,"category_id":3,"account_id":14,"note":"business cards","invoice_id":null,"receivable_id":null},{"id":4,"date_time":"2012-01-03T16:18:00Z","income_expense":"income","amount":6100,"category_id":11,"account_id":15,"note":"sent to insurance on 1/5/2012","invoice_id":3,"receivable_id":4},{"id":5,"date_time":"2012-01-03T16:18:00Z","income_expense":"income","amount":1100,"category_id":8,"account_id":14,"note":"only had cash","invoice_id":3,"receivable_id":null}
   ],
+
   option_selectors: [
 {"id":1,"name":"accounting_category_expense"},{"id":2,"name":"accounting_category_income"},{"id":3,"name":"accounting_account"},{"id":4,"name":"identity_types"},{"id":5,"name":"product_service"}
   ],

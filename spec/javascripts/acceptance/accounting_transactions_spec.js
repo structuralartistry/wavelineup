@@ -302,6 +302,7 @@ describe('accounting transactions', function() {
     expect($('#accounting_transaction_new_edit')).toBeVisible();
   })
 
+
   describe('direct routing', function() {
 
     it('successfully routes to the new form for Income transaction', function() {
@@ -344,6 +345,26 @@ describe('accounting transactions', function() {
       expect($('#modal_content :contains(requested record does not exist or could not be loaded, or the current internet connection is slow)')).toExist();
     })
 
+  });
+
+  // this eventually should go into general error handling testing
+  it('responds correctly to a 500 server error', function () {
+    var $existing_accounting_transaction, updated_note_value = 'this is an updated note';
+    $existing_accounting_transaction = $('.accounting_transaction.' + this.existing_accounting_transaction.id);
+
+    // edit the transaction
+    $($existing_accounting_transaction.find('.edit')).mousedown();
+
+    // submit and verify data sent to server
+    this.server.respondWith("PUT", "/api/accounting_transactions/" + this.existing_accounting_transaction.id,
+                                    [500, { "Content-Type": "application/json" },
+                                     'something bad']);
+
+    $('.save').mousedown();
+
+    this.server.respond();
+
+    expect($('#notices').html()).toEqual('A fatal server error occurred.');
   });
 
 });

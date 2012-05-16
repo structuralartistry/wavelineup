@@ -78,9 +78,32 @@ Wavelineup.Controllers.AccountingTransactions = {
         }
       });
     } else {
-      model.save();
-      $('#notices').html('Accounting Transaction updated by server!');
-      Wavelineup.Controllers.AccountingTransactions.list();
+      model.save(null, {
+        wait: true,
+        success: function() {
+          $('#notices').html('Accounting Transaction updated by server!');
+          Wavelineup.Controllers.AccountingTransactions.list();
+        },
+        error: function(model, response) {
+          var attribute, errors, message, messages, _i, _len;
+          switch(response.status) {
+            case 422:
+              var errors = $.parseJSON(response.responseText).errors;
+              $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+              break;
+            case 500:
+            default:
+              $('#notices').html('A fatal server error occurred.');
+              Wavelineup.instance.routers.main.navigate('');
+          }
+          if (response.status === 422) {
+            var errors = $.parseJSON(response.responseText).errors;
+            $('#modal_notices').html(Wavelineup.format_model_errors(errors));
+          }
+        }
+      });
+//      $('#notices').html('Accounting Transaction updated by server!');
+//      Wavelineup.Controllers.AccountingTransactions.list();
     }
 
   },

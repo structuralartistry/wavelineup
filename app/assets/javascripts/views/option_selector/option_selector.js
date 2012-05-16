@@ -43,9 +43,9 @@ Wavelineup.Views.OptionSelector = Backbone.View.extend( {
   },
 
   set_value: function(event) {
-    if($(event.target).data('id')!='cancel') {
+    if($(event.target).data('value')!='Cancel') {
       // set the visible html in the target element
-      this.$target_element.html($(event.target).data('set_value'));
+      this.$target_element.html($(event.target).data('value'));
       // set the 'data-set_id' property of the target element
       this.$target_element.data('set_id', $(event.target).data('id'));
       // set the 'data-set_value' property of the target element
