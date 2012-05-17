@@ -2,19 +2,14 @@ class AccountingTransactionsController < ApplicationController
   respond_to :json
 
   def index
-    @accounting_transactions = []
-    if params[:page_size] && params[:page_number]
-      @page_size = params[:page_size]
-      @page_number = params[:page_number]
-      @total_records = AccountingTransaction.count
-      offset_records = 0
-      if @page_size && @page_number
-        if @page_number != 1
-          offset_records = (@page_size.to_i * @page_number.to_i) - @page_size.to_i
-        end
-      end
-      @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
+    @page_size = params[:page_size] || 15
+    @page_number = params[:page_number] || 1
+    @total_records = AccountingTransaction.count
+    offset_records = 0
+    if @page_number != 1
+      offset_records = (@page_size.to_i * @page_number.to_i) - @page_size.to_i
     end
+    @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
 
     render :template => 'accounting_transactions/index'
   end

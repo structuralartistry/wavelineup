@@ -2,14 +2,16 @@ require 'test_helper'
 
 class AccountingTransactionsControllerTest < ActionController::TestCase
 
-  should 'return no records if no pagination information supplied' do
+  should 'return 15 records and first page if no pagination information supplied' do
     50.times do
       Factory(:accounting_transaction)
     end
     get :index, :format => :json
 
     response_json = JSON.parse(response.body)
-    assert response_json.length == 0
+    assert response_json.length == 15
+    expected_ids = AccountingTransaction.select('id, date_time').order('date_time DESC').limit(15).map(&:id).sort
+    response_json.each { |r| assert expected_ids.include?(r['id']) }
   end
 
   should 'return the requested page of records and expected number of records if pagination info submitted' do
