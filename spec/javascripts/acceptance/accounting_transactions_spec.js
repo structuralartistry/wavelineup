@@ -32,9 +32,9 @@ describe('accounting transactions', function() {
 
     // used when needing to add an accounting transaction not already in existance
     this.new_accounting_transaction = {
-      'account_id': 2,
+      'accounting_account_id': 2,
       'amount':'2.22',
-      'category_id': 2,
+      'accounting_category_id': 2,
       'id':222,
       'note':'new accounting transaction',
       'date_time':'2012-02-22T22:22:22Z',
@@ -107,7 +107,7 @@ describe('accounting transactions', function() {
     expect(current_url).toEqual('accounting_transactions/new/expense')
 
     // the Category selector is for expenses
-    expect($('#category_id.option_selector.target').data('option_selector_name')).toEqual('accounting_category_expense');
+    expect($('#accounting_category_id.option_selector.target').data('option_selector_name')).toEqual('accounting_category_expense');
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(this.new_accounting_transaction.date_time);
@@ -117,11 +117,11 @@ describe('accounting transactions', function() {
     // selector fields
 
     // category
-    $('#category_id.option_selector.target').mousedown();
+    $('#accounting_category_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
 
     // account
-    $('#account_id.option_selector.target').mousedown();
+    $('#accounting_account_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
 
     this.server.respondWith("POST", "/api/accounting_transactions",
@@ -156,7 +156,7 @@ describe('accounting transactions', function() {
     expect(current_url).toEqual('accounting_transactions/new/income')
 
     // the Category selector is for expenses
-    expect($('#category_id.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
+    expect($('#accounting_category_id.option_selector.target').data('option_selector_name')).toEqual('accounting_category_income');
 
     // set standard form values (these will go away as implement selectors)
     $('input#date_time').val(this.new_accounting_transaction.date_time);
@@ -166,11 +166,11 @@ describe('accounting transactions', function() {
     // selector fields
 
     // category
-    $('#category_id.option_selector.target').mousedown();
+    $('#accounting_category_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Cash Payment)').mousedown()
 
     // account
-    $('#account_id.option_selector.target').mousedown();
+    $('#accounting_account_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
 
     this.server.respondWith("POST", "/api/accounting_transactions",
@@ -212,17 +212,17 @@ describe('accounting transactions', function() {
 
     expect($('#income_expense').html()).toEqual('expense');
     expect($('input#amount').val()).toEqual(this.existing_accounting_transaction.amount.toString());
-    expect($('#category_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.category_value);
-    expect($('#account_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.account_value);
+    expect($('#accounting_category_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.category_value);
+    expect($('#accounting_account_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.account_value);
     expect($('input#note').val()).toEqual(this.existing_accounting_transaction.note);
 
     // update fields
     $('input#note').val(updated_note_value);
 
-    $('#category_id.option_selector.target').mousedown();
+    $('#accounting_category_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Office Supplies)').mousedown()
 
-    $('#account_id.option_selector.target').mousedown();
+    $('#accounting_account_id.option_selector.target').mousedown();
     $('#option_selector_container .option_selector.option:contains(Business Checking)').mousedown()
 
     // submit and verify data sent to server
@@ -269,7 +269,7 @@ describe('accounting transactions', function() {
   }),
 
   it('compiles and displays expected validation errors on the model form if submit is not valid', function() {
-    var errors = '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"category_id":["can\'t be blank"],"account_id":["can\'t be blank"]}}';
+    var errors = '{"errors":{"date_time":["can\'t be blank"],"income_expense":["can\'t be blank"],"amount":["can\'t be blank"],"accounting_category_id":["can\'t be blank"],"accounting_account_id":["can\'t be blank"]}}';
 
     // send an empty create which will cause validation errors
     this.server.respondWith("POST", "/api/accounting_transactions",

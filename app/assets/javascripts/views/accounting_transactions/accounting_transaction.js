@@ -39,8 +39,8 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
     this.model.set({
       date_time: $('input#date_time').val(),
       amount: $('input#amount').val(),
-      category_id: $('#category_id.option_selector.target').data('set_id'),
-      account_id: $('#account_id.option_selector.target').data('set_id'),
+      category_id: $('#accounting_category_id.option_selector.target').data('set_id'),
+      account_id: $('#accounting_account_id.option_selector.target').data('set_id'),
       note: $('input#note').val()
     });
 
@@ -58,9 +58,9 @@ Wavelineup.Views.AccountingTransaction = Backbone.View.extend( {
 
   set_category_selector_name: function(event) {
     if($(event.target).data('option_selector_name').indexOf('accounting_credit_debit')>=0) {
-      $(event.target).closest('ul').find('#category_id').data('option_selector_name','accounting_category_income');
+      $(event.target).closest('ul').find('#accounting_category_id').data('option_selector_name','accounting_category_income');
     } else {
-      $(event.target).closest('ul').find('#category_id').data('option_selector_name','accounting_category_expense');
+      $(event.target).closest('ul').find('#accounting_category_id').data('option_selector_name','accounting_category_expense');
     }
   }
 

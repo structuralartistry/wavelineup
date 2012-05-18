@@ -9,7 +9,13 @@ class AccountingTransactionsController < ApplicationController
     if @page_number != 1
       offset_records = (@page_size.to_i * @page_number.to_i) - @page_size.to_i
     end
-    @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
+    @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC')
+#    if params[:search]
+
+# how to do rails join with alias table name so can write direct sql???
+# AccountingTransaction.joins(:category, :account).where('accounting_transactions.categories.name=\'\'').all
+#      @accounting_transactions.joins(:category).where('accounting_transactions.
+#    end
 
     render :template => 'accounting_transactions/index'
   end

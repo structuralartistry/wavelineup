@@ -97,8 +97,8 @@ if Rails.env == 'development'
     :date_time => '2012-01-01 10:05',
     :income_expense => 'income',
     :amount => 2198,
-    :category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').id,
-    :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
+    :accounting_category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').id,
+    :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
     :note => 'verify in checking' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save!
@@ -107,8 +107,8 @@ if Rails.env == 'development'
     :date_time => '2012-01-02 11:32',
     :income_expense => 'expense',
     :amount => 100000,
-    :category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').id,
-    :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
+    :accounting_category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').id,
+    :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
     :note => 'Jan 2012' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save!
@@ -117,8 +117,8 @@ if Rails.env == 'development'
     :date_time => '2012-01-03 13:03',
     :income_expense => 'expense',
     :amount => 3312,
-    :category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').id,
-    :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
+    :accounting_category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').id,
+    :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
     :note => 'business cards' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save!
@@ -148,7 +148,7 @@ if Rails.env == 'development'
     :invoice_id                 => invoice.id,
     :amount                     => 7500,
     :balance_due                => 0,
-    :category_id               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id,
+    :accounting_category_id               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id,
     :billing_identity_id        => identity_insurance_one.id,
     :attributed_sale_identity_id => identity_practitioner_two.id )
   receivable.practice_id = practice.id
@@ -158,7 +158,7 @@ if Rails.env == 'development'
     :invoice_id                 => invoice.id,
     :amount                     => 4000,
     :balance_due                => 0,
-    :category_id               => option_selector_product_service.option_selector_options.find_by_value('SRI Session').id,
+    :accounting_category_id               => option_selector_product_service.option_selector_options.find_by_value('SRI Session').id,
     :billing_identity_id        => nil,
     :attributed_sale_identity_id => identity_practitioner_one.id )
   receivable.practice_id = practice.id
@@ -177,7 +177,7 @@ if Rails.env == 'development'
     :invoice_id                 => invoice.id,
     :amount                     => 1100,
     :balance_due                => 0,
-    :category_id               => option_selector_product_service.option_selector_options.find_by_value('Herbs/Vitamins').id,
+    :accounting_category_id               => option_selector_product_service.option_selector_options.find_by_value('Herbs/Vitamins').id,
     :billing_identity_id        => nil,
     :attributed_sale_identity_id => identity_practice_personnel_one.id )
   receivable.practice_id = practice.id
@@ -188,7 +188,7 @@ if Rails.env == 'development'
     :invoice_id                 => invoice.id,
     :amount                     => 7500,
     :balance_due                => 0,
-    :category_id               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id,
+    :accounting_category_id               => option_selector_product_service.option_selector_options.find_by_value('Entrainment').id,
     :billing_identity_id        => identity_insurance_one.id,
     :attributed_sale_identity_id => identity_practitioner_one.id )
   receivable.practice_id = practice.id
@@ -199,8 +199,8 @@ if Rails.env == 'development'
     :date_time => '2012-01-03 16:18',
     :income_expense => 'income',
     :amount => 6100,
-    :category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').id,
-    :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
+    :accounting_category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Insurance Payment').id,
+    :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
     :receivable_id => receivable.id,
     :note      => 'sent to insurance on 1/5/2012' )
 
@@ -212,8 +212,8 @@ if Rails.env == 'development'
     :date_time => '2012-01-03 16:18',
     :income_expense => 'income',
     :amount => 1100,
-    :category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').id,
-    :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
+    :accounting_category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Cash Payment').id,
+    :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
     :note      => 'only had cash' )
   accounting_transaction.practice_id = practice.id
   accounting_transaction.save!
@@ -233,8 +233,8 @@ if Rails.env == 'development'
       :date_time => '2012-01-01 10:05',
       :income_expense => 'income',
       :amount => 2198,
-      :category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').id,
-      :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
+      :accounting_category_id => option_selector_accounting_category_income.option_selector_options.find_by_value('Credit Card Payment').id,
+      :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
       :note => 'verify in checking' )
     accounting_transaction.practice_id = practice.id
     accounting_transaction.save!
@@ -243,8 +243,8 @@ if Rails.env == 'development'
       :date_time => '2012-01-02 11:32',
       :income_expense => 'expense',
       :amount => 100000,
-      :category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').id,
-      :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
+      :accounting_category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Rent').id,
+      :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Business Checking').id,
       :note => 'Jan 2012' )
     accounting_transaction.practice_id = practice.id
     accounting_transaction.save!
@@ -253,8 +253,8 @@ if Rails.env == 'development'
       :date_time => '2012-01-03 13:03',
       :income_expense => 'expense',
       :amount => 3312,
-      :category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').id,
-      :account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
+      :accounting_category_id => option_selector_accounting_category_expense.option_selector_options.find_by_value('Office Supplies').id,
+      :accounting_account_id => option_selector_accounting_account.option_selector_options.find_by_value('Cash Reserves').id,
       :note => 'business cards' )
     accounting_transaction.practice_id = practice.id
     accounting_transaction.save!

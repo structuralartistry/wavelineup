@@ -18,13 +18,13 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
     t.datetime "date_time"
     t.string   "income_expense"
     t.integer  "amount"
-    t.integer  "category_id"
-    t.integer  "account_id"
+    t.integer  "accounting_category_id"
+    t.integer  "accounting_account_id"
     t.string   "note"
     t.integer  "invoice_id"
     t.integer  "receivable_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   create_table "identities", :force => true do |t|
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20120507185056) do
     t.integer  "invoice_id"
     t.integer  "amount"
     t.integer  "balance_due"
-    t.integer  "category_id"
+    t.integer  "accounting_category_id"
     t.integer  "billing_identity_id"
     t.integer  "attributed_sale_identity_id"
     t.datetime "created_at",                  :null => false

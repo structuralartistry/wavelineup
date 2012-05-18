@@ -3,8 +3,8 @@ Factory.define :accounting_transaction do |f|
   f.date_time DateTime.now
   f.income_expense 'income'
   f.amount 75.00
-  f.category_id 1
-  f.account_id 1
+  f.accounting_category_id 1
+  f.accounting_account_id 1
   f.note 'some notes'
 end
 
