@@ -9,13 +9,31 @@ class AccountingTransactionsController < ApplicationController
     if @page_number != 1
       offset_records = (@page_size.to_i * @page_number.to_i) - @page_size.to_i
     end
-    @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC')
-#    if params[:search]
+    if params[:search]
+      search_string = params[:search]
+      # preprocess for amount (convert decimal to integer for matching
+      search_string =~ /\$?\d{1,}\.?\d{0,}/
+      amount = $& || nil
+      if amount
+        amount = $&.delete('$.')
+        search_string.gsub(amount,'').gsub('  ',' ')
+      end
 
 # how to do rails join with alias table name so can write direct sql???
 # AccountingTransaction.joins(:category, :account).where('accounting_transactions.categories.name=\'\'').all
-#      @accounting_transactions.joins(:category).where('accounting_transactions.
-#    end
+                              # this is accounting_category join as is first time OptionSelectorOption joined
+      @accounting_transactions = AccountingTransaction.joins('
+                                  LEFT OUTER JOIN option_selector_options AS accounting_categories ON accounting_category_id = accounting_categories.id
+                                  LEFT OUTER JOIN option_selector_options AS accounting_accounts ON accounting_account_id = accounting_accounts.id')
+                              .where('accounting_categories.value ilike :s
+                                      OR accounting_accounts.value ilike :s
+                                      OR CAST(amount AS VARCHAR) ilike :a', :s => "%#{search_string}%", :a => "%#{amount || ' '}%")
+                              .limit(@page_size).offset(offset_records).order('date_time DESC')
+                              .all
+#puts @accounting_transactions.to_sql
+    else
+      @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
+    end
 
     render :template => 'accounting_transactions/index'
   end
