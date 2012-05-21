@@ -25,7 +25,7 @@ class AccountingTransaction < ActiveRecord::Base
     if search_string
 
       # preprocess for amount (convert decimal to integer for matching
-      search_string =~ /\$?\d{1,}\.\d{0,}/
+      search_string =~ /\$?\d{1,}\.\d{2,2}/
       amount = $& || nil
       if amount
         amount = $&.delete('$.')
