@@ -30,7 +30,6 @@ class AccountingTransactionsController < ApplicationController
                                       OR CAST(amount AS VARCHAR) ilike :a', :s => "%#{search_string}%", :a => "%#{amount || ' '}%")
                               .limit(@page_size).offset(offset_records).order('date_time DESC')
                               .all
-#puts @accounting_transactions.to_sql
     else
       @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
     end

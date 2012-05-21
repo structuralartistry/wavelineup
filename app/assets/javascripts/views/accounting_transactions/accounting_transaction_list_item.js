@@ -6,8 +6,8 @@ Wavelineup.Views.AccountingTransactionListItem = Backbone.View.extend({
       <td><%= date_time %></td> \
       <td><%= income_expense %></td> \
       <td><%= amount %></td> \
-      <td><%= category_value %></td> \
-      <td><%= account_value %></td> \
+      <td><%= accounting_category_value %></td> \
+      <td><%= accounting_account_value %></td> \
       <td><%= note %></td>"
 
     if(json.invoice_id==null) {

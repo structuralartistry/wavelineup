@@ -21,12 +21,12 @@ Wavelineup.Models.AccountingTransaction = Wavelineup.Models.Base.extend({
     var that = this;
 
     // virtual attributes for associations
-    this.set('category_value', function () {
+    this.set('accounting_category_value', function () {
 //      return Wavelineup.instance.collections.option_selector_options.where({id: that.get('accounting_category_id')})[0].get('value');
       return Wavelineup.instance.collections.option_selector_options.get_value_by_id(that.get('accounting_category_id'));
     })
 
-    this.set('account_value', function () {
+    this.set('accounting_account_value', function () {
 //      return Wavelineup.instance.collections.option_selector_options.where({id: that.get('accounting_account_id')})[0].get('value');
       return Wavelineup.instance.collections.option_selector_options.get_value_by_id(that.get('accounting_account_id'));
     })

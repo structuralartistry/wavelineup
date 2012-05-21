@@ -53,9 +53,15 @@ describe('accounting transactions', function() {
     expect($('.new_accounting_transaction.income')).toExist();
 
     expect($('#accounting_transactions')).toBeVisible();
-    _.each(Wavelineup.instance.collections.accounting_transactions, function(accounting_transaction) {
-      expect($('.accounting_transaction.' + accounting_transaction.id)).toBeVisible();
-      expect($('.accounting_transaction.' + accounting_transaction.id)).toBeVisible();
+    expect(Wavelineup.instance.collections.accounting_transactions.length).toEqual(5);
+
+    _.each(Wavelineup.instance.collections.accounting_transactions.models, function(accounting_transaction) {
+      $accounting_transaction = $('.accounting_transaction.' + accounting_transaction.get('id'));
+
+console.log($accounting_transaction);
+      expect($accounting_transaction).toBeVisible();
+      expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_category_value') + ')')).toBeVisible()
+      expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_account_value') + ')')).toBeVisible()
     });
   }),
 
@@ -212,8 +218,8 @@ describe('accounting transactions', function() {
 
     expect($('#income_expense').html()).toEqual('expense');
     expect($('input#amount').val()).toEqual(this.existing_accounting_transaction.amount.toString());
-    expect($('#accounting_category_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.category_value);
-    expect($('#accounting_account_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.account_value);
+    expect($('#accounting_category_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.accounting_category_value);
+    expect($('#accounting_account_id.option_selector.target').html()).toEqual(this.existing_accounting_transaction.accounting_account_value);
     expect($('input#note').val()).toEqual(this.existing_accounting_transaction.note);
 
     // update fields
