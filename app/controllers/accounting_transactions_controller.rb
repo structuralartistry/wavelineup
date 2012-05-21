@@ -34,35 +34,27 @@ class AccountingTransactionsController < ApplicationController
       @accounting_transactions = AccountingTransaction.limit(@page_size).offset(offset_records).order('date_time DESC').all
     end
 
-    render :template => 'accounting_transactions/index'
+    respond_with @accounting_transactions
   end
 
   def create
     @accounting_transaction = AccountingTransaction.new(params[:accounting_transaction])
     @accounting_transaction.practice_id = 0
-    if @accounting_transaction.save
-      render :template => 'accounting_transactions/accounting_transaction', :status => 201
-    else
-      render :template => 'accounting_transactions/accounting_transaction', :status => 422
-    end
+
+    @accounting_transaction.save
+    respond_with @accounting_transaction
   end
 
   def update
     @accounting_transaction = AccountingTransaction.find(params[:id])
-    if @accounting_transaction.update_attributes(params[:accounting_transaction])
-      render :template => 'accounting_transactions/accounting_transaction', :status => 202
-    else
-      render :template => 'accounting_transactions/accounting_transaction', :status => 422
-    end
+    @accounting_transaction.update_attributes(params[:accounting_transaction])
+    respond_with @accounting_transaction
   end
 
   def destroy
     @accounting_transaction = AccountingTransaction.find(params[:id])
-    if @accounting_transaction.destroy
-      render :template => 'accounting_transactions/accounting_transaction', :status => 202
-    else
-      render :template => 'accounting_transactions/accounting_transaction', :status => 422
-    end
+    @accounting_transaction.destroy
+    respond_with @accounting_transaction
   end
 
 end
