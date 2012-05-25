@@ -2,12 +2,10 @@ class AccountingTransactionsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with AccountingTransaction.package({
-      :records => AccountingTransaction.search(params[:search])
-                                       .paginate({:page_size => params[:page_size], :page_number => params[:page_number]}),
-      :practice_id => 1,
-      :page_size => params[:page_size],
-      :page_number => params[:page_number] })
+    respond_with AccountingTransaction.get_records({ :search       => params[:search],
+                                                     :page_size    => params[:page_size],
+                                                     :page_number  => params[:page_number],
+                                                     :practice_id  => 1 })
   end
 
   def create

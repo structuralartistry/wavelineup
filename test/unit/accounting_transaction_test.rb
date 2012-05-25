@@ -27,16 +27,28 @@ class AccountingTransactionTest < ActiveSupport::TestCase
       page_size = 2
       page_number = 1
 
-      accounting_transactions = AccountingTransaction.paginate({:page_size => page_size, :page_number => page_number})
-      accounting_transactions_package = AccountingTransaction.package({:records => accounting_transactions,
-                                                                       :practice_id => practice_id,
-                                                                       :page_size => page_size,
-                                                                       :page_number => page_number})
+      accounting_transactions = AccountingTransaction.get_records({:page_size => page_size,
+                                                                   :page_number => page_number,
+                                                                   :practice_id => practice_id})
 
-      assert accounting_transactions_package[:records].length == 2
-      assert accounting_transactions_package[:record_count] == 5
-      assert accounting_transactions_package[:page_size] == page_size
-      assert accounting_transactions_package[:page_number] == page_number
+      assert accounting_transactions[:records].length == 2
+      assert accounting_transactions[:total_record_count] == 5
+      assert accounting_transactions[:page_size] == page_size
+      assert accounting_transactions[:page_number] == page_number
+    end
+
+    should 'return default record count and page 1 if not supplied' do
+      practice_id = 1
+      5.times do
+        Factory(:accounting_transaction, :practice_id => 1)
+      end
+
+      accounting_transactions = AccountingTransaction.get_records({:page_size => nil,
+                                                                   :page_number => nil,
+                                                                   :practice_id => practice_id})
+
+      assert accounting_transactions[:page_size] == PAGE_SIZE
+      assert accounting_transactions[:page_number] == 1
     end
 
   end

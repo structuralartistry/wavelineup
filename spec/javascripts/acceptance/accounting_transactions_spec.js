@@ -15,7 +15,7 @@ describe('accounting transactions', function() {
       Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
 
       Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-      Wavelineup.instance.collections.accounting_transactions.reset(fixtures.accounting_transactions);
+      Wavelineup.instance.collections.accounting_transactions.reset(fixtures.accounting_transactions.records);
     }
 
     // turn off the router
@@ -58,7 +58,6 @@ describe('accounting transactions', function() {
     _.each(Wavelineup.instance.collections.accounting_transactions.models, function(accounting_transaction) {
       $accounting_transaction = $('.accounting_transaction.' + accounting_transaction.get('id'));
 
-console.log($accounting_transaction);
       expect($accounting_transaction).toBeVisible();
       expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_category_value') + ')')).toBeVisible()
       expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_account_value') + ')')).toBeVisible()

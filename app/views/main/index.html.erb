@@ -7,7 +7,8 @@
     Wavelineup.instance.collections.option_selector_options.reset(<%= raw @option_selector_options_json %>);
 
     Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-    Wavelineup.instance.collections.accounting_transactions.reset(<%= raw @accounting_transactions_json %>);
+    // have to manually set things up as reset does not go through BBCollection#parse
+    Wavelineup.instance.collections.accounting_transactions.reset(<%= raw @accounting_transactions_json %>.records);
   }
 
   $(document).ready(function() {

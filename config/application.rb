@@ -57,3 +57,6 @@ module Wavelineup
     config.assets.version = '1.0'
   end
 end
+
+
+PAGE_SIZE = 15

@@ -11,14 +11,14 @@ class AccountingTransaction < ActiveRecord::Base
 
 
   scope :paginate, lambda { |options={}|
-    page_size = options[:page_size] || 15
+    page_size = options[:page_size] || PAGE_SIZE
     page_number = options[:page_number] || 1
     offset_records = 0
     if page_number != 1
       offset_records = (page_size.to_i * page_number.to_i) - page_size.to_i
     end
 
-    accounting_transactions = AccountingTransaction.limit(page_size).offset(offset_records).order('date_time DESC')
+    AccountingTransaction.limit(page_size).offset(offset_records).order('date_time DESC')
   }
 
   scope :search, lambda { |search_string=nil|
@@ -35,7 +35,7 @@ class AccountingTransaction < ActiveRecord::Base
       # change colon to double dash for matching time, the colon messes up the AR interpolation
       search_string.gsub!(/:/, '--')
 
-      accounting_transactions = AccountingTransaction.joins('LEFT OUTER JOIN option_selector_options AS accounting_categories ON accounting_category_id = accounting_categories.id
+      return AccountingTransaction.joins('LEFT OUTER JOIN option_selector_options AS accounting_categories ON accounting_category_id = accounting_categories.id
                                                              LEFT OUTER JOIN option_selector_options AS accounting_accounts ON accounting_account_id = accounting_accounts.id')
                                                      .where("accounting_categories.value ILIKE :s
                                                              OR accounting_accounts.value ILIKE :s
@@ -45,18 +45,16 @@ class AccountingTransaction < ActiveRecord::Base
                                                              OR CAST(invoice_id AS VARCHAR) ILIKE :s
                                                              OR note ILIKE :s", :s => "%#{search_string}%", :a => "%#{amount || ' '}%")
     else
-      accounting_transactions = AccountingTransaction.all
+      return nil
     end
-    accounting_transactions
   }
 
-  def self.package(options={})
-    package = {}
-    package[:records] = options[:records]
-    package[:record_count] = self.find_all_by_practice_id(options[:practice_id]).count
-    package[:page_size] = options[:page_size]
-    package[:page_number] = options[:page_number]
-    package
+  def self.get_records(options={})
+    records = AccountingTransaction.search(options[:search]).paginate({:page_size => options[:page_size], :page_number => options[:page_number]})
+    { :records => records,
+      :total_record_count => self.find_all_by_practice_id(options[:practice_id]).count,
+      :page_size => options[:page_size] || PAGE_SIZE,
+      :page_number => options[:page_number] || 1 }
   end
 
 end
