@@ -18,7 +18,7 @@ class AccountingTransaction < ActiveRecord::Base
       offset_records = (page_size.to_i * page_number.to_i) - page_size.to_i
     end
 
-    AccountingTransaction.limit(page_size).offset(offset_records).order('date_time DESC')
+    accounting_transactions = AccountingTransaction.limit(page_size).offset(offset_records).order('date_time DESC')
   }
 
   scope :search, lambda { |search_string=nil|
@@ -49,5 +49,14 @@ class AccountingTransaction < ActiveRecord::Base
     end
     accounting_transactions
   }
+
+  def self.package(options={})
+    package = {}
+    package[:records] = options[:records]
+    package[:record_count] = self.find_all_by_practice_id(options[:practice_id]).count
+    package[:page_size] = options[:page_size]
+    package[:page_number] = options[:page_number]
+    package
+  end
 
 end

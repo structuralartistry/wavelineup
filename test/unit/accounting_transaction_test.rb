@@ -1,5 +1,7 @@
 require 'test_helper'
 
+# Wavelineup.instance.collections.accounting_transactions.fetch({data: {page_size: 15, page_number: 12}})
+
 class AccountingTransactionTest < ActiveSupport::TestCase
   should belong_to :practice
   should belong_to :invoice
@@ -13,6 +15,32 @@ class AccountingTransactionTest < ActiveSupport::TestCase
   should validate_presence_of :amount
   should validate_presence_of :accounting_category_id
   should validate_presence_of :accounting_account_id
+
+  context 'package results' do
+
+    should 'return total record count, page size and current page number in the json' do
+      practice_id = 1
+      5.times do
+        Factory(:accounting_transaction, :practice_id => 1)
+      end
+
+      page_size = 2
+      page_number = 1
+
+      accounting_transactions = AccountingTransaction.paginate({:page_size => page_size, :page_number => page_number})
+      accounting_transactions_package = AccountingTransaction.package({:records => accounting_transactions,
+                                                                       :practice_id => practice_id,
+                                                                       :page_size => page_size,
+                                                                       :page_number => page_number})
+
+      assert accounting_transactions_package[:records].length == 2
+      assert accounting_transactions_package[:record_count] == 5
+      assert accounting_transactions_package[:page_size] == page_size
+      assert accounting_transactions_package[:page_number] == page_number
+    end
+
+  end
+
 
   context 'pagination' do
 
@@ -67,8 +95,9 @@ class AccountingTransactionTest < ActiveSupport::TestCase
     context 'field specific' do
 
       should 'find by date_time' do
-# date time format
-# 2011-05-29 16:41
+        # date time format expected
+        # 2011-05-29 16:41
+
         # non matching
         3.times do
           Factory(:accounting_transaction, :date_time => DateTime.parse('2009-08-04 09:00'))
@@ -197,5 +226,4 @@ class AccountingTransactionTest < ActiveSupport::TestCase
 
   end
 
-# Wavelineup.instance.collections.accounting_transactions.fetch({data: {page_size: 15, page_number: 12}})
 end
