@@ -812,6 +812,9 @@
       if (!(model instanceof Model)) {
         var attrs = model;
         options.collection = this;
+console.log(this);
+console.log(attrs)
+console.log(options)
         model = new this.model(attrs, options);
         if (!model._validate(model.attributes, options)) model = false;
       } else if (!model.collection) {

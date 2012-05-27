@@ -38,6 +38,5 @@ gem 'miniskirt'
 group :development, :test do
   gem 'test-unit'
   gem 'debugger'
-  gem 'jasmine'
   gem 'shoulda'
 end
