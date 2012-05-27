@@ -1,4 +1,49 @@
 Wavelineup.Templates.AccountingTransactions = {
+
+
+  list: function (json) {
+    var t = " \
+      <h1>Hello World Index View from Backbone!!!</h1> \
+      <input class='new_accounting_transaction expense btn' type='submit' value='New Expense'> \
+      <input class='new_accounting_transaction income btn' type='submit' value='New Income'> \
+      <table id='accounting_transactions' class='table table-striped table-bordered table-condensed'> \
+        <thead> \
+          <tr> \
+            <th>Date Time</th> \
+            <th>Income/Expense</th> \
+            <th>Amount</th> \
+            <th>Category</th> \
+            <th>Account</th> \
+            <th>Note</th> \
+            <th>Edit</th> \
+          </tr> \
+        </thead> \
+        <tbody> \
+        </tbody> \
+      </table> \
+      <input class='accounting_transactions paginate_previous btn' type='submit' value='<< Previous'> \
+      <input class='accounting_transactions paginate_next btn' type='submit' value='Next >>'>"
+    return _.template(t,json);
+  },
+
+  list_item: function (json) {
+    var t = " \
+      <td><%= date_time %></td> \
+      <td><%= income_expense %></td> \
+      <td><%= amount %></td> \
+      <td><%= accounting_category_value %></td> \
+      <td><%= accounting_account_value %></td> \
+      <td><%= note %></td>"
+
+    if(json.invoice_id==null) {
+      t += "<td><input class='edit' type='submit' value='Edit'></td>";
+    } else {
+      t += "<td><input class='view_invoice' type='submit' value='Invoice'></td>";
+    }
+
+    return _.template(t,json);
+  },
+
   accounting_transaction: function(json) {
     var t = " \
       <div class='modal-header'> \

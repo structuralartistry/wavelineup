@@ -8,7 +8,11 @@
 
     Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
     // have to manually set things up as reset does not go through BBCollection#parse
-    Wavelineup.instance.collections.accounting_transactions.reset(<%= raw @accounting_transactions_json %>.records);
+    var accounting_transactions_json = <%= raw @accounting_transactions_json %>;
+    Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions_json.records);
+    Wavelineup.instance.collections.accounting_transactions.total_record_count = accounting_transactions_json.total_record_count;
+    Wavelineup.instance.collections.accounting_transactions.page_size = accounting_transactions_json.page_size;
+    Wavelineup.instance.collections.accounting_transactions.page_number = accounting_transactions_json.page_number;
   }
 
   $(document).ready(function() {

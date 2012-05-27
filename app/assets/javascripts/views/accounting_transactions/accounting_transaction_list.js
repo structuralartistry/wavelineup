@@ -2,42 +2,7 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   el: '#content',
 
   template: function(json) {
-    var t = " \
-      <h1>Hello World Index View from Backbone!!!</h1> \
-      <input class='new_accounting_transaction expense' type='submit' value='New Expense'> \
-      <input class='new_accounting_transaction income' type='submit' value='New Income'> \
-      <table id='accounting_transactions' class='table table-striped table-bordered table-condensed'> \
-        <thead> \
-          <tr> \
-            <th>Date Time</th> \
-            <th>Income/Expense</th> \
-            <th>Amount</th> \
-            <th>Category</th> \
-            <th>Account</th> \
-            <th>Note</th> \
-            <th>Edit</th> \
-          </tr> \
-        </thead> \
-        <tbody> \
-        </tbody> \
-      </table> \
-      <style> \
-        ul.selector li { \
-          display: inline-block; \
-          border: solid 1px black;  \
-          width: 1.5in;  \
-          height: 0.25in; \
-          list-style-type: none; \
-        } \
-        #a_selector { \
-          display: none; \
-        } \
-      </style> \
-      <ul class='selector' id='a_selector'> \
-        <li id='button_one' class='selected_value' data-value='1'>1</li> \
-        <li id='button_two' class='selected_value' data-value='2'>2</li> \
-      </ul>"
-    return _.template(t,json);
+    return Wavelineup.Templates.AccountingTransactions.list(json);
   },
 
   events: {

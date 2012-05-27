@@ -22,6 +22,7 @@ src_files:
   - app/assets/javascripts/models/base.js
   - app/assets/javascripts/models/accounting_transaction.js
   - app/assets/javascripts/**/*.js
+  - spec/javascripts/factories.js
 
 # stylesheets
 #
