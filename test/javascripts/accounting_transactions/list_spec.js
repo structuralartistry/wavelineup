@@ -1,39 +1,8 @@
 describe('accounting transactions', function() {
 
   beforeEach(function() {
-    this.server = sinon.fakeServer.create();
 
-    setFixtures("<div id='container'>Loading...</div>");
-    expect($('#container')).toHaveText('Loading...');
-
-    Wavelineup.set_base_data = function() {
-      Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-
-      Wavelineup.instance.collections.option_selectors.reset(all_option_selectors);
-
-      Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
-      Wavelineup.instance.collections.option_selector_options.reset(all_option_selector_options);
-
-      Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-
-      var accounting_transactions = [];
-      accounting_transactions.push(BackboneFactory.create('accounting_transaction', function(){return {invoice_id: 1}}));
-      _.each([1,2,3,4], function(){
-        accounting_transactions.push(BackboneFactory.create('accounting_transaction'));
-      });
-      var accounting_transactions = simulate_paginated_server_response(accounting_transactions);
-
-      Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
-    }
-
-    // turn off the router
-    if( (typeof Backbone.history == 'object') && (typeof Backbone.history.stop == 'function') ) Backbone.history.stop();
-
-    Wavelineup.init();
-
-    Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
-    current_url = Backbone.history.getHash();
-    expect(current_url).toEqual('accounting_transactions')
+    factor_out_before_each();
 
     // used as one of the existing accounting transactions, as an alias
     this.existing_accounting_transaction = Wavelineup.instance.collections.accounting_transactions.models[2].to_local_json();
@@ -50,9 +19,8 @@ describe('accounting transactions', function() {
   }),
 
   afterEach(function() {
-    this.server.restore();
-    setFixtures('');
-    if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
+    factor_out_after_each();
+
   }),
 
   // index/list
