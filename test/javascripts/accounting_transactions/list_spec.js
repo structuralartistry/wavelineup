@@ -2,9 +2,24 @@ describe('accounting transactions', function() {
 
   beforeEach(function() {
 
+// probably should create a safe, segmented test data info... factories right now going to global, should not...
+// do Wavelineup.test_suite or something....
+// and care for wavelineup_base_data variable among others
+
+
+
+
+    var accounting_transactions = [];
+    accounting_transactions.push(BackboneFactory.create('accounting_transaction', function(){return {invoice_id: 1}}));
+    _.each([1,2,3,4], function(){
+      accounting_transactions.push(BackboneFactory.create('accounting_transaction'));
+    });
+    accounting_transactions_base_data = accounting_transactions;
+
     factor_out_before_each();
 
     // used as one of the existing accounting transactions, as an alias
+
     this.existing_accounting_transaction = Wavelineup.instance.collections.accounting_transactions.models[2].to_local_json();
 
     // used when needing to add an accounting transaction not already in existance

@@ -143,7 +143,9 @@ var set_wavelineup_base_data = function(accounting_transactions_array){
   }
 }
 
-var factor_out_before_each = function() {
+var accounting_transactions_base_json;
+
+var factor_out_before_each = function(accounting_transactions) {
   this.server = sinon.fakeServer.create();
 
   setFixtures("<div id='container'>Loading...</div>");
@@ -159,12 +161,8 @@ var factor_out_before_each = function() {
 
     Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
 
-    var accounting_transactions = [];
-    accounting_transactions.push(BackboneFactory.create('accounting_transaction', function(){return {invoice_id: 1}}));
-    _.each([1,2,3,4], function(){
-      accounting_transactions.push(BackboneFactory.create('accounting_transaction'));
-    });
-    var accounting_transactions = simulate_paginated_server_response(accounting_transactions);
+
+    var accounting_transactions = simulate_paginated_server_response(accounting_transactions_base_data);
 
     Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
   }
