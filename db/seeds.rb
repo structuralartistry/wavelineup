@@ -25,12 +25,12 @@ OptionSelectorOption.create(:option_selector_id => option_selector_accounting_ac
 OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :value => '')
 OptionSelectorOption.create(:option_selector_id => option_selector_accounting_account.id, :value => 'Cancel')
 
-option_selector_identity_types = OptionSelector.create(:name => 'identity_types')
-OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :value => 'Prospective Client')
-OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :value => 'Practice Member')
-OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :value => 'Insurance Company')
-OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :value => 'Practitioner')
-OptionSelectorOption.create(:option_selector_id => option_selector_identity_types.id, :value => 'Practice Personnel')
+option_selector_identity_type = OptionSelector.create(:name => 'identity_type')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_type.id, :value => 'Prospective Client')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_type.id, :value => 'Practice Member')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_type.id, :value => 'Insurance Company')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_type.id, :value => 'Practitioner')
+OptionSelectorOption.create(:option_selector_id => option_selector_identity_type.id, :value => 'Practice Personnel')
 
 option_selector_product_service = OptionSelector.create(:name => 'product_service')
 OptionSelectorOption.create(:option_selector_id => option_selector_product_service.id, :value => 'Introductory Package', :default_price => 15000)
@@ -54,40 +54,40 @@ if Rails.env == 'development'
 
 
   identity_insurance_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Insurance Company').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Insurance Company').id,
     :company_name => 'ACME Insurance Co' )
 
 
   identity_practitioner_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practitioner').id,
     :last_name => 'Wilhelm',
     :first_name => 'Reich' )
 
   identity_practitioner_two = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practitioner').id,
     :last_name => 'DD',
     :first_name => 'Palmer' )
 
 
   identity_practice_personnel_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practitioner').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practitioner').id,
     :last_name => 'Rosie',
     :first_name => 'Admon' )
 
 
   identity_practice_member_one = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practice Member').id,
     :last_name => 'Ian',
     :first_name => 'Stuk' )
 
   identity_practice_member_two = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practice Member').id,
     :last_name => 'May',
     :middle_name => 'Bee',
     :first_name => 'Enlightened' )
 
   identity_practice_member_three = Identity.create(
-    :type_id => option_selector_identity_types.option_selector_options.find_by_value('Practice Member').id,
+    :type_id => option_selector_identity_type.option_selector_options.find_by_value('Practice Member').id,
     :last_name => 'Moe',
     :first_name => 'Transform' )
 

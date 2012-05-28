@@ -11,7 +11,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: wavelineup3_development
+  database: wavelineup_development
   pool: 5
   username: postgres
   password: laugh
@@ -39,7 +39,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: wavelineup3_test
+  database: wavelineup_test
   pool: 5
   username: postgres
   password: laugh
@@ -48,7 +48,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: wavelineup3_production
+  database: wavelineup_production
   pool: 5
   username: postgres
   password: laugh

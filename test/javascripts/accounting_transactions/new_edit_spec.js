@@ -82,6 +82,7 @@ describe('accounting transactions', function() {
     this.server.respondWith("POST", "/api/accounting_transactions",
                                     [201, { "Content-Type": "application/json" },
                                     JSON.stringify(this.new_accounting_transaction)]);
+console.log(JSON.stringify(this.new_accounting_transaction))
 
     sinon.spy(jQuery, 'ajax');
     $('input.save').mousedown();

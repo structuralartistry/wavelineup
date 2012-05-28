@@ -6,20 +6,24 @@ describe('accounting transactions', function() {
     setFixtures("<div id='container'>Loading...</div>");
     expect($('#container')).toHaveText('Loading...');
 
-    // set data that loads on app load via the main rails index
     Wavelineup.set_base_data = function() {
       Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-      Wavelineup.instance.collections.option_selectors.reset(fixtures.option_selectors);
+
+      Wavelineup.instance.collections.option_selectors.reset(all_option_selectors);
 
       Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
-      Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
+      Wavelineup.instance.collections.option_selector_options.reset(all_option_selector_options);
 
       Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-      var accounting_transactions_json = fixtures.accounting_transactions;
-      Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions_json.records);
-      Wavelineup.instance.collections.accounting_transactions.total_record_count = accounting_transactions_json.total_record_count;
-      Wavelineup.instance.collections.accounting_transactions.page_size = accounting_transactions_json.page_size;
-      Wavelineup.instance.collections.accounting_transactions.page_numbeer = accounting_transactions_json.page_number;
+
+      var accounting_transactions = [];
+      accounting_transactions.push(BackboneFactory.create('accounting_transaction', function(){return {invoice_id: 1}}));
+      _.each([1,2,3,4], function(){
+        accounting_transactions.push(BackboneFactory.create('accounting_transaction'));
+      });
+      var accounting_transactions = simulate_paginated_server_response(accounting_transactions);
+
+      Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
     }
 
     // turn off the router
@@ -52,7 +56,7 @@ describe('accounting transactions', function() {
   }),
 
   // index/list
-  it('loads the index page with correct content', function() {
+  it('loads the index page with correct content showing all items in returned collection', function() {
     expect($('.new_accounting_transaction.expense')).toExist();
     expect($('.new_accounting_transaction.income')).toExist();
 
@@ -64,7 +68,6 @@ describe('accounting transactions', function() {
 
       expect($accounting_transaction).toBeVisible();
       expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_category_value') + ')')).toBeVisible()
-      expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_account_value') + ')')).toBeVisible()
     });
   }),
 

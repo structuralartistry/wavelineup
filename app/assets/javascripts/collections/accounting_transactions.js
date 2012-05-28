@@ -2,18 +2,24 @@ Wavelineup.Collections.AccountingTransactions = Backbone.Collection.extend({
   model: Wavelineup.Models.AccountingTransaction,
   url: '/api/accounting_transactions',
 
-  initialize: function () {
-    this.total_record_count = null;
-    this.page_size = null;
-    this.page_number = 1;
+  parse: function (response) {
+    this.set_pagination_info(response);
+    return response.records;
   },
 
-  parse: function (response) {
-    this.total_record_count = response.total_record_count;
-    this.page_size = response.page_size;
-    this.page_number = response.page_number;
+  reset: function(attributes, options) {
+    // if this is getting the raw json, which the records are an internal collection
+    if(attributes.hasOwnProperty('records')) {
+      this.set_pagination_info(attributes);
+      attributes = attributes.records;
+    }
+    Backbone.Collection.prototype.reset.call(this, attributes, options);
+  },
 
-    return response.records;
+  set_pagination_info: function(response) {
+    this.total_record_count = response['total_record_count'];
+    this.page_size = response['page_size'];
+    this.page_number = response['page_number'];
   }
 
 });
