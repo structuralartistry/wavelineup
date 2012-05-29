@@ -3,7 +3,8 @@
 
   window.WavelineupTestSuite = {
 
-    data: {},
+    // holds data for the test run if needed, at this point for the set_wavelineup_base_data method
+    data: {base: {}},
 
     simulate_paginated_server_response: function(records_array) {
       var output = {"records": records_array,"total_record_count":1,"page_size":15,"page_number":1};
@@ -32,7 +33,7 @@
 
 //    var accounting_transactions_base_json
 
-    factor_out_before_each: function(accounting_transactions) {
+    initialize_app: function(options) {
       this.server = sinon.fakeServer.create();
 
       setFixtures("<div id='container'>Loading...</div>");
@@ -47,10 +48,7 @@
         Wavelineup.instance.collections.option_selector_options.reset(all_option_selector_options);
 
         Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-
-
-        var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response(accounting_transactions_base_data);
-
+        var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response(WavelineupTestSuite.data.base.accounting_transactions);
         Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
       }
 
@@ -59,13 +57,16 @@
 
       Wavelineup.init();
 
-      Wavelineup.instance.routers.main.navigate('accounting_transactions', true);
-      current_url = Backbone.history.getHash();
-      expect(current_url).toEqual('accounting_transactions')
+      if(options.url) {
+        Wavelineup.instance.routers.main.navigate(options.url, true);
+        var current_url = Backbone.history.getHash();
+        expect(current_url).toEqual(options.url)
+      }
     },
 
-    factor_out_after_each: function() {
-      this.server.restore();
+    clean_up: function() {
+      this.data = {base: {}}
+      if(this.server) this.server.restore();
       setFixtures('');
       if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
     }

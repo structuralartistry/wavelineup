@@ -1,6 +1,12 @@
 describe('accounting transactions', function() {
 
   beforeEach(function() {
+/*
+    this.accounting_transaction = BackboneFactory.create('accounting_transaction');
+    WavelineupTestSuite.data.base.accounting_transactions = [this.accounting_transaction];
+
+    WavelineupTestSuite.initialize_app('accounting_transactions');
+*/
     this.server = sinon.fakeServer.create();
 
     setFixtures("<div id='container'>Loading...</div>");
@@ -32,9 +38,7 @@ describe('accounting transactions', function() {
   }),
 
   afterEach(function() {
-    this.server.restore();
-    setFixtures('');
-    if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
+    WavelineupTestSuite.clean_up();
   }),
 
   // this eventually should go into general error handling testing... perhaps!!!
