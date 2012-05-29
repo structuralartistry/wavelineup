@@ -16,7 +16,7 @@ describe('accounting transactions', function() {
     });
     accounting_transactions_base_data = accounting_transactions;
 
-    factor_out_before_each();
+    WavelineupTestSuite.factor_out_before_each();
 
     // used as one of the existing accounting transactions, as an alias
 
@@ -34,7 +34,7 @@ describe('accounting transactions', function() {
   }),
 
   afterEach(function() {
-    factor_out_after_each();
+    WavelineupTestSuite.factor_out_after_each();
 
   }),
 

@@ -14,7 +14,7 @@ describe('accounting transactions', function() {
       Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
       Wavelineup.instance.collections.option_selector_options.reset(fixtures.option_selector_options);
 
-      var accounting_transactions = simulate_paginated_server_response([BackboneFactory.create('accounting_transaction')]);
+      var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response([BackboneFactory.create('accounting_transaction')]);
       Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
       Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
     }
