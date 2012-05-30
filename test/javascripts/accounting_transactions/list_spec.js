@@ -2,9 +2,10 @@ describe('accounting transactions list', function() {
 
   beforeEach(function() {
     var accounting_transactions = [];
-    accounting_transactions.push(BackboneFactory.create('accounting_transaction', function(){return {invoice_id: 1}}));
+
+    accounting_transactions.push(WavelineupTestSuite.factory_data.create_accounting_transaction({invoice_id: 1}));
     _.each([1,2,3,4], function(){
-      accounting_transactions.push(BackboneFactory.create('accounting_transaction'));
+      accounting_transactions.push(WavelineupTestSuite.factory_data.create_accounting_transaction());
     });
     WavelineupTestSuite.data.base.accounting_transactions = accounting_transactions;
 

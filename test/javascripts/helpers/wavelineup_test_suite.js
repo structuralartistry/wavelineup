@@ -24,10 +24,10 @@
         WavelineupTestSuite.factory_data.create_option_selectors_and_options();
 
         Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-        Wavelineup.instance.collections.option_selectors.reset(WavelineupTestSuite.factory_data.option_selectors);
+        Wavelineup.instance.collections.option_selectors.reset(WavelineupTestSuite.data.base.option_selectors);
 
         Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
-        Wavelineup.instance.collections.option_selector_options.reset(WavelineupTestSuite.factory_data.option_selector_options);
+        Wavelineup.instance.collections.option_selector_options.reset(WavelineupTestSuite.data.base.option_selector_options);
 
         Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
         var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response(WavelineupTestSuite.data.base.accounting_transactions);
@@ -39,12 +39,9 @@
 
       Wavelineup.init();
 
-console.log(options);
       if(options.url) {
         Wavelineup.instance.routers.main.navigate(options.url, true);
         var current_url = Backbone.history.getHash();
-console.log(current_url)
-console.log(options.url)
         expect(current_url).toEqual(options.url)
       }
     },
@@ -61,18 +58,51 @@ console.log(options.url)
 
   WavelineupTestSuite.factory_data = {
 
-    create_option_selectors_and_options: function() {
-      //option selectors
-      this.option_selectors = [];
-      this.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_category_income' } } ));
-      this.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_category_expense' } } ));
-      this.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_account' } } ));
-      this.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'identity_type' } } ));
-      this.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'product_service' } } ));
+    create_accounting_transaction: function(attributes) {
+      var option_selector_option_accounting_category, option_selector_option_accounting_account, accounting_transaction;
 
-      this.option_selector_options = [];
-      _.each(this.option_selectors, function(option_selector) {
-        this.option_selector_options = this.option_selector_options.concat(this.create_options_for_option_selector(option_selector));
+      if(attributes==undefined) attributes = {};
+
+      this.ensure_base_data_structure();
+
+      option_selector_option_accounting_category = BackboneFactory.create('option_selector_option');
+      WavelineupTestSuite.data.base.option_selector_options.push(option_selector_option_accounting_category);
+
+      option_selector_option_accounting_account = BackboneFactory.create('option_selector_option');
+      WavelineupTestSuite.data.base.option_selector_options.push(option_selector_option_accounting_account);
+
+
+      if(attributes.accounting_category_id==undefined) {
+        attributes['accounting_category_id'] = option_selector_option_accounting_category.get('id');
+      }
+      if(attributes.accounting_account_id==undefined) {
+        attributes['accounting_account_id'] = option_selector_option_accounting_account.get('id');
+      }
+
+      accounting_transaction = BackboneFactory.create('accounting_transaction', function() {return attributes});
+
+      return accounting_transaction;
+    },
+
+    ensure_base_data_structure: function() {
+      var data = WavelineupTestSuite.data.base;
+      if(data.options_selectors==undefined) data.option_selectors = [];
+      if(data.option_selector_options==undefined) data.option_selector_options = [];
+    },
+
+    create_option_selectors_and_options: function() {
+      this.ensure_base_data_structure();
+
+      //option selectors
+      var data = WavelineupTestSuite.data.base;
+      data.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_category_income' } } ));
+      data.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_category_expense' } } ));
+      data.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'accounting_account' } } ));
+      data.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'identity_type' } } ));
+      data.option_selectors.push(BackboneFactory.create('option_selector', function() { return { name: 'product_service' } } ));
+
+      _.each(data.option_selectors, function(option_selector) {
+        data.option_selector_options = data.option_selector_options.concat(this.create_options_for_option_selector(option_selector));
       }, this);
     },
 
