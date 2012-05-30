@@ -25,7 +25,7 @@ describe('accounting transactions list', function() {
 
     _.each(Wavelineup.instance.collections.accounting_transactions.models, function(accounting_transaction) {
       $accounting_transaction = $('.accounting_transaction.' + accounting_transaction.get('id'));
-
+debugger
       expect($accounting_transaction).toBeVisible();
       expect(($accounting_transaction).find('td:contains(' + accounting_transaction.get('accounting_category_value') + ')')).toBeVisible()
     });
