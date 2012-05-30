@@ -1,4 +1,4 @@
-describe('accounting transactions', function() {
+describe('accounting transactions list', function() {
 
   beforeEach(function() {
     var accounting_transactions = [];

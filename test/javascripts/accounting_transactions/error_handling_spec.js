@@ -1,11 +1,21 @@
-describe('accounting transactions', function() {
+describe('accounting transactions error handling', function() {
 
   beforeEach(function() {
+// for some reason because this is the second time this initialize_app is called, getting error on uncommented
+// will pass for the commented below though
+// note that the error on creating factory where the association collection not in existance....
+//  what does not make sense though is why works the first time... and why even when run other spec alone, somehow this code screws it up...
+
+//NOTE... may want to revert and start over... look at git hist... this is too weird....
+// init_app may never be hit, or if it is, it is always overridden by the before each of another test file...
+// so the init_app may never have been working
 /*
+console.log(Wavelineup.instance.collections.option_selector_options)
     this.accounting_transaction = BackboneFactory.create('accounting_transaction');
     WavelineupTestSuite.data.base.accounting_transactions = [this.accounting_transaction];
-
     WavelineupTestSuite.initialize_app('accounting_transactions');
+
+so what is going on is a dependency... the list spec is depending on the leftover data that is created (option selector options)
 */
     this.server = sinon.fakeServer.create();
 

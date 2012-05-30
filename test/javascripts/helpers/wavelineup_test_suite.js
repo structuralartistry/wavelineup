@@ -41,7 +41,6 @@
 
       Wavelineup.set_base_data = function() {
         Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-
         Wavelineup.instance.collections.option_selectors.reset(all_option_selectors);
 
         Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
@@ -65,10 +64,12 @@
     },
 
     clean_up: function() {
+      if(Wavelineup) Wavelineup.instance = undefined;
       this.data = {base: {}}
       if(this.server) this.server.restore();
       setFixtures('');
       if(typeof jQuery.ajax.restore == 'function') jQuery.ajax.restore();
     }
+
   }
 }());
