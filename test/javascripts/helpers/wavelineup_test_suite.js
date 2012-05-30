@@ -3,7 +3,7 @@
 
   window.WavelineupTestSuite = {
 
-    // holds data for the test run if needed, at this point for the set_wavelineup_base_data method
+    // holds data for the test run if needed, at this point for the Wavelineup.set_base_data method
     data: {base: {}},
 
     simulate_paginated_server_response: function(records_array) {
@@ -13,25 +13,6 @@
       );
       return output;
     },
-
-    set_wavelineup_base_data: function(accounting_transactions_array){
-      Wavelineup.set_base_data = function() {
-        Wavelineup.instance.collections.option_selectors = new Wavelineup.Collections.OptionSelectors();
-
-        Wavelineup.instance.collections.option_selectors.reset(all_option_selectors);
-
-        Wavelineup.instance.collections.option_selector_options = new Wavelineup.Collections.OptionSelectorOptions();
-        Wavelineup.instance.collections.option_selector_options.reset(all_option_selector_options);
-
-        Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-
-        var accounting_transactions = simulate_paginated_server_response(accounting_transactions_array);
-
-        Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
-      }
-    },
-
-//    var accounting_transactions_base_json
 
     initialize_app: function(options) {
       this.server = sinon.fakeServer.create();
@@ -58,9 +39,12 @@
 
       Wavelineup.init();
 
+console.log(options);
       if(options.url) {
         Wavelineup.instance.routers.main.navigate(options.url, true);
         var current_url = Backbone.history.getHash();
+console.log(current_url)
+console.log(options.url)
         expect(current_url).toEqual(options.url)
       }
     },
@@ -91,17 +75,7 @@
         this.option_selector_options = this.option_selector_options.concat(this.create_options_for_option_selector(option_selector));
       }, this);
     },
-/*
-    all_option_selectors: function() {
-      return this.option_selectors;
-    },
 
-    all_option_selector_options: function() {
-      if(this.option_selector_options==undefined) this.create_option_selectors_and_options();
-      return this.option_selector_options;
-    },
-*/
-    // create default options for an option selector
     create_options_for_option_selector: function (option_selector) {
       var option_selector_options = [];
       _.each([1,2,3], function () {
@@ -113,38 +87,24 @@
         option_selector_options.push(factory);
       });
 
-      // blank
-    //  var factory = BackboneFactory.create('option_selector_option', function () {
-    //    return {
-    //      option_selector_id: option_selector.get('id'),
-    //      value: ' '
-    //    }
-    //  });
-    //  all_option_selector_options.push(factory);
-    //
-    //  // cancel
-    //  var factory = BackboneFactory.create('option_selector_option', function () {
-    //    return {
-    //      option_selector_id: option_selector.get('id'),
-    //      value: 'Cancel'
-    //    }
-    //  });
-    //  all_option_selector_options.push(factory);
+          // blank
+        //  var factory = BackboneFactory.create('option_selector_option', function () {
+        //    return {
+        //      option_selector_id: option_selector.get('id'),
+        //      value: ' '
+        //    }
+        //  });
+        //  all_option_selector_options.push(factory);
+        //
+        //  // cancel
+        //  var factory = BackboneFactory.create('option_selector_option', function () {
+        //    return {
+        //      option_selector_id: option_selector.get('id'),
+        //      value: 'Cancel'
+        //    }
+        //  });
+        //  all_option_selector_options.push(factory);
       return option_selector_options;
     }
-//    create_options_for_option_selector(option_selector_accounting_category_income);
-//    create_options_for_option_selector(option_selector_accounting_category_expense);
-//    create_options_for_option_selector(option_selector_accounting_account);
-//    create_options_for_option_selector(option_selector_identity_type);
-//    create_options_for_option_selector(option_selector_product_service);
-
-//    all_option_selectors: = [
-//      option_selector_accounting_category_income,
-//      option_selector_accounting_category_expense,
-//      option_selector_accounting_account,
-//      option_selector_identity_type,
-//      option_selector_product_service
-//    ]
-
   }
 }());
