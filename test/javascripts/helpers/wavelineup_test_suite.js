@@ -6,11 +6,13 @@
     // holds data for the test run if needed, at this point for the Wavelineup.set_base_data method
     data: {base: {}},
 
-    simulate_paginated_server_response: function(records_array) {
-      var output = {"records": records_array,"total_record_count":1,"page_size":15,"page_number":1};
-      _.each(records_array, function(record){
-        output.records.push(record) }
-      );
+    simulate_paginated_server_response: function(params) {
+      if(params==undefined) params = {};
+      if(params.records_array==undefined) params.records_array = [];
+      if(params.page_size==undefined) params.page_size = 15;
+      if(params.page_number==undefined) params.page_number = 1;
+
+      var output = {"records": params.records_array,"total_record_count": params.records_array.length,"page_size": params.page_size,"page_number": params.page_number};
       return output;
     },
 
@@ -30,7 +32,7 @@
         Wavelineup.instance.collections.option_selector_options.reset(WavelineupTestSuite.data.base.option_selector_options);
 
         Wavelineup.instance.collections.accounting_transactions = new Wavelineup.Collections.AccountingTransactions();
-        var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response(WavelineupTestSuite.data.base.accounting_transactions);
+        var accounting_transactions = WavelineupTestSuite.simulate_paginated_server_response({records_array: WavelineupTestSuite.data.base.accounting_transactions});
         Wavelineup.instance.collections.accounting_transactions.reset(accounting_transactions);
       }
 

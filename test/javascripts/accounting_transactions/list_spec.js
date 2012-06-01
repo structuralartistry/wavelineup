@@ -1,11 +1,11 @@
 describe('accounting transactions list', function() {
 
   beforeEach(function() {
-    var accounting_transactions = [];
+    var accounting_transactions = [], i;
     accounting_transactions.push(WavelineupTestSuite.factory_data.create_accounting_transaction({invoice_id: 1}));
-    _.each([1,2,3,4], function(){
+    for(i=1; i<=4; i++) {
       accounting_transactions.push(WavelineupTestSuite.factory_data.create_accounting_transaction());
-    });
+    }
     WavelineupTestSuite.data.base.accounting_transactions = accounting_transactions;
 
     WavelineupTestSuite.initialize_app({url: 'accounting_transactions'});

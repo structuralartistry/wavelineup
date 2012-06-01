@@ -15,8 +15,14 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   render: function() {
-    var data = { accounting_transactions: this.collection.toJSON() };
-    $(this.el).html(this.template(data));
+    //var data = { accounting_transactions: this.collection.toJSON() };
+    //$(this.el).html(this.template(data));
+    var pagination_info = {
+      "page_record_start": this.collection.page_record_start,
+      "page_record_end": this.collection.page_record_end,
+      "total_record_count": this.collection.total_record_count
+    }
+    $(this.el).html(this.template(pagination_info));
     this.collection.each(this.append_accounting_transaction);
 
     return this.el;

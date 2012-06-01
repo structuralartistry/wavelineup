@@ -1,6 +1,5 @@
 Wavelineup.Templates.AccountingTransactions = {
 
-
   list: function (json) {
     var t = " \
       <h1>Hello World Index View from Backbone!!!</h1> \
@@ -21,7 +20,7 @@ Wavelineup.Templates.AccountingTransactions = {
         <tbody> \
         </tbody> \
       </table> \
-      <p>Showing 1 to 15 of 78 entries</p> \
+      <p>Showing <%= page_record_start %> to <%= page_record_end %> of <%= total_record_count %> entries</p> \
       <input class='accounting_transactions paginate_previous btn' type='submit' value='<< Previous'> \
       <input class='accounting_transactions paginate_next btn' type='submit' value='Next >>'>"
     return _.template(t,json);
