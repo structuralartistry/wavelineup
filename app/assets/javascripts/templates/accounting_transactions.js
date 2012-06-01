@@ -21,6 +21,7 @@ Wavelineup.Templates.AccountingTransactions = {
         <tbody> \
         </tbody> \
       </table> \
+      <p>Showing 1 to 15 of 78 entries</p> \
       <input class='accounting_transactions paginate_previous btn' type='submit' value='<< Previous'> \
       <input class='accounting_transactions paginate_next btn' type='submit' value='Next >>'>"
     return _.template(t,json);

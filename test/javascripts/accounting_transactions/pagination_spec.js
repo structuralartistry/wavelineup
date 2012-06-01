@@ -1,7 +1,6 @@
 describe('accounting transactions', function() {
 
   beforeEach(function() {
-    WavelineupTestSuite.initialize_app({url: 'accounting_transactions'});
   }),
 
   afterEach(function() {
@@ -9,10 +8,16 @@ describe('accounting transactions', function() {
   }),
 
   describe('pagination', function () {
-
 // Wavelineup.instance.collections.accounting_transactions.fetch({data: {page_size: 15, page_number: 12}})
 
+    it('shows no Prev and Next buttons if no records', function() {
+      WavelineupTestSuite.initialize_app({url: 'accounting_transactions'});
+      expect($('.accounting_transactions.paginate_previous')).not.toExist();
+      expect($('.accounting_transactions.paginate_next')).not.toExist();
+    }),
+
     it('shows the pagination Prev and Next buttons', function () {
+      WavelineupTestSuite.initialize_app({url: 'accounting_transactions'});
       expect($('.accounting_transactions.paginate_previous')).toBeVisible();
       expect($('.accounting_transactions.paginate_next')).toBeVisible();
     }),

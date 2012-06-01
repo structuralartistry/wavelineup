@@ -23,13 +23,13 @@ Wavelineup.Views.AccountingTransactionsList = Backbone.View.extend({
   },
 
   new_accounting_transaction: function(event) {
-    income_expense = 'expense'
+    var income_expense = 'expense'
     if($(event.target).hasClass('income')) income_expense = 'income';
     Wavelineup.Controllers.AccountingTransactions.new_edit('new', income_expense);
   },
 
   append_accounting_transaction: function(accounting_transaction) {
-    view = new Wavelineup.Views.AccountingTransactionListItem({model: accounting_transaction});
+    var view = new Wavelineup.Views.AccountingTransactionListItem({model: accounting_transaction});
     $('#accounting_transactions tbody').append(view.render().el);
   },
 
